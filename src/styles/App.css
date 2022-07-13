@@ -1,0 +1,20 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  background-color: aqua;
+}
+
+.SideBarContainer {
+  display: inline-block;
+  width: 250px;
+  height: 91%;
+  background-color: #58657b;
+}
+
+.BodyContent {
+  display: inline-block;
+  width: auto;
+  position: absolute;
+  padding-left: 30px;
+  margin-top: 0;
+}
