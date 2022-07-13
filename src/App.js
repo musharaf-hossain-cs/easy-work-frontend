@@ -1,8 +1,10 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
 import AuthRoute from './routers/AuthRoute';
+import GanttRoute from './routers/GanttRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
 import NotificationRoute from './routers/NotificationRoute';
@@ -32,6 +34,7 @@ function App() {
      <Route path="/messages/*" element={<MessageRoute />} />
      <Route path="/notifications/*" element={<NotificationRoute />} />
      <Route path="/user/*" element={<UserRoute />} />
+     <Route path="/gantt/*" element={<GanttRoute />} />
     </Routes>
    </Router>
   </ThemeProvider>
