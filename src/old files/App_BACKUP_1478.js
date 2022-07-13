@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
@@ -27,6 +27,7 @@ const darkTheme = createTheme({
 
 function App() {
  return (
+<<<<<<< HEAD
   <div className="App">
    <ThemeProvider theme={darkTheme}>
     <Router>
@@ -41,12 +42,26 @@ function App() {
        <Route path="/messages/*" element={<MessageRoute />} />
        <Route path="/notifications/*" element={<NotificationRoute />} />
        <Route path="/user/*" element={<UserRoute />} />
-       <Route path="/gantt/*" element={<GanttRoute />} />
       </Routes>
      </div>
     </Router>
    </ThemeProvider>
   </div>
+=======
+  <ThemeProvider theme={darkTheme}>
+   <Router>
+    <ButtonAppBar />
+    <Routes>
+     <Route path="/*" element={<HomeRoute />} />
+     <Route path="/auth/*" element={<AuthRoute />} />
+     <Route path="/messages/*" element={<MessageRoute />} />
+     <Route path="/notifications/*" element={<NotificationRoute />} />
+     <Route path="/user/*" element={<UserRoute />} />
+     <Route path="/gantt/*" element={<GanttRoute />} />
+    </Routes>
+   </Router>
+  </ThemeProvider>
+>>>>>>> 674b36c51719b3b346390c1b4632d3692a38b281
  );
 }
 

@@ -2,7 +2,7 @@
   height: auto;
   width: auto;
   background-color: #58657b;
-  padding: 10px;
+  padding: 0;
   margin: 0;
 }
 
@@ -10,6 +10,11 @@
   height: auto;
   width: 100%;
   padding: 0;
+}
+
+.SideBarList .SideBarRow:hover {
+  cursor: pointer;
+  background-color: #2e3b55;
 }
 
 .SideBarList .SideBarRow {
@@ -23,6 +28,10 @@
   color: white;
   justify-content: center;
   align-items: center;
+}
+
+#active {
+  background-color: #2e3b55;
 }
 
 .SideBarRow #icon {

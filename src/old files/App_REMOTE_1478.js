@@ -1,16 +1,14 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
-import SideBar from './components/SideBar';
 import AuthRoute from './routers/AuthRoute';
 import GanttRoute from './routers/GanttRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
 import NotificationRoute from './routers/NotificationRoute';
 import UserRoute from './routers/UserRoute';
-import './styles/App.css';
 
 const darkTheme = createTheme({
  palette: {
@@ -27,26 +25,19 @@ const darkTheme = createTheme({
 
 function App() {
  return (
-  <div className="App">
-   <ThemeProvider theme={darkTheme}>
-    <Router>
-     <ButtonAppBar />
-     <div className="SideBarContainer">
-      <SideBar />
-     </div>
-     <div className="BodyContent">
-      <Routes>
-       <Route path="/*" element={<HomeRoute />} />
-       <Route path="/auth/*" element={<AuthRoute />} />
-       <Route path="/messages/*" element={<MessageRoute />} />
-       <Route path="/notifications/*" element={<NotificationRoute />} />
-       <Route path="/user/*" element={<UserRoute />} />
-       <Route path="/gantt/*" element={<GanttRoute />} />
-      </Routes>
-     </div>
-    </Router>
-   </ThemeProvider>
-  </div>
+  <ThemeProvider theme={darkTheme}>
+   <Router>
+    <ButtonAppBar />
+    <Routes>
+     <Route path="/*" element={<HomeRoute />} />
+     <Route path="/auth/*" element={<AuthRoute />} />
+     <Route path="/messages/*" element={<MessageRoute />} />
+     <Route path="/notifications/*" element={<NotificationRoute />} />
+     <Route path="/user/*" element={<UserRoute />} />
+     <Route path="/gantt/*" element={<GanttRoute />} />
+    </Routes>
+   </Router>
+  </ThemeProvider>
  );
 }
 
