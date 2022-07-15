@@ -13,7 +13,7 @@ const SidebarData = [
  },
  {
   title: 'Create Space',
-  link: '/create-space',
+  link: '/spaces/new-space',
   icon: <AddBoxIcon />,
  },
  {

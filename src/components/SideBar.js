@@ -8,9 +8,7 @@ export default function SideBar() {
   <div className={styles.SideBar}>
    <ul className={styles.SideBarList}>
     {SidebarData.map((val, key) => (
-     // eslint-disable-next-line react/no-array-index-key, jsx-a11y/no-noninteractive-element-interactions
      <li
-      // eslint-disable-next-line react/no-array-index-key
       key={key}
       className={styles.SideBarRow}
       id={window.location.pathname === val.link ? styles.active : ''}

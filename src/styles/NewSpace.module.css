@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+}
+
+.form {
+  width: auto;
+  align-items: center;
+  align-content: center;
+}
