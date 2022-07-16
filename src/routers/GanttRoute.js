@@ -1,11 +1,11 @@
 import React from 'react';
 import { Routes } from 'react-router-dom';
-import Gantt from '../components/Gantt';
+import GanttChart from '../components/GanttChart';
 
 function GanttRoute() {
  return (
   <>
-   <Gantt />
+   <GanttChart />
    <Routes>
     {/* <Route path="/*" element={} />
     <Route path="/*" element={} /> */}
