@@ -1,4 +1,5 @@
 import Autocomplete from '@mui/material/Autocomplete';
+import { inputLabelClasses } from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -60,9 +61,25 @@ function NewSpace() {
       id="combo-box-demo"
       options={alluser}
       onChange={(event, v) => handleAutoComplete(event, v)}
-      sx={{ width: 300 }}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      renderInput={(params) => <TextField {...params} label="User" />}
+      renderInput={(params) => (
+       // eslint-disable-next-line react/jsx-props-no-spreading
+       <TextField
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...params}
+        sx={{ input: { color: 'white' } }}
+        InputLabelProps={{
+         sx: {
+          // set the color of the label when not shrinked
+          color: 'aliceblue',
+          [`&.${inputLabelClasses.shrink}`]: {
+           // set the color of the label when shrinked (usually when the TextField is focused)
+           color: 'aliceblue',
+          },
+         },
+        }}
+        label="User"
+       />
+      )}
      />
     </Form.Group>
     <Button variant="primary" onClick={submit}>

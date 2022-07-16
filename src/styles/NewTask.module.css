@@ -6,7 +6,9 @@
 }
 
 .form {
-  width: 500px;
+  width: 1000px;
+  height: 550px;
+  overflow-y: auto;
   align-items: center;
   align-content: center;
 }
