@@ -6,9 +6,8 @@
 }
 
 .form {
-  width: 1000px;
-  height: 550px;
+  width: 1200px;
+  height: auto;
   overflow-y: auto;
-  align-items: center;
-  align-content: center;
+  max-height: 700px;
 }

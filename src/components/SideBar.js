@@ -12,7 +12,7 @@ export default function SideBar() {
       key={key}
       className={styles.SideBarRow}
       id={window.location.pathname === val.link ? styles.active : ''}
-      onClick={() => navigate(val.link, { replace: true })}
+      onClick={() => navigate(val.link, { replace: false })}
      >
       <div id={styles.icon}>{val.icon}</div>
       <div id={styles.title}>{val.title}</div>

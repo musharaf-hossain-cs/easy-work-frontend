@@ -1,100 +1,52 @@
-import { Button } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import { useNavigate, useParams } from 'react-router-dom';
+import fetchBackendJSON from '../../actions/Fetch';
+import TasksInTable from '../tasks/TasksInTable';
 
-const tasks = [
- {
-  title: 'task-1',
-  priority: 'high',
-  status: 'completed',
-  dueDate: new Date('June 19, 2022'),
- },
- {
-  title: 'task-2',
-  priority: 'medium',
-  status: 'active',
-  dueDate: new Date('July 19, 2022'),
- },
- {
-  title: 'task-3',
-  priority: 'low',
-  status: 'upcoming',
-  dueDate: new Date('August 30, 2022'),
- },
-];
-
-const columns = ['Title', 'Priority', 'Status', 'Due Date'];
 function Space() {
  const { spaceid } = useParams();
  const navigate = useNavigate();
-
- const [page, setPage] = React.useState(0);
- const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
- const handleChangePage = (event, newPage) => {
-  setPage(newPage);
- };
-
- const handleChangeRowsPerPage = (event) => {
-  setRowsPerPage(+event.target.value);
-  setPage(0);
- };
-
- const handleRowsClick = (taskid) => {
-  navigate(`/spaces/${spaceid}/tasks/${taskid}`, { replace: true });
- };
+ const [tasks, setTasks] = useState([]);
+ // eslint-disable-next-line prefer-const
+ let tempTasks = [];
 
  const newTask = () => {
-  navigate(`/spaces/${spaceid}/new-task`, { replace: true });
+  navigate(`/spaces/${spaceid}/new-task`, { replace: false });
  };
+
+ useEffect(() => {
+  let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON('taskmgmt/gettaskslist', 'POST', { project_id: 4 });
+   console.log('In space');
+   console.log(fetchedData);
+   fetchedData.task_list.forEach((task) => {
+    tempTasks.push({
+     taskid: task.id,
+     title: task.title,
+     priority: task.priority,
+     dueDate: new Date(task.end),
+     status: task.status,
+    });
+   });
+   setTasks(tempTasks);
+   tempTasks = [];
+  }
+  fetchData();
+ }, []);
 
  return (
   <div>
    <h1 align="center">Space: {spaceid}</h1>
    <hr />
-   <Button onClick={newTask}>Add Task</Button>
+   <Button variant="light" onClick={newTask}>
+    Add Task
+   </Button>
    <hr />
    <h3>All Tasks</h3>
-   <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-    <TableContainer sx={{ maxHeight: 440 }}>
-     <Table stickyHeader aria-label="sticky table">
-      <TableHead>
-       <TableRow>
-        {columns.map((column, key) => (
-         <TableCell key={key}>{column}</TableCell>
-        ))}
-       </TableRow>
-      </TableHead>
-      <TableBody>
-       {tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((task) => (
-        <TableRow hover onClick={() => handleRowsClick(task.title)} tabIndex={-1} key={task.title}>
-         <TableCell>{task.title}</TableCell>
-         <TableCell>{task.priority}</TableCell>
-         <TableCell>{task.status}</TableCell>
-         <TableCell>{task.dueDate.toUTCString()}</TableCell>
-        </TableRow>
-       ))}
-      </TableBody>
-     </Table>
-    </TableContainer>
-    <TablePagination
-     rowsPerPageOptions={[10, 25, 100]}
-     component="div"
-     count={tasks.length}
-     rowsPerPage={rowsPerPage}
-     page={page}
-     onPageChange={handleChangePage}
-     onRowsPerPageChange={handleChangeRowsPerPage}
-    />
-   </Paper>
+   <TasksInTable tasks={tasks} rowPerPage={10} />
   </div>
  );
 }

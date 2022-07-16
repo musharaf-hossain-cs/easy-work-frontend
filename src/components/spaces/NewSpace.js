@@ -11,6 +11,8 @@ const alluser = [
  { label: 'jayanta001', email: 'jayanta@gmail.com' },
 ];
 
+// const alluser = fetchBackendJSON('user/getallusers', 'POST', { objective: 'getusers' });
+
 function NewSpace() {
  // eslint-disable-next-line no-unused-vars, prefer-const
  const [users, setUsers] = useState([]);

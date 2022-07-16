@@ -1,5 +1,5 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Autocomplete from '@mui/material/Autocomplete';
+// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+// import Autocomplete from '@mui/material/Autocomplete';
 import { inputLabelClasses } from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -8,13 +8,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import styles from '../../styles/NewTask.module.css';
+import { useParams } from 'react-router-dom';
 
-const alltasks = [
- { label: 'task-1', id: 'task-1-id' },
- { label: 'task-2', id: 'task-2-id' },
- { label: 'task-3', id: 'task-3-id' },
-];
+// const alltasks = [
+//  { label: 'task-1', id: 'task-1-id' },
+//  { label: 'task-2', id: 'task-2-id' },
+//  { label: 'task-3', id: 'task-3-id' },
+// ];
 
 function Task() {
  const [startDate, setStartDate] = useState(null);
@@ -22,17 +22,20 @@ function Task() {
  const [attachments, setAttachments] = useState([]);
  const [title, setTitle] = useState('');
  const [priority, setPriority] = useState(0);
- const [parent, setParent] = useState(null);
+ // const [parent, setParent] = useState(null);
  const [description, setDescription] = useState('');
 
  let selectedFile;
 
- const handleParentInput = (event, value) => {
-  console.log(event);
-  setParent(value);
-  console.log(value);
-  console.log(parent);
- };
+ const { taskid } = useParams();
+ console.log(`taskid: ${taskid}`);
+
+ // const handleParentInput = (event, value) => {
+ //  console.log(event);
+ //  setParent(value);
+ //  console.log(value);
+ //  console.log(parent);
+ // };
 
  const submitForm = (e) => {
   e.preventDefault();
@@ -40,9 +43,9 @@ function Task() {
  };
 
  return (
-  <div className={[styles.container, 'container'].join(' ')}>
+  <div className={['mycontainer', 'container'].join(' ')}>
    <h1>New Task</h1>
-   <Form className={[styles.form, 'row'].join(' ')}>
+   <Form className={['row'].join(' ')}>
     <Form.Group className="mb-3 col-6" controlId="formTaskTitle">
      <Form.Label>Task Title</Form.Label>
      <Form.Control
@@ -56,7 +59,7 @@ function Task() {
      />
     </Form.Group>
 
-    <Form.Group className="mb-3 col-6" controlId="formParentTask">
+    {/* <Form.Group className="mb-3 col-6" controlId="formParentTask">
      <Form.Label>Parent Task </Form.Label>
      <Autocomplete
       disablePortal
@@ -88,21 +91,7 @@ function Task() {
        />
       )}
      />
-    </Form.Group>
-
-    <Form.Group className="mb-3 col-6" controlId="formPriority">
-     <Form.Label>Priority </Form.Label>
-     <Form.Select
-      aria-label="Default select example"
-      value={priority}
-      onChange={(e) => setPriority(e.target.value)}
-     >
-      <option value="0">Choose a priority</option>
-      <option value="1">High</option>
-      <option value="2">Medium</option>
-      <option value="3">Low</option>
-     </Form.Select>
-    </Form.Group>
+    </Form.Group> */}
 
     <Form.Group className="mb-3 col-6" controlId="formStartDate">
      {/* <Form.Label>Start Date: </Form.Label> */}
@@ -190,8 +179,28 @@ function Task() {
      </LocalizationProvider>
     </Form.Group>
 
+    <Form.Group className="mb-3 col-6" controlId="formPriority">
+     <Form.Label>Priority </Form.Label>
+     <Form.Select
+      aria-label="Default select example"
+      value={priority}
+      onChange={(e) => setPriority(e.target.value)}
+     >
+      <option value="0">Choose a priority</option>
+      <option value="1">High</option>
+      <option value="2">Medium</option>
+      <option value="3">Low</option>
+     </Form.Select>
+    </Form.Group>
+
     <Form.Group className="mb-3 col-6" controlId="formAttachFile">
      <Form.Label>Attachments</Form.Label>
+     {/* files list */}
+     <ul className="mb-3 col-6">
+      {attachments.map((val, key) => (
+       <li key={key}>{val.name}</li>
+      ))}
+     </ul>
      <Form.Control
       type="file"
       placeholder="Choose a file"
@@ -206,13 +215,6 @@ function Task() {
       }}
      />
     </Form.Group>
-
-    {/* files list */}
-    <ul className="mb-3 col-6">
-     {attachments.map((val, key) => (
-      <li key={key}>{val.name}</li>
-     ))}
-    </ul>
 
     <Button variant="primary" type="submit" onClick={submitForm}>
      Submit

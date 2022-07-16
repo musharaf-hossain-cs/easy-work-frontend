@@ -12,6 +12,7 @@ import NotificationRoute from './routers/NotificationRoute';
 import SpaceRoute from './routers/SpaceRoute';
 import UserRoute from './routers/UserRoute';
 import './styles/App.css';
+import './styles/MyStyles.css';
 
 const darkTheme = createTheme({
  palette: {
