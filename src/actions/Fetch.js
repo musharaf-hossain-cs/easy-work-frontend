@@ -15,7 +15,6 @@ async function fetchBackendJSON(url, method, data_dict) {
   referrerPolicy: 'no-referrer',
   body: JSON.stringify(data_dict),
  });
-
  const data = await response.json();
  return data;
 }
