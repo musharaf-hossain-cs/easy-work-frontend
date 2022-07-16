@@ -40,7 +40,8 @@
         "extensions": [".js", ".jsx"]
       }
     ],
-    "prettier/prettier": [
+    "prettier/prettier": 
+    [
       "error",
       {
         "trailingComma": "es5",
