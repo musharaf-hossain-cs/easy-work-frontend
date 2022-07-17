@@ -25,3 +25,7 @@
 #gantt {
   height: 700px;
 }
+
+.cardDiv {
+  padding: 10px;
+}
