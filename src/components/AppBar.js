@@ -37,16 +37,16 @@ export default function ButtonAppBar() {
       />
      </Search>
 
-     <Button color="inherit" onClick={() => nav('/messages', { replace: true })}>
+     <Button color="inherit" onClick={() => nav('/messages', { replace: false })}>
       Messages
      </Button>
-     <Button color="inherit" onClick={() => nav('/notifications', { replace: true })}>
+     <Button color="inherit" onClick={() => nav('/notifications', { replace: false })}>
       Notifications
      </Button>
-     <Button color="inherit" onClick={() => nav('/auth/signup', { replace: true })}>
+     <Button color="inherit" onClick={() => nav('/auth/signup', { replace: false })}>
       SignUp
      </Button>
-     <Button color="inherit" onClick={() => nav('/user', { replace: true })}>
+     <Button color="inherit" onClick={() => nav('/user', { replace: false })}>
       User
      </Button>
      <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ marginLeft: 2 }}>

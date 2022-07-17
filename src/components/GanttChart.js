@@ -67,7 +67,7 @@ export default function GanttChart() {
        }, []);
     //    console.log(tasks.length());
  return (
-  <Gantt taskListWidth={500} scaleType="weeks" height={800} width="1550" >
+  <Gantt taskListWidth={400} scaleType="weeks" height={600} width={1200} >
    <Tasks dataSource={tasks} />
    <Dependencies dataSource={dependencies} />
    {/* <Resources dataSource={resources} />

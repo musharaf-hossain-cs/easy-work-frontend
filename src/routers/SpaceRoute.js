@@ -11,9 +11,10 @@ function SpaceRoute() {
   <Routes>
    <Route path="*" element={<Spaces />} />
    <Route path="new-space/*" element={<NewSpace />} />
-   <Route path=":spaceid/tasks/" element={<Space />} />
-   <Route path=":spaceid/tasks/:taskid/" element={<Task />} />
-   <Route path=":spaceid/new-task/" element={<NewTask />} />
+   <Route path=":spaceid/tasks/*" element={<Space />} />
+   <Route path=":spaceid/tasks/:taskid/*" element={<Task />} />
+   <Route path=":spaceid/tasks/:taskid/new-task/*" element={<NewTask />} />
+   <Route path=":spaceid/new-task/*" element={<NewTask />} />
   </Routes>
  );
 }
