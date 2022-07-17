@@ -29,3 +29,9 @@
 .cardDiv {
   padding: 10px;
 }
+
+.scrollable {
+  height: auto;
+  overflow-y: auto;
+  max-height: 500px;
+}

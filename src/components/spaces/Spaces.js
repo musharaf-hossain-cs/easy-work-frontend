@@ -53,21 +53,24 @@ function Spaces() {
  }, []);
 
  return (
-  <div>
+  <div className="container">
    <Typography variant="h2" component="div" gutterBottom>
     Spaces
    </Typography>
-   <div
-    style={{
-     width: '100%',
-     display: 'flex',
-     justifyContent: 'space-between',
-     alignItems: 'center',
-    }}
-   >
-    {cards.map((proj) => (
-     <div className="cardDiv">{proj}</div>
-    ))}
+   <div className="scrollable">
+    <div
+     style={{
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+     }}
+     className="row"
+    >
+     {cards.map((proj) => (
+      <div className="cardDiv col-6">{proj}</div>
+     ))}
+    </div>
    </div>
   </div>
  );
