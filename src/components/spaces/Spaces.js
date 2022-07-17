@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 
 // const bull = (
@@ -16,6 +16,14 @@ function Spaces() {
 
  // eslint-disable-next-line prettier/prettier, prefer-const
  let tempCards = [];
+
+ const navigate = useNavigate();
+
+ //  const { spaceid } = useParams();
+
+ const gotToSpace = (projectID) => {
+  navigate(`/spaces/${projectID}/tasks/`, { replace: false });
+ };
 
  useEffect(() => {
   // eslint-disable-next-line prettier/prettier
@@ -40,7 +48,9 @@ function Spaces() {
        <Typography variant="body2">Starting Date: {project.start_date}</Typography>
       </CardContent>
       <CardActions>
-       <Button size="small">Go to Space</Button>
+       <Button size="small" onClick={() => gotToSpace(project.id)}>
+        Go to Space
+       </Button>
       </CardActions>
      </Card>
     );
@@ -68,7 +78,7 @@ function Spaces() {
      className="row"
     >
      {cards.map((proj) => (
-      <div className="cardDiv col-6">{proj}</div>
+      <div className="cardDiv col-4">{proj}</div>
      ))}
     </div>
    </div>

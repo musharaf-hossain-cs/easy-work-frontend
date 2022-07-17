@@ -41,7 +41,7 @@ function Space() {
 
  return (
   <div>
-   <h1 align="center">Space: {spaceid}</h1>
+   <h1 align="center">SpaceID: {spaceid}</h1>
    <hr />
    <Button variant="light" onClick={newTask}>
     Add Task
