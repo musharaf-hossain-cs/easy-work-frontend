@@ -19,17 +19,19 @@ function Space() {
  useEffect(() => {
   let fetchedData;
   async function fetchData() {
-   fetchedData = await fetchBackendJSON('taskmgmt/gettaskslist', 'POST', { project_id: 4 });
+   fetchedData = await fetchBackendJSON('taskmgmt/gettaskslist', 'POST', { project_id: spaceid });
    console.log('In space');
    console.log(fetchedData);
    fetchedData.task_list.forEach((task) => {
-    tempTasks.push({
-     taskid: task.id,
-     title: task.title,
-     priority: task.priority,
-     dueDate: new Date(task.end),
-     status: task.status,
-    });
+    if (task.parent_id === 0) {
+     tempTasks.push({
+      taskid: task.id,
+      title: task.title,
+      priority: task.priority,
+      dueDate: new Date(task.end),
+      status: task.status,
+     });
+    }
    });
    setTasks(tempTasks);
    tempTasks = [];
@@ -46,7 +48,7 @@ function Space() {
    </Button>
    <hr />
    <h3>All Tasks</h3>
-   <TasksInTable tasks={tasks} rowPerPage={10} />
+   <TasksInTable tasks={tasks} rowPerPage={5} />
   </div>
  );
 }

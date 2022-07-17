@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
+import fetchBackendJSON from '../../actions/Fetch';
 import styles from '../../styles/NewSpace.module.css';
 
 const alluser = [
@@ -18,6 +20,8 @@ function NewSpace() {
  const [users, setUsers] = useState([]);
  const [space, setSpace] = useState('');
 
+ const navigate = useNavigate();
+
  const handleAutoComplete = (e, v) => {
   console.log(e);
   if (v != null) setUsers([...users, v]);
@@ -30,8 +34,26 @@ function NewSpace() {
 
  const submit = (e) => {
   e.preventDefault();
+  const data = {
+   title: space,
+   description: `Description for the space: ${space}`,
+   allocated_time: 0,
+   budget: 0,
+   dev_type: 'Not specified',
+  };
+
+  async function sendData() {
+   const res = await fetchBackendJSON('project/addproject', 'POST', data);
+   console.log(res);
+   setSpace('');
+   setUsers([]);
+   navigate(`/spaces/${res.id}/tasks`, { replace: false });
+  }
+  sendData();
+
   setSpace('');
-  setUsers([]);
+  // eslint-disable-next-line no-unused-vars
+  setUsers((prev) => []);
  };
 
  return (
