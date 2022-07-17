@@ -8,13 +8,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import fetchBackendJSON from '../../actions/Fetch';
 
-// const alltasks = [
-//  { label: 'task-1', id: 'task-1-id' },
-//  { label: 'task-2', id: 'task-2-id' },
-//  { label: 'task-3', id: 'task-3-id' },
-// ];
+const formatDate = (date) =>
+ [date.getFullYear(), date.getMonth() + 1, date.getDate() + 1].join('-');
 
 function Task() {
  const [startDate, setStartDate] = useState(null);
@@ -25,20 +23,50 @@ function Task() {
  // const [parent, setParent] = useState(null);
  const [description, setDescription] = useState('');
 
+ const navigate = useNavigate();
+
  let selectedFile;
 
- const { taskid } = useParams();
+ const { taskid, spaceid } = useParams();
  console.log(`taskid: ${taskid}`);
-
- // const handleParentInput = (event, value) => {
- //  console.log(event);
- //  setParent(value);
- //  console.log(value);
- //  console.log(parent);
- // };
+ console.log(`spaceid: ${spaceid}`);
+ const parentid = taskid === undefined ? 0 : taskid;
 
  const submitForm = (e) => {
   e.preventDefault();
+  const data = {
+   project_id: spaceid,
+   title,
+   description,
+   start_time: formatDate(startDate),
+   end_time: formatDate(endDate),
+   status: 'Not Started',
+   slack_time: 0,
+  };
+  async function sendData() {
+   const res = await fetchBackendJSON('project/addtask', 'POST', data);
+   console.log(res);
+
+   if (parentid !== 0) {
+    const res2 = await fetchBackendJSON('project/addtaskparent', 'POST', {
+     parent_task_id: parentid,
+     sub_task_id: res.id,
+    });
+    console.log(res2);
+    navigate(`/spaces/${spaceid}/tasks/${taskid}/`, { replace: false });
+   }
+
+   setStartDate(null);
+   setEndDate(null);
+   setTitle('');
+   setDescription('');
+   setPriority(0);
+   // eslint-disable-next-line no-unused-vars
+   setAttachments((prev) => []);
+   navigate(`/spaces/${spaceid}/tasks/`, { replace: false });
+  }
+
+  sendData();
   // submit everything
  };
 
@@ -58,40 +86,6 @@ function Task() {
       }}
      />
     </Form.Group>
-
-    {/* <Form.Group className="mb-3 col-6" controlId="formParentTask">
-     <Form.Label>Parent Task </Form.Label>
-     <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={alltasks}
-      onChange={handleParentInput}
-      popupIcon={<ArrowDropDownIcon style={{ color: 'white' }} />}
-      onKeyPress={(e) => {
-       if (e.key === 'Enter') e.preventDefault();
-      }}
-      // onChange={(event, v) => handleAutoComplete(event, v)}
-      renderInput={(params) => (
-       // eslint-disable-next-line react/jsx-props-no-spreading
-       <TextField
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...params}
-        sx={{ input: { color: 'white' } }}
-        InputLabelProps={{
-         sx: {
-          // set the color of the label when not shrinked
-          color: 'aliceblue',
-          [`&.${inputLabelClasses.shrink}`]: {
-           // set the color of the label when shrinked (usually when the TextField is focused)
-           color: 'aliceblue',
-          },
-         },
-        }}
-        label="Choose a task"
-       />
-      )}
-     />
-    </Form.Group> */}
 
     <Form.Group className="mb-3 col-6" controlId="formStartDate">
      {/* <Form.Label>Start Date: </Form.Label> */}
