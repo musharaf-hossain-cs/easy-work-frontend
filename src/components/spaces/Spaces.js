@@ -78,7 +78,7 @@ function Spaces() {
      className="row"
     >
      {cards.map((proj) => (
-      <div className="cardDiv col-4">{proj}</div>
+      <div className="cardDiv col-6">{proj}</div>
      ))}
     </div>
    </div>

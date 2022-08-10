@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
 import SideBar from './components/SideBar';
 import AuthRoute from './routers/AuthRoute';
+import CostEstimationRoute from './routers/CostEstimateRoute';
 import GanttRoute from './routers/GanttRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
@@ -45,6 +46,7 @@ function App() {
        <Route path="/user/*" element={<UserRoute />} />
        <Route path="/gantt/*" element={<GanttRoute />} />
        <Route path="/spaces/*" element={<SpaceRoute />} />
+       <Route path="/estimate-cost/*" element={<CostEstimationRoute />} />
       </Routes>
      </div>
     </Router>
