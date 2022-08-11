@@ -70,7 +70,7 @@ export default function CategoryAllocation() {
       <Form.Label>Man-hour Per Week</Form.Label>
       <Form.Control
        type="text"
-       placeholder="Expected Time (in week)"
+       placeholder="Man hour per week"
        value={manHourPerWeek}
        onChange={(e) => setManHourPerWeek(e.target.value)}
        onKeyPress={(e) => {
