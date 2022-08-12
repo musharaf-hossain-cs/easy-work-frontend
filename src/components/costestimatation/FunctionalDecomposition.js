@@ -3,6 +3,7 @@ import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/esm/Button';
 import styles from '../../styles/FunctionalDecomposition.module.css';
+import NewCategoryPopup from './NewCategoryPopup';
 
 const tasks = [
  { title: 'task-A', id: 1 },
@@ -17,6 +18,7 @@ export default function FunctionalDecomposition() {
  const [groups, setGroups] = useState([{ title: 'Unlisted', tasks }]);
  // eslint-disable-next-line no-unused-vars
  const [dragging, setDragging] = useState(false);
+ const [popup, setPopup] = useState(false);
 
  const dragSrc = useRef();
  const dragItemNode = useRef();
@@ -74,10 +76,15 @@ export default function FunctionalDecomposition() {
   // }
  };
 
- const newCategory = () => {
-  console.log(groups);
-  setGroups([...groups, { title: 'untitled', tasks: [] }]);
+ const newCategory = (title) => {
+  console.log(groups, title);
+  setGroups([...groups, { title, tasks: [] }]);
  };
+
+ const saveDecomposition = () => {
+  console.log('Submit groups...');
+ };
+
  return (
   <>
    <div className={styles.container}>
@@ -116,7 +123,9 @@ export default function FunctionalDecomposition() {
      ))}
     </div>
    </div>
-   <Button onClick={newCategory}>New Category</Button>
+   <Button onClick={() => setPopup(true)}>New Category</Button>
+   <Button onClick={saveDecomposition}>Save Decomposition</Button>
+   {popup && <NewCategoryPopup showPopup={setPopup} createCategory={newCategory} />}
   </>
  );
 }
