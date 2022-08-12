@@ -4,9 +4,9 @@ import Form from 'react-bootstrap/Form';
 import styles from '../../styles/NewCategoryPopup.module.css';
 
 function NewCategoryPopup(props) {
- const [title, setTitle] = useState('');
  // eslint-disable-next-line no-unused-vars
- const { showPopup, createCategory } = props;
+ const { showPopup, saveCategory, value } = props;
+ const [title, setTitle] = useState(value);
  const handleTitleChange = (e) => {
   setTitle(e.target.value);
  };
@@ -36,11 +36,11 @@ function NewCategoryPopup(props) {
     <div className={styles.footer}>
      <Button
       onClick={() => {
-       createCategory(title);
+       saveCategory(title);
        showPopup(false);
       }}
      >
-      Create
+      Save
      </Button>
      <Button onClick={() => showPopup(false)} id={styles.cancelBtn}>
       Cancel

@@ -1,3 +1,4 @@
+import EditIcon from '@mui/icons-material/Edit';
 import { useRef, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
@@ -19,6 +20,9 @@ export default function FunctionalDecomposition() {
  // eslint-disable-next-line no-unused-vars
  const [dragging, setDragging] = useState(false);
  const [popup, setPopup] = useState(false);
+ const [popupEdit, setPopupEdit] = useState(false);
+ const [titleToEdit, setTitleToEdit] = useState('');
+ const [groupToEdit, setGroupToEdit] = useState(0);
 
  const dragSrc = useRef();
  const dragItemNode = useRef();
@@ -85,6 +89,21 @@ export default function FunctionalDecomposition() {
   console.log('Submit groups...');
  };
 
+ const editCategoryTitle = (e, grpI) => {
+  console.log(e, grpI);
+  setTitleToEdit(groups[grpI].title);
+  setGroupToEdit(grpI);
+  setPopupEdit(true);
+ };
+
+ const saveEditedCategory = (title) => {
+  setGroups((oldGroups) => {
+   const newGroups = JSON.parse(JSON.stringify(oldGroups));
+   newGroups[groupToEdit].title = title;
+   return newGroups;
+  });
+ };
+
  return (
   <>
    <div className={styles.container}>
@@ -101,7 +120,12 @@ export default function FunctionalDecomposition() {
          : null
        }
       >
-       <Alert className={styles.alert}>{grp.title}</Alert>
+       <Alert className={styles.alert}>
+        <div className={styles.alertTitle}>{grp.title}</div>{' '}
+        <div className={styles.alertEdit}>
+         <EditIcon onClick={(e) => editCategoryTitle(e, grpI)} />
+        </div>
+       </Alert>
        {grp.tasks.map((task, taskI) => (
         <div
          draggable
@@ -125,7 +149,14 @@ export default function FunctionalDecomposition() {
    </div>
    <Button onClick={() => setPopup(true)}>New Category</Button>
    <Button onClick={saveDecomposition}>Save Decomposition</Button>
-   {popup && <NewCategoryPopup showPopup={setPopup} createCategory={newCategory} />}
+   {popup && <NewCategoryPopup value="" showPopup={setPopup} saveCategory={newCategory} />}
+   {popupEdit && (
+    <NewCategoryPopup
+     value={titleToEdit}
+     showPopup={setPopupEdit}
+     saveCategory={saveEditedCategory}
+    />
+   )}
   </>
  );
 }
