@@ -15,7 +15,7 @@
 
 .BodyContent {
   display: inline-block;
-  width: auto;
+  width: calc(100% - 300px);
   position: absolute;
   padding-top: 30px;
   padding-left: 30px;
@@ -33,6 +33,6 @@
 .scrollable {
   height: auto;
   overflow-y: auto;
-  max-height: 600px;
-  width: 120%;
+  max-height: 500px;
+  width: 100%;
 }
