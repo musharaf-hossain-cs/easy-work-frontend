@@ -1,10 +1,10 @@
 const BACKEND_URL = 'http://localhost:8000';
 
 // eslint-disable-next-line no-unused-vars, camelcase
-async function fetchBackendJSON(url, method, data_dict) {
+async function fetchBackendJSON(url, method, dataDict) {
  // eslint-disable-next-line camelcase
  const backend_url = `${BACKEND_URL}/${url}/`;
- const response = await fetch(backend_url, {
+ const fetchParams = {
   method,
   mode: 'cors',
   cache: 'no-cache',
@@ -13,20 +13,14 @@ async function fetchBackendJSON(url, method, data_dict) {
   },
   redirect: 'follow',
   referrerPolicy: 'no-referrer',
-  body: JSON.stringify(data_dict),
- });
+ };
+
+ if (method === 'POST' && dataDict !== null) {
+  fetchParams.body = JSON.stringify(dataDict);
+ }
+ const response = await fetch(backend_url, fetchParams);
  const data = await response.json();
  return data;
 }
 
 export default fetchBackendJSON;
-
-// .then((res) => res.json())
-//   .then((data) => {
-//    console.log(data);
-//    // if (data.success === true) {
-//    //     return data;
-//    // }
-
-//    return data;
-//   });

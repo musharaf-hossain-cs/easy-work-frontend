@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
 import SideBar from './components/SideBar';
 import AuthRoute from './routers/AuthRoute';
+import DashBoardRoute from './routers/DashBoardRoute';
 import GanttRoute from './routers/GanttRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
@@ -39,6 +40,7 @@ function App() {
      <div className="BodyContent">
       <Routes>
        <Route path="/*" element={<HomeRoute />} />
+       <Route path="/dashboard" element={<DashBoardRoute />} />
        <Route path="/auth/*" element={<AuthRoute />} />
        <Route path="/messages/*" element={<MessageRoute />} />
        <Route path="/notifications/*" element={<NotificationRoute />} />
