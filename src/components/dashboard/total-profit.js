@@ -1,5 +1,9 @@
-import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/function-component-definition */
+/* eslint-disable import/prefer-default-export */
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 
 export const TotalProfit = (props) => (
   <Card {...props}>

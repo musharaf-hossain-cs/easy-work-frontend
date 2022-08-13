@@ -1,7 +1,12 @@
-import { Bar } from 'react-chartjs-2';
-import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/function-component-definition */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/prefer-default-export */
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
+import { Bar } from 'react-chartjs-2';
 
 export const Sales = (props) => {
   const theme = useTheme();
