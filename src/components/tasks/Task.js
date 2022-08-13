@@ -33,6 +33,7 @@ function Task() {
   async function fetchData() {
    fetchedData = await fetchBackendJSON('taskmgmt/getsubtasks', 'POST', { task_id: taskid });
    fetchedData.subtask_list.forEach((task) => {
+    console.log(task);
     tempTasks.push({
      taskid: task.id,
      title: task.title,

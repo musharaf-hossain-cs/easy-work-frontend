@@ -13,6 +13,7 @@ import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
 import NotificationRoute from './routers/NotificationRoute';
 import SpaceRoute from './routers/SpaceRoute';
+import TreeViewRoute from './routers/TreeViewRoute';
 import UserRoute from './routers/UserRoute';
 import './styles/App.css';
 import './styles/MyStyles.css';
@@ -50,6 +51,7 @@ function App() {
        <Route path="/gantt/*" element={<GanttRoute />} />
        <Route path="/spaces/*" element={<SpaceRoute />} />
        <Route path="/estimate-cost/*" element={<CostEstimationRoute />} />
+       <Route path="/tree-view/*" element={<TreeViewRoute />} />
       </Routes>
      </div>
     </Router>
