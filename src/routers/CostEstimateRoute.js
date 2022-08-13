@@ -19,6 +19,7 @@ function AuthRoute() {
    <Routes>
     <Route path="summary/" element={<EstimationSummary />} />
     <Route path="allocate/" element={<CategoryAllocation />} />
+    <Route path="allocate/:categoryid/details/" element={<CategoryAllocation />} />
     <Route path="decompose/" element={<FunctionalDecomposition />} />
    </Routes>
   </div>

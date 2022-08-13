@@ -1,19 +1,41 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useParams } from 'react-router-dom';
+import fetchBackendJSON from '../../actions/Fetch';
 import PostAllocation from './PostAllocation';
 
-const categories = [
- { id: 0, title: 'Cat-A' },
- { id: 1, title: 'Cat-B' },
-];
-
 export default function CategoryAllocation() {
- const [category, setCategory] = useState();
- const [budget, setBudget] = useState();
- const [expectedTime, setExpectedTime] = useState();
- const [manHourPerWeek, setManHourPerWeek] = useState();
+ const [category, setCategory] = useState({ id: 0 });
+ const [budget, setBudget] = useState(0);
+ const [expectedTime, setExpectedTime] = useState(0);
+ const [manHourPerWeek, setManHourPerWeek] = useState(0);
+ // eslint-disable-next-line no-unused-vars
+ const [members, setMembers] = useState([]);
+
+ const { categoryid } = useParams();
+
+ useEffect(() => {
+  let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON(`costEstm/getCategoryData/${categoryid}`, 'GET', {});
+   console.log(fetchedData);
+   setCategory(() => {
+    const newCat = JSON.parse(JSON.stringify(fetchedData.data));
+    return newCat;
+   });
+   setBudget(() => fetchedData.data.allocated_budget);
+   setExpectedTime(() => fetchedData.data.expected_time);
+   setManHourPerWeek(() => fetchedData.data.man_hour_per_week);
+   setMembers(() => fetchedData.data.allocated_members);
+  }
+  fetchData();
+ }, []);
+
+ const calculateEffort = (value) => {
+  console.log(value);
+ };
 
  const submitForm = (e) => {
   e.preventDefault();
@@ -27,17 +49,7 @@ export default function CategoryAllocation() {
     <Form className={['row'].join(' ')}>
      <Form.Group className="mb-3 col-6" controlId="selectCategoryField">
       <Form.Label>Category </Form.Label>
-      <Form.Select
-       aria-label="Select Category"
-       value={category}
-       onChange={(e) => setCategory(e.target.value)}
-      >
-       {categories.map((cat, key) => (
-        <option key={key} value={cat.id}>
-         {cat.title}
-        </option>
-       ))}
-      </Form.Select>
+      <Form.Control type="text" value={category.category_name} disabled />
      </Form.Group>
 
      <Form.Group className="mb-3 col-6" controlId="allocateBudgetField">
@@ -68,24 +80,15 @@ export default function CategoryAllocation() {
 
      <Form.Group className="mb-3 col-6" controlId="manHourPerWeekField">
       <Form.Label>Man-hour Per Week</Form.Label>
-      <Form.Control
-       type="text"
-       placeholder="Man hour per week"
-       value={manHourPerWeek}
-       onChange={(e) => setManHourPerWeek(e.target.value)}
-       onKeyPress={(e) => {
-        if (e.key === 'Enter') e.preventDefault();
-       }}
-      />
+      <Form.Control type="text" placeholder="Man hour per week" value={manHourPerWeek} disabled />
      </Form.Group>
 
      <h3>All Posts</h3>
-
-     <PostAllocation>Project Leader</PostAllocation>
-     <PostAllocation>Senior Backend Developer</PostAllocation>
-     <PostAllocation>Senior Frontend Developer</PostAllocation>
-     <PostAllocation>Junior Backend Designer</PostAllocation>
-     <PostAllocation>Junior Frontend Designer</PostAllocation>
+     {members.map((member, memberIdx) => (
+      <PostAllocation key={memberIdx} empCount={member.count} effortCal={calculateEffort}>
+       {member.post}
+      </PostAllocation>
+     ))}
 
      <Button variant="primary" type="submit" onClick={submitForm}>
       Submit

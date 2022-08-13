@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import fetchBackendJSON from '../../actions/Fetch';
 import PostAllocation from './PostAllocation';
 
 const categories = [
@@ -15,15 +14,6 @@ export default function CategoryAllocation() {
  const [budget, setBudget] = useState();
  const [expectedTime, setExpectedTime] = useState();
  const [manHourPerWeek, setManHourPerWeek] = useState();
-
- useEffect(() => {
-  let fetchedData;
-  async function fetchData() {
-   fetchedData = await fetchBackendJSON('costEstm/getCategoryData/1', 'GET', {});
-   console.log(fetchedData);
-  }
-  fetchData();
- }, []);
 
  const submitForm = (e) => {
   e.preventDefault();
@@ -91,11 +81,11 @@ export default function CategoryAllocation() {
 
      <h3>All Posts</h3>
 
-     <PostAllocation>Project Leader</PostAllocation>
-     <PostAllocation>Senior Backend Developer</PostAllocation>
-     <PostAllocation>Senior Frontend Developer</PostAllocation>
-     <PostAllocation>Junior Backend Designer</PostAllocation>
-     <PostAllocation>Junior Frontend Designer</PostAllocation>
+     <PostAllocation empCount="1">Project Leader</PostAllocation>
+     <PostAllocation empCount="3">Senior Backend Developer</PostAllocation>
+     <PostAllocation empCount="3">Senior Frontend Developer</PostAllocation>
+     <PostAllocation empCount="5">Junior Backend Designer</PostAllocation>
+     <PostAllocation empCount="5">Junior Frontend Designer</PostAllocation>
 
      <Button variant="primary" type="submit" onClick={submitForm}>
       Submit

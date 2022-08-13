@@ -1,22 +1,18 @@
 import EditIcon from '@mui/icons-material/Edit';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/esm/Button';
+import { useLocation, useNavigate } from 'react-router-dom';
+import fetchBackendJSON from '../../actions/Fetch';
 import styles from '../../styles/FunctionalDecomposition.module.css';
 import NewCategoryPopup from './NewCategoryPopup';
 
-const tasks = [
- { title: 'task-A', id: 1 },
- { title: 'task-B', id: 2 },
- { title: 'task-C', id: 3 },
- { title: 'task-D', id: 4 },
- { title: 'task-E', id: 5 },
-];
+const deletedCat = [];
 
 export default function FunctionalDecomposition() {
  // eslint-disable-next-line no-unused-vars
- const [groups, setGroups] = useState([{ title: 'Unlisted', tasks }]);
+ const [groups, setGroups] = useState([{ title: 'Unlisted', tasks: [] }]);
  // eslint-disable-next-line no-unused-vars
  const [dragging, setDragging] = useState(false);
  const [popup, setPopup] = useState(false);
@@ -27,6 +23,23 @@ export default function FunctionalDecomposition() {
  const dragSrc = useRef();
  const dragItemNode = useRef();
  const dragDst = useRef();
+
+ const navigate = useNavigate();
+ const location = useLocation();
+
+ useEffect(() => {
+  let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON('costEstm/getAllCategoryWithTaskName', 'GET', {});
+   console.log(fetchedData.data);
+   const allgroups = [{ title: 'Unlisted', tasks: [] }];
+   fetchedData.data.forEach((cat) => {
+    allgroups.push(cat);
+   });
+   setGroups(allgroups);
+  }
+  fetchData();
+ }, []);
 
  const handleDragEnd = (e) => {
   console.log(e);
@@ -87,6 +100,20 @@ export default function FunctionalDecomposition() {
 
  const saveDecomposition = () => {
   console.log('Submit groups...');
+  const groupToSend = groups.splice(0, 1);
+  const data = { data: groupToSend, toDelete: deletedCat };
+  let fetchedData;
+  async function sendData() {
+   fetchedData = await fetchBackendJSON('costEstm/setDecomposition', 'POST', data);
+   // console.log(fetchedData);
+   if (fetchedData.success) {
+    console.log('Successfully send decomposition');
+    navigate(location.pathname, { replace: false });
+   } else {
+    console.log('failed in sending decomposition');
+   }
+  }
+  sendData();
  };
 
  const editCategoryTitle = (e, grpI) => {
@@ -102,6 +129,28 @@ export default function FunctionalDecomposition() {
    newGroups[groupToEdit].title = title;
    return newGroups;
   });
+ };
+
+ const deleteCategory = (grpI) => {
+  if (groups[grpI].tasks.length) {
+   if (
+    // eslint-disable-next-line no-alert, no-restricted-globals
+    confirm('Category is not empty. All tasks will be moved in unlisted category. Are you sure?')
+   ) {
+    if (groups[grpI].id !== 'new') {
+     deletedCat.push(groups[grpI].id);
+     console.log(deletedCat);
+    }
+    setGroups((oldGroups) => {
+     const newGroups = JSON.parse(JSON.stringify(oldGroups));
+     groups[grpI].tasks.forEach((task) => {
+      newGroups[0].tasks.push(task);
+     });
+     newGroups.splice(grpI, 1);
+     return newGroups;
+    });
+   }
+  }
  };
 
  return (
@@ -143,6 +192,27 @@ export default function FunctionalDecomposition() {
          <Badge bg="secondary">{task.title}</Badge>
         </div>
        ))}
+       <hr />
+       {grpI !== 0 && (
+        <div className={[styles.footer, 'row'].join(' ')}>
+         <Button
+          className={[styles.btn, 'col-5'].join(' ')}
+          variant="light"
+          onClick={() =>
+           navigate(`/estimate-cost/allocate/${groups[grpI].id}/details`, { replace: false })
+          }
+         >
+          Details
+         </Button>
+         <Button
+          className={[styles.btn, 'col-5'].join(' ')}
+          variant="light"
+          onClick={() => deleteCategory(grpI)}
+         >
+          Delete
+         </Button>
+        </div>
+       )}
       </div>
      ))}
     </div>

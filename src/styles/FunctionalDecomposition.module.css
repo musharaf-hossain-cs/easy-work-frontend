@@ -45,3 +45,13 @@
   right: 5px;
   top: 0;
 }
+
+.footer {
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.btn {
+  margin: 5px;
+}
