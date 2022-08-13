@@ -1,5 +1,9 @@
-import { Avatar, Box, Card, CardContent, Grid, LinearProgress, Typography } from '@mui/material';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/function-component-definition */
+/* eslint-disable import/prefer-default-export */
 import InsertChartIcon from '@mui/icons-material/InsertChartOutlined';
+import { Avatar, Box, Card, CardContent, Grid, LinearProgress, Typography } from '@mui/material';
 
 export const TasksProgress = (props) => (
   <Card

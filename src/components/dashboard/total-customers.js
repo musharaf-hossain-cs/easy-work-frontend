@@ -1,6 +1,10 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/function-component-definition */
+/* eslint-disable import/prefer-default-export */
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import PeopleIcon from '@mui/icons-material/PeopleOutlined';
+import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
 
 export const TotalCustomers = (props) => (
   <Card {...props}>
