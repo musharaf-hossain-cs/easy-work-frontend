@@ -1,3 +1,6 @@
+/* eslint-disable no-inner-declarations */
+/* eslint-disable no-loop-func */
+/* eslint-disable no-plusplus */
 /* eslint-disable no-alert */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable prettier/prettier */
@@ -21,7 +24,28 @@ export default function GanttChart() {
     const onDependencyDeleting=(e) => {
         if(e.key === 'Enter') e.preventDefault()
         console.log("Dependency deleted!")
-        console.log(e.values.predecessorId)
+        const predecessorId = e.values.predecessorId
+        const successorId = e.values.successorId
+        let dependencyId = null
+        console.log(typeof(predecessorId))
+        console.log(successorId)
+        for(let i = 0; i < dependencies.length; i++) {
+            console.log("Inside for loop")
+            console.log(typeof(dependencies[i].predecessorId))
+            console.log(dependencies[i].successorId)
+            if(Number(dependencies[i].predecessorId) === Number(predecessorId) && Number(dependencies[i].successorId === Number(successorId))) {
+                dependencyId = dependencies[i].dependencyId
+                console.log("Dhuksi")
+                // eslint-disable-next-line no-shadow
+                setDependencies(dependencies.filter((dependency) => dependency.dependencyId !== dependencyId))
+                break
+            }
+        }
+        async function sendData() {
+            const res = await fetchBackendJSON(`taskmgmt/deleteDependency/${dependencyId}`, 'GET');
+            console.log(res);
+        }
+        sendData();
         console.log(dependencies)
     }
     const onDependencyInserted=(e) => {
@@ -54,24 +78,70 @@ export default function GanttChart() {
             // eslint-disable-next-line no-shadow
             setDependencies(dependencies.filter((dependency) => dependency.predecessorId !== predecessorId || dependency.successorId !== successorId))
         }
+        else{
+            const data = {
+                parent_task: predecessorId,
+                dependent_on_task: successorId
+            }
+            async function sendData() {
+                const res = await fetchBackendJSON('taskmgmt/addDependency', 'POST', data);
+                console.log(res);
+            }
+            sendData();
+        }
     }
     const onTaskDeleted=(e) => {
         if(e.key === 'Enter') e.preventDefault()
         console.log("Task deleted!")
         console.log(e.values.id)
+        const taskId = Number(e.values.id)
+        for(let i = 0; i < tasks.length; i++) {
+            if(tasks[i].id === taskId){
+                // eslint-disable-next-line no-shadow
+                setTasks(tasks.filter((task) => task.id !== taskId))
+                break
+            }
+        }
+        async function sendData() {
+            const res = await fetchBackendJSON(`project/deleteTask/${taskId}`, 'GET');
+            console.log(res);
+        }
+        sendData();
         console.log(tasks)
     }
     const onTaskInserted=(e) => {
         if(e.key === 'Enter') e.preventDefault()
         console.log("Task inserted!")
+        console.log(e.values)
         let startDate =  JSON.stringify(e.values.start)
         let endDate =  JSON.stringify(e.values.end)
         startDate = startDate.split('T')[0]
         endDate = endDate.split('T')[0]
-        startDate += "\""
-        endDate += "\""
+        startDate = startDate.substring(1)
+        endDate = endDate.substring(1)
         console.log(startDate)
         console.log(endDate)
+        const data = {
+            project_id: 4,
+            title: 'New Task',
+            start_time: startDate,
+            end_time: endDate,
+            status: 'Not Started',
+            slack_time: 0,
+        };
+        async function sendData() {
+            const res = await fetchBackendJSON('project/addtask', 'POST', data);
+            console.log(res);
+         
+            if (e.values.parentId) {
+                const res2 = await fetchBackendJSON('project/addtaskparent', 'POST', {
+                parent_task_id: Number(e.values.parentId),
+                sub_task_id: res.id,
+                });
+                console.log(res2);
+            }
+        }
+        sendData();
     }
     const onTaskUpdated=(e) => {
         if(e.key === 'Enter') e.preventDefault()
@@ -79,10 +149,12 @@ export default function GanttChart() {
         const taskId = e.key
         console.log(taskId)
         if(e.values.end){
-            let predecessorEndDate =  JSON.stringify(e.values.end)
+            let needChange = false
+            let min = -Number.MAX_VALUE
+            let updatedPredecessorEndDate = null
+            let predecessorEndDate = JSON.stringify(e.values.end)
             predecessorEndDate = predecessorEndDate.split('T')[0]
             predecessorEndDate += "\""
-            const dateToInsert = predecessorEndDate
             predecessorEndDate = Date.parse(predecessorEndDate)
             const successors = []
             dependencies.forEach((dependency) => {
@@ -93,26 +165,42 @@ export default function GanttChart() {
             tasks.forEach((task) => {
                 if(successors.includes(task.id)){
                     const successorStartDate = Date.parse(task.start)
-                    const successorEndDate = Date.parse(task.end)
-                    const dayDiff = Math.abs(successorStartDate - successorEndDate) / (1000 * 3600 * 24)
-                    console.log(dayDiff)
-                    if(predecessorEndDate > successorStartDate){
-                        alert("Successor Task is automatically updated to start at the end of the predecessor task!")
-                        // eslint-disable-next-line no-param-reassign
-                        task.start = dateToInsert
-                        console.log(task.start)
-                        let newSuccessorEndDate = new Date(task.start)
-                        newSuccessorEndDate.setDate(newSuccessorEndDate.getDate() + dayDiff)
-                        newSuccessorEndDate = JSON.stringify(newSuccessorEndDate)
-                        newSuccessorEndDate = newSuccessorEndDate.split('T')[0]
-                        newSuccessorEndDate += "\""
-                        // eslint-disable-next-line no-param-reassign
-                        task.end = newSuccessorEndDate
-                        console.log(task.end)
+                    const dayDiff = (successorStartDate - predecessorEndDate) / (1000 * 3600 * 24)
+                    if(dayDiff < 0){
+                        needChange = true
+                        if(dayDiff > min){
+                            min = dayDiff
+                            updatedPredecessorEndDate = task.start
+                        }
                     }
-                }    
+                }
             });
-            console.log(tasks)
+            if(needChange){
+                alert("Predecessor Task cannot end after the start of Successor Task!!")
+                setTasks((oldTasks) => {
+                    const newTasks = JSON.parse(JSON.stringify(oldTasks))
+                    newTasks.forEach((task) => {
+                        if(task.id === taskId){
+                            predecessorEndDate = Date.parse(task.end)
+                            const predecessorStartDate = Date.parse(task.start)
+                            const dayDiff = Math.abs(predecessorEndDate - predecessorStartDate) / (1000 * 3600 * 24)
+                            console.log(dayDiff)
+                            // eslint-disable-next-line no-param-reassign
+                            task.end = updatedPredecessorEndDate
+                            console.log(task.start)
+                            let updatedPredecessorStartDate = new Date(task.start)
+                            updatedPredecessorStartDate.setDate(updatedPredecessorStartDate.getDate() - dayDiff)
+                            updatedPredecessorStartDate = JSON.stringify(updatedPredecessorStartDate)
+                            updatedPredecessorStartDate = updatedPredecessorStartDate.split('T')[0]
+                            updatedPredecessorStartDate = updatedPredecessorStartDate.substring(1)
+                            // eslint-disable-next-line no-param-reassign
+                            task.start = updatedPredecessorStartDate
+                            console.log(task.start)
+                        }
+                    });
+                    return newTasks;
+                });
+            }
         }
         if(e.values.start){
             let needChange = false
@@ -145,25 +233,29 @@ export default function GanttChart() {
             });
             if(needChange){
                 alert("Successor Task cannot start before the end of Predecessor Task!!")
-                tasks.forEach((task) => {
-                    if(task.id === taskId){
-                        console.log("Kire mama")
-                        successorStartDate = Date.parse(task.start)
-                        const successorEndDate = Date.parse(task.end)
-                        const dayDiff = Math.abs(successorStartDate - successorEndDate) / (1000 * 3600 * 24)
-                        console.log(dayDiff)
-                        // eslint-disable-next-line no-param-reassign
-                        task.start = updatedSuccessorStartDate
-                        console.log(task.start)
-                        let updatedSuccessorEndDate = new Date(task.start)
-                        updatedSuccessorEndDate.setDate(updatedSuccessorEndDate.getDate() + dayDiff)
-                        updatedSuccessorEndDate = JSON.stringify(updatedSuccessorEndDate)
-                        updatedSuccessorEndDate = updatedSuccessorEndDate.split('T')[0]
-                        updatedSuccessorEndDate = updatedSuccessorEndDate.substring(1)
-                        // eslint-disable-next-line no-param-reassign
-                        task.end = updatedSuccessorEndDate
-                        console.log(task.end)
-                    }
+                setTasks((oldTasks) => {
+                    const newTasks = JSON.parse(JSON.stringify(oldTasks))
+                    newTasks.forEach((task) => {
+                        if(task.id === taskId){
+                            console.log("Kire mama")
+                            successorStartDate = Date.parse(task.start)
+                            const successorEndDate = Date.parse(task.end)
+                            const dayDiff = Math.abs(successorStartDate - successorEndDate) / (1000 * 3600 * 24)
+                            console.log(dayDiff)
+                            // eslint-disable-next-line no-param-reassign
+                            task.start = updatedSuccessorStartDate
+                            console.log(task.start)
+                            let updatedSuccessorEndDate = new Date(task.start)
+                            updatedSuccessorEndDate.setDate(updatedSuccessorEndDate.getDate() + dayDiff)
+                            updatedSuccessorEndDate = JSON.stringify(updatedSuccessorEndDate)
+                            updatedSuccessorEndDate = updatedSuccessorEndDate.split('T')[0]
+                            updatedSuccessorEndDate = updatedSuccessorEndDate.substring(1)
+                            // eslint-disable-next-line no-param-reassign
+                            task.end = updatedSuccessorEndDate
+                            console.log(task.end)
+                        }
+                    });
+                    return newTasks;
                 });
             }
             console.log(tasks)
@@ -190,9 +282,11 @@ export default function GanttChart() {
          setTasks(temp);
          temp = [];
          fetchedData.dependency_list.forEach((dependency) => {
+            console.log(dependency)
             setDependencies([
                 ...dependencies,
                 {
+                    dependencyId: dependency.dependency_id,
                     predecessorId: dependency.predecessor_id,
                     successorId: dependency.successor_id,
                     type: 0,
