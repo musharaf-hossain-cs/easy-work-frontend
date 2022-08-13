@@ -1,6 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'mdb-ui-kit/css/mdb.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
