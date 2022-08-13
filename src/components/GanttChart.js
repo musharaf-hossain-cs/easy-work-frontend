@@ -293,10 +293,10 @@ export default function GanttChart() {
                 }
 
             ]);
-         });
-        }
-        fetchData();
-       }, []);
+        });
+    }
+    fetchData();
+   }, []);
  return (
   <Gantt taskListWidth={500} scaleType="weeks" height={850} width={1550} 
     onDependencyDeleting={onDependencyDeleting}
