@@ -7,17 +7,37 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import fetchBackendJSON from '../../actions/Fetch';
 
 const columns = [
  'Category',
  'Assigned People',
- 'Effort (mh)',
- 'Allocated Budget',
- 'Total Tasks',
- 'Expected Time',
+ 'Mean PM (Effort)',
+ 'S.D of PM',
+ 'Mean Wage',
+ 'Allocation',
+ 'Ratio',
+];
+
+const categories = [
+ {
+  title: 'Cat-A',
+  assignedPeople: 5,
+  meanPM: 200,
+  sDofPM: 100,
+  meanWage: 100,
+  allocation: 1000,
+  ratio: 10,
+ },
+ {
+  title: 'Cat-B',
+  assignedPeople: 6,
+  meanPM: 150,
+  sDofPM: 80,
+  meanWage: 120,
+  allocation: 1200,
+  ratio: 12,
+ },
 ];
 
 export default function Home() {
@@ -25,20 +45,7 @@ export default function Home() {
  const navigate = useNavigate();
  const rowPerPage = 10;
  const [page, setPage] = React.useState(0);
- const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
- const [categories, setCategories] = useState([]);
-
- useEffect(() => {
-  let fetchedData;
-  async function fetchData() {
-   fetchedData = await fetchBackendJSON('costEstm/getAllCategorySummary', 'GET', {});
-   console.log(fetchedData.data);
-   const allCat = [];
-   fetchedData.data.forEach((cat) => allCat.push(cat));
-   setCategories(allCat);
-  }
-  fetchData();
- }, []);
+ const [rowsPerPage, setRowsPerPage] = React.useState(rowPerPage);
 
  const handleChangePage = (event, newPage) => {
   setPage(newPage);
@@ -51,7 +58,7 @@ export default function Home() {
 
  return (
   <div className="mycontainer">
-   <Paper className="estimationSummaryTable">
+   <Paper sx={{ width: '100%', overflow: 'hidden' }}>
     <TableContainer sx={{ maxHeight: 440 }}>
      <Table stickyHeader aria-label="sticky table">
       <TableHead>
@@ -64,17 +71,15 @@ export default function Home() {
        </TableRow>
       </TableHead>
       <TableBody>
-       {categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((cat, key) => (
-        <TableRow
-         key={key}
-         onClick={() => navigate(`/estimate-cost/allocate/${cat.id}/details`, { replace: false })}
-        >
-         <TableCell>{cat.category_name}</TableCell>
-         <TableCell>{cat.allocated_members}</TableCell>
-         <TableCell>{cat.man_hour_per_week}</TableCell>
-         <TableCell>{cat.allocated_budget}</TableCell>
-         <TableCell>{cat.total_task}</TableCell>
-         <TableCell>{cat.expected_time}</TableCell>
+       {categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((cat) => (
+        <TableRow>
+         <TableCell>{cat.title}</TableCell>
+         <TableCell>{cat.assignedPeople}</TableCell>
+         <TableCell>{cat.meanPM}</TableCell>
+         <TableCell>{cat.sDofPM}</TableCell>
+         <TableCell>{cat.meanWage}</TableCell>
+         <TableCell>{cat.allocation}</TableCell>
+         <TableCell>{cat.ratio}</TableCell>
         </TableRow>
        ))}
       </TableBody>

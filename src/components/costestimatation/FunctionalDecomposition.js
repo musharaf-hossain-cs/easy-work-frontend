@@ -9,6 +9,8 @@ import styles from '../../styles/FunctionalDecomposition.module.css';
 import NewCategoryPopup from './NewCategoryPopup';
 
 const deletedCat = [];
+const modifiedCat = [];
+const createdCat = [];
 
 export default function FunctionalDecomposition() {
  // eslint-disable-next-line no-unused-vars
@@ -95,7 +97,25 @@ export default function FunctionalDecomposition() {
 
  const newCategory = (title) => {
   console.log(groups, title);
+  createdCat.push(title);
   setGroups([...groups, { title, tasks: [] }]);
+ };
+
+ const sendCategories = async () => {
+  const data = { toCreate: createdCat, toModify: modifiedCat };
+  let fetchedData;
+  async function sendData() {
+   fetchedData = await fetchBackendJSON('costEstm/editCategories', 'POST', data);
+   // console.log(fetchedData);
+   if (fetchedData.success) {
+    console.log('Successfully edited categories');
+    return true;
+   }
+
+   console.log('failed in editing categories');
+   return false;
+  }
+  sendData();
  };
 
  const saveDecomposition = () => {
@@ -104,13 +124,16 @@ export default function FunctionalDecomposition() {
   const data = { data: groupToSend, toDelete: deletedCat };
   let fetchedData;
   async function sendData() {
-   fetchedData = await fetchBackendJSON('costEstm/setDecomposition', 'POST', data);
-   // console.log(fetchedData);
-   if (fetchedData.success) {
-    console.log('Successfully send decomposition');
-    navigate(location.pathname, { replace: false });
-   } else {
-    console.log('failed in sending decomposition');
+   const success = await sendCategories();
+   if (success) {
+    fetchedData = await fetchBackendJSON('costEstm/setDecomposition', 'POST', data);
+    // console.log(fetchedData);
+    if (fetchedData.success) {
+     console.log('Successfully send decomposition');
+     navigate(location.pathname, { replace: false });
+    } else {
+     console.log('failed in sending decomposition');
+    }
    }
   }
   sendData();
@@ -127,6 +150,19 @@ export default function FunctionalDecomposition() {
   setGroups((oldGroups) => {
    const newGroups = JSON.parse(JSON.stringify(oldGroups));
    newGroups[groupToEdit].title = title;
+   const { id } = newGroups[groupToEdit];
+   let found = false;
+   modifiedCat.forEach((item, idx) => {
+    if (item.id === id) {
+     found = true;
+     modifiedCat[idx].title = title;
+    }
+   });
+   if (!found) {
+    modifiedCat.push({ id, title });
+   }
+
+   console.log('modified', modifiedCat);
    return newGroups;
   });
  };
