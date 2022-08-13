@@ -25,6 +25,7 @@ function NewSpace() {
  const handleAutoComplete = (e, v) => {
   console.log(e);
   if (v != null) setUsers([...users, v]);
+  console.log(users);
  };
 
  const handleSpaceNameField = (e) => {

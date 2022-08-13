@@ -87,6 +87,12 @@ function Task() {
    >
     Add Subtask
    </Button>
+   <Button
+    variant="light"
+    onClick={() => navigate(`/spaces/${spaceid}/tasks/${taskid}/assign-member`, { replace: false })}
+   >
+    Assign Members
+   </Button>
   </div>
  );
 }

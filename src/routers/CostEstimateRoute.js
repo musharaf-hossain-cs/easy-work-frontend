@@ -8,19 +8,24 @@ import FunctionalDecomposition from '../components/costestimatation/FunctionalDe
 function AuthRoute() {
  // eslint-disable-next-line no-unused-vars
  const navigate = useNavigate();
+ const spaceid = 1;
 
  return (
   <div>
-   <Button onClick={() => navigate(`/estimate-cost/summary`, { replace: false })}>Summary</Button>
-   <Button onClick={() => navigate(`/estimate-cost/allocate`, { replace: false })}>Allocate</Button>
-   <Button onClick={() => navigate(`/estimate-cost/decompose`, { replace: false })}>
+   <Button onClick={() => navigate(`/estimate-cost/${spaceid}/summary`, { replace: false })}>
+    Summary
+   </Button>
+   <Button onClick={() => navigate(`/estimate-cost/${spaceid}/allocate`, { replace: false })}>
+    Allocate
+   </Button>
+   <Button onClick={() => navigate(`/estimate-cost/${spaceid}/decompose`, { replace: false })}>
     Decompose
    </Button>
    <Routes>
-    <Route path="summary/" element={<EstimationSummary />} />
-    <Route path="allocate/" element={<CategoryAllocation />} />
-    <Route path="allocate/:categoryid/details/" element={<CategoryAllocation />} />
-    <Route path="decompose/" element={<FunctionalDecomposition />} />
+    <Route path=":spaceid/summary/" element={<EstimationSummary />} />
+    <Route path=":spaceid/allocate/" element={<CategoryAllocation />} />
+    <Route path=":spaceid/allocate/:categoryid/details/" element={<CategoryAllocation />} />
+    <Route path=":spaceid/decompose/" element={<FunctionalDecomposition />} />
    </Routes>
   </div>
  );

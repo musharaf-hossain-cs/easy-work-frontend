@@ -1,12 +1,13 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdb-ui-kit/css/mdb.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
 import SideBar from './components/SideBar';
 import AuthRoute from './routers/AuthRoute';
-import DashBoardRoute from './routers/DashBoardRoute';
 import CostEstimationRoute from './routers/CostEstimateRoute';
+import DashBoardRoute from './routers/DashBoardRoute';
 import GanttRoute from './routers/GanttRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/esm/Button';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import styles from '../../styles/FunctionalDecomposition.module.css';
 import NewCategoryPopup from './NewCategoryPopup';
@@ -21,6 +21,8 @@ export default function FunctionalDecomposition() {
  const [popupEdit, setPopupEdit] = useState(false);
  const [titleToEdit, setTitleToEdit] = useState('');
  const [groupToEdit, setGroupToEdit] = useState(0);
+
+ const { spaceid } = useParams();
 
  const dragSrc = useRef();
  const dragItemNode = useRef();
@@ -101,7 +103,28 @@ export default function FunctionalDecomposition() {
   setGroups([...groups, { title, tasks: [] }]);
  };
 
- const sendCategories = async () => {
+ const saveDecomposition = () => {
+  console.log('Submit groups...');
+
+  // const groupToSend = [];
+  // groups.forEach((item) => {
+  //  if (item.title !== 'Unlisted') {
+  //   groupToSend.push(item);
+  //  }
+  // });
+  const data2 = { data: groups, toDelete: deletedCat };
+  let fetchedData2;
+  async function sendData2() {
+   fetchedData2 = await fetchBackendJSON('costEstm/setDecomposition', 'POST', data2);
+   // console.log(fetchedData);
+   if (fetchedData2.success) {
+    console.log('Successfully send decomposition');
+    navigate(location.pathname, { replace: false });
+   } else {
+    console.log('failed in sending decomposition');
+   }
+  }
+
   const data = { toCreate: createdCat, toModify: modifiedCat };
   let fetchedData;
   async function sendData() {
@@ -109,32 +132,8 @@ export default function FunctionalDecomposition() {
    // console.log(fetchedData);
    if (fetchedData.success) {
     console.log('Successfully edited categories');
-    return true;
-   }
-
-   console.log('failed in editing categories');
-   return false;
-  }
-  sendData();
- };
-
- const saveDecomposition = () => {
-  console.log('Submit groups...');
-  const groupToSend = groups.splice(0, 1);
-  const data = { data: groupToSend, toDelete: deletedCat };
-  let fetchedData;
-  async function sendData() {
-   const success = await sendCategories();
-   if (success) {
-    fetchedData = await fetchBackendJSON('costEstm/setDecomposition', 'POST', data);
-    // console.log(fetchedData);
-    if (fetchedData.success) {
-     console.log('Successfully send decomposition');
-     navigate(location.pathname, { replace: false });
-    } else {
-     console.log('failed in sending decomposition');
-    }
-   }
+    sendData2();
+   } else console.log('failed in editing categories');
   }
   sendData();
  };
@@ -229,13 +228,15 @@ export default function FunctionalDecomposition() {
         </div>
        ))}
        <hr />
-       {grpI !== 0 && (
+       {grp.title !== 'Unlisted' && (
         <div className={[styles.footer, 'row'].join(' ')}>
          <Button
           className={[styles.btn, 'col-5'].join(' ')}
           variant="light"
           onClick={() =>
-           navigate(`/estimate-cost/allocate/${groups[grpI].id}/details`, { replace: false })
+           navigate(`/estimate-cost/${spaceid}/allocate/${groups[grpI].id}/details`, {
+            replace: false,
+           })
           }
          >
           Details
