@@ -4,25 +4,18 @@ import Form from 'react-bootstrap/Form';
 
 export default function PostAllocation(props) {
  // eslint-disable-next-line no-unused-vars
- const { children, empCount, effortCal } = props;
+ const { children, empCount, editEffort, editWage, id } = props;
  const [effort, setEffort] = useState(0);
  const [wage, setWage] = useState();
 
  const effortChange = (value) => {
   setEffort(value);
-  // let oldValue = 0;
-  // let newValue = 0;
-  // const count = parseInt(empCount, 10);
-  // setEffort((old) => {
-  //  if (Number.isNaN(old) || old === undefined) oldValue = 0;
-  //  else oldValue = parseInt(old, 10);
-  //  return value;
-  // });
+  editEffort(id, value, empCount);
+ };
 
-  // if (Number.isNaN(value) || value === undefined) newValue = 0;
-  // else newValue = parseInt(value, 10);
-  // console.log(count, newValue, oldValue);
-  // effortCal(count * (newValue - oldValue));
+ const wageChange = (value) => {
+  setWage(value);
+  editWage(id, value, effort, empCount);
  };
 
  return (
@@ -57,7 +50,7 @@ export default function PostAllocation(props) {
       type="text"
       placeholder="Wages per week"
       value={wage}
-      onChange={(e) => setWage(e.target.value)}
+      onChange={(e) => wageChange(e.target.value)}
       onKeyPress={(e) => {
        if (e.key === 'Enter') e.preventDefault();
       }}
