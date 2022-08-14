@@ -15,7 +15,7 @@ async function fetchBackendJSON(url, method, dataDict) {
   referrerPolicy: 'no-referrer',
  };
 
- if (method === 'POST' && dataDict !== null) {
+ if (method !== 'GET' && dataDict !== null) {
   fetchParams.body = JSON.stringify(dataDict);
  }
  const response = await fetch(backend_url, fetchParams);

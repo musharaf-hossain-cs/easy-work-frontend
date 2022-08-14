@@ -152,12 +152,15 @@ export default function GanttChart() {
         const taskId = e.key
         console.log(taskId)
         console.log(e.values)
+        let predecessorEndDate = null
+        let fixedEndDate = null
         if(e.values.end){
             let needChange = false
             let min = -Number.MAX_VALUE
             let updatedPredecessorEndDate = null
-            let predecessorEndDate = JSON.stringify(e.values.end)
+            predecessorEndDate = JSON.stringify(e.values.end)
             predecessorEndDate = predecessorEndDate.split('T')[0]
+            fixedEndDate = predecessorEndDate.substring(1)
             predecessorEndDate += "\""
             predecessorEndDate = Date.parse(predecessorEndDate)
             const successors = []
@@ -185,21 +188,23 @@ export default function GanttChart() {
                     const newTasks = JSON.parse(JSON.stringify(oldTasks))
                     newTasks.forEach((task) => {
                         if(task.id === taskId){
-                            predecessorEndDate = Date.parse(task.end)
-                            const predecessorStartDate = Date.parse(task.start)
-                            const dayDiff = Math.abs(predecessorEndDate - predecessorStartDate) / (1000 * 3600 * 24)
-                            console.log(dayDiff)
+                            // predecessorEndDate = Date.parse(task.end)
+                            // const predecessorStartDate = Date.parse(task.start)
+                            // const dayDiff = Math.abs(predecessorEndDate - predecessorStartDate) / (1000 * 3600 * 24)
+                            // console.log(dayDiff)
                             // eslint-disable-next-line no-param-reassign
                             task.end = updatedPredecessorEndDate
-                            console.log(task.start)
-                            let updatedPredecessorStartDate = new Date(task.start)
-                            updatedPredecessorStartDate.setDate(updatedPredecessorStartDate.getDate() - dayDiff)
-                            updatedPredecessorStartDate = JSON.stringify(updatedPredecessorStartDate)
-                            updatedPredecessorStartDate = updatedPredecessorStartDate.split('T')[0]
-                            updatedPredecessorStartDate = updatedPredecessorStartDate.substring(1)
-                            // eslint-disable-next-line no-param-reassign
-                            task.start = updatedPredecessorStartDate
-                            console.log(task.start)
+                            predecessorEndDate = updatedPredecessorEndDate
+                            fixedEndDate = predecessorEndDate
+                            // console.log(task.start)
+                            // let updatedPredecessorStartDate = new Date(task.start)
+                            // updatedPredecessorStartDate.setDate(updatedPredecessorStartDate.getDate() - dayDiff)
+                            // updatedPredecessorStartDate = JSON.stringify(updatedPredecessorStartDate)
+                            // updatedPredecessorStartDate = updatedPredecessorStartDate.split('T')[0]
+                            // updatedPredecessorStartDate = updatedPredecessorStartDate.substring(1)
+                            // // eslint-disable-next-line no-param-reassign
+                            // task.start = updatedPredecessorStartDate
+                            // console.log(task.start)
                         }
                     });
                     return newTasks;
@@ -207,13 +212,16 @@ export default function GanttChart() {
             }
         }
         let successorStartDate = null
+        let fixedStartDate = null
         // let successorEndDate = null
+        console.log(fixedEndDate)
         if(e.values.start){
             let needChange = false
             let min = -Number.MAX_VALUE
             let updatedSuccessorStartDate = null
             successorStartDate =  JSON.stringify(e.values.start)
             successorStartDate = successorStartDate.split('T')[0]
+            fixedStartDate = successorStartDate.substring(1)
             successorStartDate += "\""
             // const dateToInsert = successorStartDate
             successorStartDate = Date.parse(successorStartDate)
@@ -226,7 +234,7 @@ export default function GanttChart() {
             tasks.forEach((task) => {
                 if(predecessors.includes(task.id)){
                     // Compare task.end with successorStartDate
-                    const predecessorEndDate = Date.parse(task.end)
+                    predecessorEndDate = Date.parse(task.end)
                     const dayDiff = (successorStartDate - predecessorEndDate) / (1000 * 3600 * 24)
                     if(dayDiff < 0){
                         needChange = true
@@ -244,22 +252,23 @@ export default function GanttChart() {
                     newTasks.forEach((task) => {
                         if(task.id === taskId){
                             console.log("Kire mama")
-                            successorStartDate = Date.parse(task.start)
-                            const successorEndDate = Date.parse(task.end)
-                            const dayDiff = Math.abs(successorStartDate - successorEndDate) / (1000 * 3600 * 24)
-                            console.log(dayDiff)
+                            // successorStartDate = Date.parse(task.start)
+                            // const successorEndDate = Date.parse(task.end)
+                            // const dayDiff = Math.abs(successorStartDate - successorEndDate) / (1000 * 3600 * 24)
+                            // console.log(dayDiff)
                             // eslint-disable-next-line no-param-reassign
                             task.start = updatedSuccessorStartDate
                             successorStartDate = updatedSuccessorStartDate
                             console.log(task.start)
-                            let updatedSuccessorEndDate = new Date(task.start)
-                            updatedSuccessorEndDate.setDate(updatedSuccessorEndDate.getDate() + dayDiff)
-                            updatedSuccessorEndDate = JSON.stringify(updatedSuccessorEndDate)
-                            updatedSuccessorEndDate = updatedSuccessorEndDate.split('T')[0]
-                            updatedSuccessorEndDate = updatedSuccessorEndDate.substring(1)
-                            // eslint-disable-next-line no-param-reassign
-                            task.end = updatedSuccessorEndDate
-                            console.log(task.end)
+                            fixedStartDate = successorStartDate
+                            // let updatedSuccessorEndDate = new Date(task.start)
+                            // updatedSuccessorEndDate.setDate(updatedSuccessorEndDate.getDate() + dayDiff)
+                            // updatedSuccessorEndDate = JSON.stringify(updatedSuccessorEndDate)
+                            // updatedSuccessorEndDate = updatedSuccessorEndDate.split('T')[0]
+                            // updatedSuccessorEndDate = updatedSuccessorEndDate.substring(1)
+                            // // eslint-disable-next-line no-param-reassign
+                            // task.end = updatedSuccessorEndDate
+                            // console.log(task.end)
                         }
                     });
                     return newTasks;
@@ -267,12 +276,42 @@ export default function GanttChart() {
             }
             console.log(tasks)
         }
-        // if(e.values.start){
-        //     const data = {
-        //         task_id: taskId,
-        //         start: successorStartDate
-        //     };
-        // }
+        if(e.values.start){
+            const data = {
+                start_time: fixedStartDate,
+            };
+            async function sendData() {
+                console.log(typeof(fixedStartDate))
+                console.log(data)
+                const res = await fetchBackendJSON(`project/updateTask/${taskId}`, "PATCH", data);
+                console.log(res);
+              }
+                sendData();
+        }
+        if(e.values.end){
+            const data = {
+                end_time: fixedEndDate,
+            };
+            async function sendData() {
+                console.log(typeof(fixedEndDate))
+                console.log(data)
+                const res = await fetchBackendJSON(`project/updateTask/${taskId}`, "PATCH", data);
+                console.log(res);
+              }
+                sendData();
+        }
+        if(e.values.title){
+            const data = {
+                title: e.values.title,
+            };
+            async function sendData() {
+                console.log(typeof(title))
+                console.log(data)
+                const res = await fetchBackendJSON(`project/updateTask/${taskId}`, "PATCH", data);
+                console.log(res);
+              }
+                sendData();
+        }
         // const data = {
         //     task_id: taskId,
         //     last_name: lastName,
