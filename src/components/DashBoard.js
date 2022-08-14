@@ -15,28 +15,29 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 
 export default function DashBoard() {
  return (
-  <DashboardLayoutRoot>
+  <DashboardLayoutRoot className="row scrollable2">
    <Box
+    className="col-6"
     sx={{
      display: 'flex',
      flex: '1 1 auto',
      flexDirection: 'column',
-     width: '100%',
     }}
    >
     <Budget budget={12} />
    </Box>
    <Box
+    className="col-6"
     sx={{
      display: 'flex',
      flex: '1 1 auto',
      flexDirection: 'column',
-     width: '100%',
     }}
    >
     <Budget budget={12} />
    </Box>
-   <CollapsibleTable />
+   <hr />
+   <CollapsibleTable className="col-12" />
   </DashboardLayoutRoot>
  );
 }

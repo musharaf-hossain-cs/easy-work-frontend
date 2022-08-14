@@ -8,7 +8,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 
 const columns = [
@@ -27,11 +27,12 @@ export default function Home() {
  const [page, setPage] = React.useState(0);
  const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
  const [categories, setCategories] = useState([]);
+ const { spaceid } = useParams();
 
  useEffect(() => {
   let fetchedData;
   async function fetchData() {
-   fetchedData = await fetchBackendJSON('costEstm/getAllCategorySummary', 'GET', {});
+   fetchedData = await fetchBackendJSON(`costEstm/getAllCategorySummary/${spaceid}`, 'GET', {});
    console.log(fetchedData.data);
    const allCat = [];
    fetchedData.data.forEach((cat) => allCat.push(cat));

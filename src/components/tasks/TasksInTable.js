@@ -14,7 +14,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const columns = ['Title', 'Priority', 'Status', 'Due Date'];
 
-function TasksInTable({ tasks, rowPerPage }) {
+function TasksInTable({ tasks, rowPerPage, toTaskSet }) {
  const { spaceid } = useParams();
  const navigate = useNavigate();
  // console.log('In tasks in table');
@@ -34,6 +34,11 @@ function TasksInTable({ tasks, rowPerPage }) {
   setPage(0);
  };
 
+ const handleRowClick = (id) => {
+  toTaskSet(id);
+  navigate(`/spaces/${spaceid}/tasks/${id}`, { replace: false });
+ };
+
  return (
   <div className="mycontainer">
    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -50,12 +55,7 @@ function TasksInTable({ tasks, rowPerPage }) {
       </TableHead>
       <TableBody>
        {tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((task) => (
-        <TableRow
-         hover
-         onClick={() => navigate(`/spaces/${spaceid}/tasks/${task.taskid}`, { replace: false })}
-         tabIndex={-1}
-         key={task.title}
-        >
+        <TableRow hover onClick={() => handleRowClick(task.taskid)} tabIndex={-1} key={task.title}>
          <TableCell>{task.title}</TableCell>
          <TableCell>{task.priority}</TableCell>
          <TableCell>{task.status}</TableCell>

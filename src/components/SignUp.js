@@ -41,7 +41,7 @@ function SignUp() {
         console.log(fetchedData);
         // let temp = [];
         const temp = [];
-        let count = 0
+        let count = 1;
         fetchedData.designation.forEach((dsg) => {
            console.log(dsg)
            temp.push({

@@ -26,6 +26,7 @@ function Task() {
  const [taskDetails, setTaskDetails] = useState([]);
  const [tasks, setTasks] = useState([]);
  const [users, setUsers] = useState([]);
+ const [toTask, setToTask] = useState(0);
  // eslint-disable-next-line prefer-const
  let tempTasks = [];
  // eslint-disable-next-line prefer-const
@@ -48,7 +49,7 @@ function Task() {
    tempTasks = [];
   }
   fetchData();
- }, []);
+ }, [toTask]);
 
  useEffect(() => {
   let fetchedData;
@@ -73,7 +74,7 @@ function Task() {
    setUsers(tempUser);
   }
   fetchData();
- }, []);
+ }, [toTask]);
 
  useEffect(() => {
   let fetchedData;
@@ -107,7 +108,7 @@ function Task() {
    <TaskDetailList spaceid={spaceid} taskid={taskid} taskDetailList={taskDetails} />
    <hr />
    <h3>All SubTasks</h3>
-   <TasksInTable tasks={tasks} rowPerPage={3} />
+   <TasksInTable tasks={tasks} rowPerPage={3} toTaskSet={setToTask} />
    <hr />
    <Button
     variant="light"
