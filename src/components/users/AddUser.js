@@ -107,12 +107,7 @@ function AddUser() {
    if (res.success) {
     console.log('member assignment successful');
     let path = location.pathname;
-    const start = path.lastIndexOf('/');
-    let size;
-    if (start >= 0) {
-     size = path.length - start;
-    }
-    path = path.splice(start, size);
+    path = path.slice(0, -14);
     navigate(path, { replace: false });
    } else {
     console.log('member assingment failed');

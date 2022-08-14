@@ -1,6 +1,3 @@
-import Autocomplete from '@mui/material/Autocomplete';
-import { inputLabelClasses } from '@mui/material/InputLabel';
-import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -8,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import styles from '../../styles/NewSpace.module.css';
 
-const alluser = [
- { label: 'musharaf71', email: 'mdmusharaf8071@gmail.com' },
- { label: 'jayanta001', email: 'jayanta@gmail.com' },
-];
+// const alluser = [
+//  { label: 'musharaf71', email: 'mdmusharaf8071@gmail.com' },
+//  { label: 'jayanta001', email: 'jayanta@gmail.com' },
+// ];
 
 // const alluser = fetchBackendJSON('user/getallusers', 'POST', { objective: 'getusers' });
 
@@ -22,11 +19,11 @@ function NewSpace() {
 
  const navigate = useNavigate();
 
- const handleAutoComplete = (e, v) => {
-  console.log(e);
-  if (v != null) setUsers([...users, v]);
-  console.log(users);
- };
+ // const handleAutoComplete = (e, v) => {
+ //  console.log(e);
+ //  if (v != null) setUsers([...users, v]);
+ //  console.log(users);
+ // };
 
  const handleSpaceNameField = (e) => {
   e.preventDefault();
@@ -74,7 +71,7 @@ function NewSpace() {
      />
     </Form.Group>
 
-    <Form.Group className="mb-3" controlId="shareWith">
+    {/* <Form.Group className="mb-3" controlId="shareWith">
      <Form.Label>Share With: </Form.Label>
      <ul>
       {users.map((val, key) => (
@@ -106,7 +103,7 @@ function NewSpace() {
        />
       )}
      />
-    </Form.Group>
+    </Form.Group> */}
     <Button variant="primary" onClick={submit}>
      Submit
     </Button>

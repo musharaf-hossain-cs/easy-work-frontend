@@ -39,12 +39,19 @@ function Space() {
   fetchData();
  }, []);
 
+ const assignUser = () => {
+  navigate(`/spaces/${spaceid}/assign-member`, { replace: false });
+ };
+
  return (
   <div>
    <h1 align="center">SpaceID: {spaceid}</h1>
    <hr />
    <Button variant="light" onClick={newTask}>
     Add Task
+   </Button>
+   <Button variant="light" onClick={assignUser}>
+    Assign User
    </Button>
    <hr />
    <h3>All Tasks</h3>
