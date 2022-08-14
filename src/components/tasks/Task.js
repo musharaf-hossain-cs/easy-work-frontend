@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 // import styles from '../../styles/TaskDetail.module.css';
 // import TaskDetail from './TaskDetail';
+import UserList from '../users/UserList';
 import TaskDetailList from './TaskDetailList';
 import TasksInTable from './TasksInTable';
 
@@ -24,6 +25,7 @@ function Task() {
  const navigate = useNavigate();
  const [taskDetails, setTaskDetails] = useState([]);
  const [tasks, setTasks] = useState([]);
+ const [users, setUsers] = useState([]);
  // eslint-disable-next-line prefer-const
  let tempTasks = [];
  // eslint-disable-next-line prefer-const
@@ -44,6 +46,31 @@ function Task() {
    });
    setTasks(tempTasks);
    tempTasks = [];
+  }
+  fetchData();
+ }, []);
+
+ useEffect(() => {
+  let fetchedData;
+  const tempUser = [];
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON('user/getSelectedUsers', 'POST', {
+    project_id: spaceid,
+    task_id: taskid,
+   });
+   console.log('In space');
+   console.log(fetchedData);
+   fetchedData.members.forEach((user) => {
+    tempUser.push({
+     id: user.id,
+     name: `${user.first_name} ${user.last_name}`,
+     email: user.email,
+     mobile: user.mobile,
+     address: user.address,
+     job: user.designation,
+    });
+   });
+   setUsers(tempUser);
   }
   fetchData();
  }, []);
@@ -76,7 +103,7 @@ function Task() {
  }, []);
 
  return (
-  <div className="mycontainer container">
+  <div className="mycontainer container scrollable2">
    <TaskDetailList spaceid={spaceid} taskid={taskid} taskDetailList={taskDetails} />
    <hr />
    <h3>All SubTasks</h3>
@@ -94,6 +121,9 @@ function Task() {
    >
     Assign Members
    </Button>
+   <hr />
+   <h3>User List</h3>
+   <UserList users={users} rowPerPage={5} />
   </div>
  );
 }
