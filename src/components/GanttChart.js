@@ -6,6 +6,7 @@
 /* eslint-disable prettier/prettier */
 import 'devextreme/dist/css/dx.light.css';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Gantt, {
     Column,
@@ -19,6 +20,8 @@ import Gantt, {
 import fetchBackendJSON from '../actions/Fetch';
 
 export default function GanttChart() {
+    const { spaceid } = useParams();
+    console.log(spaceid)
     const [tasks, setTasks] = useState([]);
     const [dependencies, setDependencies] = useState([]);
     const onDependencyDeleting=(e) => {
@@ -122,7 +125,7 @@ export default function GanttChart() {
         console.log(startDate)
         console.log(endDate)
         const data = {
-            project_id: 4,
+            project_id: Number(spaceid),
             title: 'New Task',
             start_time: startDate,
             end_time: endDate,
@@ -148,6 +151,7 @@ export default function GanttChart() {
         console.log("Task updated!")
         const taskId = e.key
         console.log(taskId)
+        console.log(e.values)
         if(e.values.end){
             let needChange = false
             let min = -Number.MAX_VALUE
@@ -202,11 +206,13 @@ export default function GanttChart() {
                 });
             }
         }
+        let successorStartDate = null
+        // let successorEndDate = null
         if(e.values.start){
             let needChange = false
             let min = -Number.MAX_VALUE
             let updatedSuccessorStartDate = null
-            let successorStartDate =  JSON.stringify(e.values.start)
+            successorStartDate =  JSON.stringify(e.values.start)
             successorStartDate = successorStartDate.split('T')[0]
             successorStartDate += "\""
             // const dateToInsert = successorStartDate
@@ -244,6 +250,7 @@ export default function GanttChart() {
                             console.log(dayDiff)
                             // eslint-disable-next-line no-param-reassign
                             task.start = updatedSuccessorStartDate
+                            successorStartDate = updatedSuccessorStartDate
                             console.log(task.start)
                             let updatedSuccessorEndDate = new Date(task.start)
                             updatedSuccessorEndDate.setDate(updatedSuccessorEndDate.getDate() + dayDiff)
@@ -260,12 +267,29 @@ export default function GanttChart() {
             }
             console.log(tasks)
         }
+        // if(e.values.start){
+        //     const data = {
+        //         task_id: taskId,
+        //         start: successorStartDate
+        //     };
+        // }
+        // const data = {
+        //     task_id: taskId,
+        //     last_name: lastName,
+        //     email,
+        //     mobile: mobileNo,
+        //     address,
+        //     date_of_birth: formattedDateOfBirth,
+        //     gender: formattedGender,
+        //     job: selectedJobs[0].count,
+        //     joining_date: formattedJoiningDate,
+        //    };
     }
     useEffect(() => {
         // eslint-disable-next-line prettier/prettier
         let fetchedData;
         async function fetchData() {
-         fetchedData = await fetchBackendJSON('taskmgmt/getproject_tasks', 'POST', { project_id: 4 });
+         fetchedData = await fetchBackendJSON('taskmgmt/getproject_tasks', 'POST', { project_id: Number(spaceid) });
          console.log('In space');
          console.log(fetchedData);
          let temp = [];
