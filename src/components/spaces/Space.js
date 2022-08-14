@@ -16,6 +16,10 @@ function Space() {
   navigate(`/spaces/${spaceid}/new-task`, { replace: false });
  };
 
+ const goToGanttView = () => {
+  navigate(`/spaces/${spaceid}/ganttview`, { replace: false });
+ };
+
  useEffect(() => {
   let fetchedData;
   async function fetchData() {
@@ -47,11 +51,14 @@ function Space() {
   <div>
    <h1 align="center">SpaceID: {spaceid}</h1>
    <hr />
-   <Button variant="light" onClick={newTask}>
+   <Button variant="light" margin-right="10px" onClick={newTask}>
     Add Task
    </Button>
-   <Button variant="light" onClick={assignUser}>
+   <Button variant="light" margin-right="10px" onClick={assignUser}>
     Assign User
+   </Button>
+   <Button variant="light" margin-right="10px" onClick={goToGanttView}>
+    View Gantt Chart
    </Button>
    <hr />
    <h3>All Tasks</h3>

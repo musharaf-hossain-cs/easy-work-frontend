@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-plusplus */
 /* eslint-disable prettier/prettier */
 // import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -11,6 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
 import fetchBackendJSON from '../actions/Fetch';
 
 function SignUp() {
@@ -39,26 +41,23 @@ function SignUp() {
         console.log(fetchedData);
         // let temp = [];
         const temp = [];
+        let count = 0
         fetchedData.designation.forEach((dsg) => {
-           console.log(dsg.job_name)
+           console.log(dsg)
            temp.push({
                 label: dsg.job_name,
+                count,
             });
+            count++;
         });
 
         setJobs(() => temp);
-        // let count = 0
-        // for(let i = 0; i < 1000000; i++){
-        //     // eslint-disable-next-line no-unused-vars
-        //     count += 1
-        // }
-        // temp = [];
         console.log(jobs)
 }
 fetchData();
 }, []);
 
-//  const navigate = useNavigate();
+ const navigate = useNavigate();
 
 //  let selectedFile;
 
@@ -67,43 +66,52 @@ fetchData();
 //  console.log(`spaceid: ${spaceid}`);
 //  const parentid = taskid === undefined ? 0 : taskid;
 
-//  const submitForm = (e) => {
-//   e.preventDefault();
-//   const data = {
-//    project_id: spaceid,
-//    title,
-//    description,
-//    start_time: formatDate(startDate),
-//    end_time: formatDate(endDate),
-//    status: 'Not Started',
-//    slack_time: 0,
-//   };
-//   async function sendData() {
-//    const res = await fetchBackendJSON('project/addtask', 'POST', data);
-//    console.log(res);
-
-//    if (parentid !== 0) {
-//     const res2 = await fetchBackendJSON('project/addtaskparent', 'POST', {
-//      parent_task_id: parentid,
-//      sub_task_id: res.id,
-//     });
-//     console.log(res2);
-//     navigate(`/spaces/${spaceid}/tasks/${taskid}/`, { replace: false });
-//    }
+ const submitForm = (e) => {
+  e.preventDefault();
+  console.log(joiningDate)
+  console.log(typeof(joiningDate))
+  console.log(JSON.stringify(joiningDate))
+  let formattedJoiningDate =  JSON.stringify(joiningDate)
+  formattedJoiningDate = formattedJoiningDate.split('T')[0]
+  formattedJoiningDate = formattedJoiningDate.substring(1)
+  let formattedDateOfBirth =  JSON.stringify(dateOfBirth)
+  formattedDateOfBirth = formattedDateOfBirth.split('T')[0]
+  formattedDateOfBirth = formattedDateOfBirth.substring(1)
+  let formattedGender = null
+  if(gender === '0')
+    formattedGender = 'M'
+  else if(gender === '1')
+    formattedGender = 'F'
+  else
+    formattedGender = 'O'
+  console.log(selectedJobs[0].count)
+  const data = {
+   first_name: firstName,
+   last_name: lastName,
+   email,
+   mobile: mobileNo,
+   address,
+   date_of_birth: formattedDateOfBirth,
+   gender: formattedGender,
+   job: selectedJobs[0].count,
+   joining_date: formattedJoiningDate,
+  };
+  async function sendData() {
+    const res = await fetchBackendJSON('user/addUser', 'POST', data);
+    console.log(res);
+    navigate(`/*`, { replace: false });
+  }
 
 //    setStartDate(null);
 //    setEndDate(null);
 //    setTitle('');
 //    setDescription('');
 //    setPriority(0);
-//    // eslint-disable-next-line no-unused-vars
-//    setAttachments((prev) => []);
-//    navigate(`/spaces/${spaceid}/tasks/`, { replace: false });
-//   }
+   // eslint-disable-next-line no-unused-vars
 
-//   sendData();
-//   // submit everything
-//  };
+  sendData();
+  // submit everything
+ };
 
  return (
   <div className={['mycontainer', 'container'].join(' ')}>
@@ -136,7 +144,7 @@ fetchData();
     <Form.Group className="mb-3 col-5" controlId="formTaskTitle">
      <Form.Label>E-mail</Form.Label>
      <Form.Control
-      type="text"
+      type="email"
       placeholder="Enter E-mail Address"
       value={email}
       onChange={(e) => setEmail(e.target.value)}
@@ -209,9 +217,9 @@ fetchData();
       onChange={(e) => setGender(e.target.value)}
      >
       <option value="0">Choose Gender</option>
-      <option value="1">Male</option>
-      <option value="2">Female</option>
-      <option value="3">Others</option>
+      <option value="1">MALE</option>
+      <option value="2">FEMALE</option>
+      <option value="3">OTHER</option>
      </Form.Select>
     </Form.Group>
     <Form.Group className="mb-3 col-8" controlId="formEndDate">
@@ -283,7 +291,7 @@ fetchData();
      </LocalizationProvider>
     </Form.Group>
     {"\n"}
-    <Button variant="primary" className='mb-3 col-2' type="submit">
+    <Button variant="primary" className='mb-3 col-2' type="submit" onClick={submitForm}>
      Sign Up!
     </Button>
    </Form>
