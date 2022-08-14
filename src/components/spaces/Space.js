@@ -45,6 +45,10 @@ function Space() {
   fetchData();
  }, []);
 
+ const tempFunction = (id) => {
+  console.log(id);
+ };
+
  useEffect(() => {
   let fetchedData;
   const tempUser = [];
@@ -89,7 +93,7 @@ function Space() {
    </Button>
    <hr />
    <h3>All Tasks</h3>
-   <TasksInTable tasks={tasks} rowPerPage={5} />
+   <TasksInTable tasks={tasks} rowPerPage={5} toTaskSet={tempFunction} />
    <hr />
    <h3>All Users</h3>
    <UserList users={users} rowPerPage={5} />
