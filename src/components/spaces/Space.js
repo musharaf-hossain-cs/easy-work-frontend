@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import TasksInTable from '../tasks/TasksInTable';
+import UserList from '../users/UserList';
 
 function Space() {
  const { spaceid } = useParams();
  const navigate = useNavigate();
  const [tasks, setTasks] = useState([]);
+ const [users, setUsers] = useState([]);
  // eslint-disable-next-line prefer-const
  let tempTasks = [];
 
@@ -43,12 +45,37 @@ function Space() {
   fetchData();
  }, []);
 
+ useEffect(() => {
+  let fetchedData;
+  const tempUser = [];
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON('user/getSelectedUsers', 'POST', {
+    project_id: spaceid,
+    task_id: -1,
+   });
+   console.log('In space');
+   console.log(fetchedData);
+   fetchedData.members.forEach((user) => {
+    tempUser.push({
+     id: user.id,
+     name: `${user.first_name} ${user.last_name}`,
+     email: user.email,
+     mobile: user.mobile,
+     address: user.address,
+     job: user.designation,
+    });
+   });
+   setUsers(tempUser);
+  }
+  fetchData();
+ }, []);
+
  const assignUser = () => {
   navigate(`/spaces/${spaceid}/assign-member`, { replace: false });
  };
 
  return (
-  <div>
+  <div className="scrollable2">
    <h1 align="center">SpaceID: {spaceid}</h1>
    <hr />
    <Button variant="light" margin-right="10px" onClick={newTask}>
@@ -63,6 +90,9 @@ function Space() {
    <hr />
    <h3>All Tasks</h3>
    <TasksInTable tasks={tasks} rowPerPage={5} />
+   <hr />
+   <h3>All Users</h3>
+   <UserList users={users} rowPerPage={5} />
   </div>
  );
 }

@@ -36,3 +36,10 @@
   max-height: 500px;
   width: 100%;
 }
+
+.scrollable2 {
+  height: auto;
+  overflow-y: auto;
+  max-height: 600px;
+  width: 100%;
+}

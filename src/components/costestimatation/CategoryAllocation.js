@@ -11,6 +11,12 @@ export default function CategoryAllocation() {
  const [budget, setBudget] = useState(0);
  const [expectedTime, setExpectedTime] = useState(0);
  const [manHourPerWeek, setManHourPerWeek] = useState(0);
+ const [totalWage, setTotalWage] = useState(0);
+
+ // eslint-disable-next-line no-unused-vars
+ const [allEfforts, setAllEfforts] = useState([]);
+ const [allWages, setAllWages] = useState([]);
+
  // eslint-disable-next-line no-unused-vars
  const [members, setMembers] = useState([]);
 
@@ -33,6 +39,23 @@ export default function CategoryAllocation() {
   fetchData();
  }, []);
 
+ useEffect(() => {
+  let manhour = 0;
+  allEfforts.forEach((val) => {
+   manhour += val.effort;
+  });
+  setManHourPerWeek(manhour);
+ }, [allEfforts]);
+
+ useEffect(() => {
+  let wage = 0;
+  allWages.forEach((val) => {
+   wage += val.wage;
+  });
+  setTotalWage(wage);
+ }, [allWages]);
+
+ // eslint-disable-next-line no-unused-vars
  const calculateEffort = (value) => {
   console.log(value);
  };
@@ -40,6 +63,52 @@ export default function CategoryAllocation() {
  const submitForm = (e) => {
   e.preventDefault();
   console.log('Submitted');
+ };
+
+ const editEffort = (key, v, count) => {
+  let value = 0;
+  if (!(Number.isNaN(v) || v === undefined)) {
+   value = parseInt(v, 10);
+  }
+  setAllEfforts((old) => {
+   const newList = JSON.parse(JSON.stringify(old));
+   let idx = -1;
+   newList.forEach((val, i) => {
+    if (val.id === key) idx = i;
+   });
+   if (idx >= 0) {
+    newList[idx].effort = value * count;
+   } else {
+    newList.push({ id: key, effort: value * count });
+   }
+   // console.log('effortlist', newList, key);
+   return newList;
+  });
+ };
+
+ const editWage = (key, v, v2, count) => {
+  let value = 0;
+  let hour = 0;
+  if (!(Number.isNaN(v) || v === undefined)) {
+   value = parseInt(v, 10);
+  }
+  if (!(Number.isNaN(v2) || v2 === undefined)) {
+   hour = parseInt(v2, 10);
+  }
+  setAllWages((old) => {
+   const newList = JSON.parse(JSON.stringify(old));
+   let idx = -1;
+   newList.forEach((val, i) => {
+    if (val.id === key) idx = i;
+   });
+   if (idx >= 0) {
+    newList[idx].wage = value * count * hour;
+   } else {
+    newList.push({ id: key, wage: value * count * hour });
+   }
+   // console.log('wagelist', newList, key);
+   return newList;
+  });
  };
 
  return (
@@ -78,14 +147,23 @@ export default function CategoryAllocation() {
       />
      </Form.Group>
 
-     <Form.Group className="mb-3 col-6" controlId="manHourPerWeekField">
+     <Form.Group className="mb-3 col-3" controlId="manHourPerWeekField">
       <Form.Label>Man-hour Per Week</Form.Label>
       <Form.Control type="text" placeholder="Man hour per week" value={manHourPerWeek} disabled />
+     </Form.Group>
+     <Form.Group className="mb-3 col-3" controlId="total Wage">
+      <Form.Label>Wage per week</Form.Label>
+      <Form.Control type="text" placeholder="Wage per week" value={totalWage} disabled />
      </Form.Group>
 
      <h3>All Posts</h3>
      {members.map((member, memberIdx) => (
-      <PostAllocation key={memberIdx} empCount={member.count} effortCal={calculateEffort}>
+      <PostAllocation
+       id={memberIdx}
+       empCount={member.count}
+       editEffort={editEffort}
+       editWage={editWage}
+      >
        {member.post}
       </PostAllocation>
      ))}

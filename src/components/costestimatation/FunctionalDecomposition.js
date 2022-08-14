@@ -34,9 +34,13 @@ export default function FunctionalDecomposition() {
  useEffect(() => {
   let fetchedData;
   async function fetchData() {
-   fetchedData = await fetchBackendJSON('costEstm/getAllCategoryWithTaskName', 'GET', {});
+   fetchedData = await fetchBackendJSON(
+    `costEstm/getAllCategoryWithTaskName/${spaceid}`,
+    'GET',
+    {}
+   );
    console.log(fetchedData.data);
-   const allgroups = [{ title: 'Unlisted', tasks: [] }];
+   const allgroups = [];
    fetchedData.data.forEach((cat) => {
     allgroups.push(cat);
    });
@@ -125,7 +129,11 @@ export default function FunctionalDecomposition() {
    }
   }
 
-  const data = { toCreate: createdCat, toModify: modifiedCat };
+  const data = {
+   toCreate: createdCat,
+   toModify: modifiedCat,
+   project_id: spaceid,
+  };
   let fetchedData;
   async function sendData() {
    fetchedData = await fetchBackendJSON('costEstm/editCategories', 'POST', data);
@@ -176,10 +184,15 @@ export default function FunctionalDecomposition() {
      deletedCat.push(groups[grpI].id);
      console.log(deletedCat);
     }
+    let unlistedId = 0;
+    groups.forEach((g, idx) => {
+     if (g.title === 'Unlisted') unlistedId = idx;
+     else console.log('Unlisted Category Not found!');
+    });
     setGroups((oldGroups) => {
      const newGroups = JSON.parse(JSON.stringify(oldGroups));
      groups[grpI].tasks.forEach((task) => {
-      newGroups[0].tasks.push(task);
+      newGroups[unlistedId].tasks.push(task);
      });
      newGroups.splice(grpI, 1);
      return newGroups;
