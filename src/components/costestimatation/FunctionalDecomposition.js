@@ -123,6 +123,8 @@ export default function FunctionalDecomposition() {
    // console.log(fetchedData);
    if (fetchedData2.success) {
     console.log('Successfully send decomposition');
+    // eslint-disable-next-line no-alert
+    alert('Successfully send decomposition');
     navigate(location.pathname, { replace: false });
    } else {
     console.log('failed in sending decomposition');
@@ -220,7 +222,7 @@ export default function FunctionalDecomposition() {
        <Alert className={styles.alert}>
         <div className={styles.alertTitle}>{grp.title}</div>{' '}
         <div className={styles.alertEdit}>
-         <EditIcon onClick={(e) => editCategoryTitle(e, grpI)} />
+         {grp.title !== 'Unlisted' && <EditIcon onClick={(e) => editCategoryTitle(e, grpI)} />}
         </div>
        </Alert>
        {grp.tasks.map((task, taskI) => (

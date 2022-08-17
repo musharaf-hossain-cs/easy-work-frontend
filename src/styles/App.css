@@ -33,13 +33,13 @@
 .scrollable {
   height: auto;
   overflow-y: auto;
-  max-height: 500px;
+  max-height: 700px;
   width: 100%;
 }
 
 .scrollable2 {
   height: auto;
   overflow-y: auto;
-  max-height: 600px;
+  max-height: 850px;
   width: 100%;
 }
