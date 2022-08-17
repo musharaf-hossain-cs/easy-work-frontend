@@ -69,7 +69,7 @@ export default function GanttChart() {
         successorStartDate = Date.parse(successorStartDate)
         let isValid = true
         if(predecessorEndDate > successorStartDate) {
-            alert("Error!!\nSomething is wrong with the dates!")
+            alert("Error!!\nPredecessor Task must end before start of Successor Task!")
             isValid = false
         }
         dependencies.forEach((dependency) => {
@@ -188,23 +188,10 @@ export default function GanttChart() {
                     const newTasks = JSON.parse(JSON.stringify(oldTasks))
                     newTasks.forEach((task) => {
                         if(task.id === taskId){
-                            // predecessorEndDate = Date.parse(task.end)
-                            // const predecessorStartDate = Date.parse(task.start)
-                            // const dayDiff = Math.abs(predecessorEndDate - predecessorStartDate) / (1000 * 3600 * 24)
-                            // console.log(dayDiff)
                             // eslint-disable-next-line no-param-reassign
                             task.end = updatedPredecessorEndDate
                             predecessorEndDate = updatedPredecessorEndDate
                             fixedEndDate = predecessorEndDate
-                            // console.log(task.start)
-                            // let updatedPredecessorStartDate = new Date(task.start)
-                            // updatedPredecessorStartDate.setDate(updatedPredecessorStartDate.getDate() - dayDiff)
-                            // updatedPredecessorStartDate = JSON.stringify(updatedPredecessorStartDate)
-                            // updatedPredecessorStartDate = updatedPredecessorStartDate.split('T')[0]
-                            // updatedPredecessorStartDate = updatedPredecessorStartDate.substring(1)
-                            // // eslint-disable-next-line no-param-reassign
-                            // task.start = updatedPredecessorStartDate
-                            // console.log(task.start)
                         }
                     });
                     return newTasks;
@@ -213,7 +200,6 @@ export default function GanttChart() {
         }
         let successorStartDate = null
         let fixedStartDate = null
-        // let successorEndDate = null
         console.log(fixedEndDate)
         if(e.values.start){
             let needChange = false
@@ -223,7 +209,6 @@ export default function GanttChart() {
             successorStartDate = successorStartDate.split('T')[0]
             fixedStartDate = successorStartDate.substring(1)
             successorStartDate += "\""
-            // const dateToInsert = successorStartDate
             successorStartDate = Date.parse(successorStartDate)
             const predecessors = []
             dependencies.forEach((dependency) => {
@@ -251,24 +236,11 @@ export default function GanttChart() {
                     const newTasks = JSON.parse(JSON.stringify(oldTasks))
                     newTasks.forEach((task) => {
                         if(task.id === taskId){
-                            console.log("Kire mama")
-                            // successorStartDate = Date.parse(task.start)
-                            // const successorEndDate = Date.parse(task.end)
-                            // const dayDiff = Math.abs(successorStartDate - successorEndDate) / (1000 * 3600 * 24)
-                            // console.log(dayDiff)
                             // eslint-disable-next-line no-param-reassign
                             task.start = updatedSuccessorStartDate
                             successorStartDate = updatedSuccessorStartDate
                             console.log(task.start)
                             fixedStartDate = successorStartDate
-                            // let updatedSuccessorEndDate = new Date(task.start)
-                            // updatedSuccessorEndDate.setDate(updatedSuccessorEndDate.getDate() + dayDiff)
-                            // updatedSuccessorEndDate = JSON.stringify(updatedSuccessorEndDate)
-                            // updatedSuccessorEndDate = updatedSuccessorEndDate.split('T')[0]
-                            // updatedSuccessorEndDate = updatedSuccessorEndDate.substring(1)
-                            // // eslint-disable-next-line no-param-reassign
-                            // task.end = updatedSuccessorEndDate
-                            // console.log(task.end)
                         }
                     });
                     return newTasks;
@@ -312,17 +284,6 @@ export default function GanttChart() {
               }
                 sendData();
         }
-        // const data = {
-        //     task_id: taskId,
-        //     last_name: lastName,
-        //     email,
-        //     mobile: mobileNo,
-        //     address,
-        //     date_of_birth: formattedDateOfBirth,
-        //     gender: formattedGender,
-        //     job: selectedJobs[0].count,
-        //     joining_date: formattedJoiningDate,
-        //    };
     }
     useEffect(() => {
         // eslint-disable-next-line prettier/prettier

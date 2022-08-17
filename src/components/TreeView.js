@@ -1,91 +1,31 @@
-/* eslint-disable import/order */
-import React from 'react';
-import Tree from './Tree/index';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import TreeItem from '@mui/lab/TreeItem';
+import TreeView from '@mui/lab/TreeView';
+import * as React from 'react';
 
-const treeData = [
- {
-  key: '0',
-  label: 'Documents',
-  icon: 'fa fa-folder',
-  title: 'Documents Folder',
-  children: [
-   {
-    key: '0-0',
-    label: 'Document 1-1',
-    icon: 'fa fa-folder',
-    title: 'Documents Folder',
-    children: [
-     {
-      key: '0-1-1',
-      label: 'Document-0-1.doc',
-      icon: 'fa fa-file',
-      title: 'Documents Folder',
-     },
-     {
-      key: '0-1-2',
-      label: 'Document-0-2.doc',
-      icon: 'fa fa-file',
-      title: 'Documents Folder',
-     },
-     {
-      key: '0-1-3',
-      label: 'Document-0-3.doc',
-      icon: 'fa fa-file',
-      title: 'Documents Folder',
-     },
-     {
-      key: '0-1-4',
-      label: 'Document-0-4.doc',
-      icon: 'fa fa-file',
-      title: 'Documents Folder',
-     },
-    ],
-   },
-  ],
- },
- {
-  key: '1',
-  label: 'Desktop',
-  icon: 'fa fa-desktop',
-  title: 'Desktop Folder',
-  children: [
-   {
-    key: '1-0',
-    label: 'document1.doc',
-    icon: 'fa fa-file',
-    title: 'Documents Folder',
-   },
-   {
-    key: '0-0',
-    label: 'documennt-2.doc',
-    icon: 'fa fa-file',
-    title: 'Documents Folder',
-   },
-  ],
- },
- {
-  key: '2',
-  label: 'Downloads',
-  icon: 'fa fa-download',
-  title: 'Downloads Folder',
-  children: [],
- },
-];
-
-function TreeList() {
+export default function MultiSelectTreeView() {
  return (
-  <div className="row">
-   <div className="col text-left">
-    <p className="mt-3">
-     <div className="row mt-3 d-flex justify-content-center">
-      <div className="col-lg-8 text-left">
-       <Tree data={treeData} />
-      </div>
-     </div>
-    </p>
-   </div>
-  </div>
+  <TreeView
+   aria-label="multi-select"
+   defaultCollapseIcon={<ExpandMoreIcon />}
+   defaultExpandIcon={<ChevronRightIcon />}
+   multiSelect
+   sx={{ height: 216, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+  >
+   <TreeItem nodeId="1" label="Applications">
+    <TreeItem nodeId="2" label="Calendar" />
+    <TreeItem nodeId="3" label="Chrome" />
+    <TreeItem nodeId="4" label="Webstorm" />
+   </TreeItem>
+   <TreeItem nodeId="5" label="Documents">
+    <TreeItem nodeId="6" label="MUI">
+     <TreeItem nodeId="7" label="src">
+      <TreeItem nodeId="8" label="index.js" />
+      <TreeItem nodeId="9" label="tree-view.js" />
+     </TreeItem>
+    </TreeItem>
+   </TreeItem>
+  </TreeView>
  );
 }
-
-export default TreeList;
