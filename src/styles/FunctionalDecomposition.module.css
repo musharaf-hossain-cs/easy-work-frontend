@@ -8,19 +8,24 @@
   align-items: start;
 }
 .dndGroup {
-  background-color: #49505e;
+  background-color: white;
   border-radius: 5px;
   padding: 0.5rem;
+  height: 100%;
+}
+
+.dndItemContainer {
+  height: calc(100% - 120px);
 }
 
 .container {
-  background-color: #282c34;
+  background-color: #f7fabb;
   display: flex;
   /* flex-direction: column;
  align-items: center;
  justify-content: center; */
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .dndItem {
@@ -38,6 +43,15 @@
 
 .alertTitle {
   position: relative;
+}
+
+.alertTask {
+  margin-bottom: 1px;
+  height: 35px;
+  line-height: 30px;
+  padding: 0px 15px;
+  text-align: center;
+  display: inline-flex;
 }
 
 .alertEdit {
