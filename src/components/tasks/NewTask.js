@@ -103,17 +103,17 @@ function Task() {
         <TextField
          // eslint-disable-next-line react/jsx-props-no-spreading
          {...params}
-         sx={{ input: { color: 'white' }, svg: { color: '#fff' } }}
+         sx={{ input: { color: 'black' }, svg: { color: 'black' } }}
          onKeyPress={(e) => {
           if (e.key === 'Enter') e.preventDefault();
          }}
          InputLabelProps={{
           sx: {
            // set the color of the label when not shrinked
-           color: 'aliceblue',
+           color: 'black',
            [`&.${inputLabelClasses.shrink}`]: {
             // set the color of the label when shrinked (usually when the TextField is focused)
-            color: 'aliceblue',
+            color: 'black',
            },
           },
          }}
@@ -153,17 +153,17 @@ function Task() {
         <TextField
          // eslint-disable-next-line react/jsx-props-no-spreading
          {...params}
-         sx={{ input: { color: 'white' }, svg: { color: '#fff' } }}
+         sx={{ input: { color: 'black' }, svg: { color: 'black' } }}
          onKeyPress={(e) => {
           if (e.key === 'Enter') e.preventDefault();
          }}
          InputLabelProps={{
           sx: {
            // set the color of the label when not shrinked
-           color: 'aliceblue',
+           color: 'black',
            [`&.${inputLabelClasses.shrink}`]: {
             // set the color of the label when shrinked (usually when the TextField is focused)
-            color: 'aliceblue',
+            color: 'black',
            },
           },
          }}

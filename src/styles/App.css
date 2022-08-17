@@ -27,6 +27,7 @@
 .BodyContent {
   display: inline-block;
   width: calc(100% - 250px);
+  background-color: #f7fabb;
   position: absolute;
   left: 250px;
   top: 65px;

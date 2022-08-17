@@ -10,3 +10,26 @@
 .btnMargin {
   margin: 5px;
 }
+
+.move-right {
+  width: 100%;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.color-blue {
+  color: blue;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.smallBtn {
+  height: 50px;
+}
+
+.addUserBtn {
+  width: 100%;
+  text-align: center;
+}
