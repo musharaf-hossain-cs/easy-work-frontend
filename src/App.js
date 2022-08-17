@@ -7,12 +7,10 @@ import SideBar from './components/SideBar';
 import AuthRoute from './routers/AuthRoute';
 import CostEstimationRoute from './routers/CostEstimateRoute';
 import DashBoardRoute from './routers/DashBoardRoute';
-import GanttRoute from './routers/GanttRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
 import NotificationRoute from './routers/NotificationRoute';
 import SpaceRoute from './routers/SpaceRoute';
-import TreeViewRoute from './routers/TreeViewRoute';
 import UserRoute from './routers/UserRoute';
 import './styles/App.css';
 import './styles/MyStyles.css';
@@ -50,10 +48,8 @@ function App() {
        <Route path="/messages/*" element={<MessageRoute />} />
        <Route path="/notifications/*" element={<NotificationRoute />} />
        <Route path="/user/*" element={<UserRoute />} />
-       <Route path="/gantt/*" element={<GanttRoute />} />
        <Route path="/spaces/*" element={<SpaceRoute />} />
        <Route path="/estimate-cost/*" element={<CostEstimationRoute />} />
-       <Route path="/tree-view/*" element={<TreeViewRoute />} />
       </Routes>
      </div>
     </Router>
