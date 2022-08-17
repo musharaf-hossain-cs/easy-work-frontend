@@ -1,22 +1,35 @@
 .App {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(60, 61, 61);
-  color: aliceblue;
+  background-color: #f7fabb;
+  color: #02052e;
+}
+
+.AppBar {
+  position: fixed;
+  width: 100%;
+  height: 65px;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .SideBarContainer {
   display: inline-block;
+  position: fixed;
+  top: 64px;
   width: 250px;
-  height: calc(100% - 65px);
-  background-color: #58657b;
+  height: 100%;
+  background-color: #8fe868;
   padding: 0;
 }
 
 .BodyContent {
   display: inline-block;
-  width: calc(100% - 300px);
+  width: calc(100% - 250px);
   position: absolute;
+  left: 250px;
+  top: 65px;
   padding-top: 30px;
   padding-left: 30px;
   margin-top: 0;
@@ -30,14 +43,14 @@
   padding: 10px;
 }
 
-.scrollable {
+.scrollable-depricated {
   height: auto;
   overflow-y: auto;
   max-height: 500px;
   width: 100%;
 }
 
-.scrollable2 {
+.scrollable2-depricated {
   height: auto;
   overflow-y: auto;
   max-height: 600px;

@@ -1,7 +1,7 @@
 .SideBar {
   height: auto;
   width: auto;
-  background-color: #58657b;
+  background-color: #8fe868;
   padding: 0;
   margin: 0;
 }
@@ -14,7 +14,8 @@
 
 .SideBarList .SideBarRow:hover {
   cursor: pointer;
-  background-color: #2e3b55;
+  background-color: #1b3815;
+  color: #ffffff;
 }
 
 .SideBarList .SideBarRow {
@@ -25,7 +26,7 @@
   padding: 0;
   display: flex;
   flex-direction: row;
-  color: white;
+  color: #02052e;
   font-size: large;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   justify-content: center;
@@ -33,7 +34,8 @@
 }
 
 #active {
-  background-color: #2e3b55;
+  background-color: #316b24;
+  color: #ffffff;
 }
 
 .SideBarRow #icon {

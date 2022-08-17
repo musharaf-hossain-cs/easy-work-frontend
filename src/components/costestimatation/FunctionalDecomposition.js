@@ -123,6 +123,8 @@ export default function FunctionalDecomposition() {
    // console.log(fetchedData);
    if (fetchedData2.success) {
     console.log('Successfully send decomposition');
+    // eslint-disable-next-line no-alert
+    alert('Successfully send decomposition');
     navigate(location.pathname, { replace: false });
    } else {
     console.log('failed in sending decomposition');

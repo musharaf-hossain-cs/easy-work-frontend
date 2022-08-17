@@ -361,7 +361,7 @@ export default function GanttChart() {
     fetchData();
    }, []);
  return (
-  <Gantt taskListWidth={500} scaleType="weeks" height={850} width={1550} 
+  <Gantt taskListWidth={350} scaleType="weeks" height={600} width={1250} 
     onDependencyDeleting={onDependencyDeleting}
     onDependencyInserted={onDependencyInserted}
     onTaskDeleted={onTaskDeleted}
