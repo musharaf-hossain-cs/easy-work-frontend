@@ -21,11 +21,11 @@ const darkTheme = createTheme({
  palette: {
   primary: {
    // Purple and green play nicely together.
-   main: '#2E3B55',
+   main: '#0c5403',
   },
   secondary: {
    // This is green.A700 as hex.
-   main: '#11cb5f',
+   main: '#363537',
   },
  },
 });
@@ -35,7 +35,10 @@ function App() {
   <div className="App">
    <ThemeProvider theme={darkTheme}>
     <Router>
-     <ButtonAppBar />
+     <div className="AppBar">
+      <ButtonAppBar />
+     </div>
+
      <div className="SideBarContainer">
       <SideBar />
      </div>
