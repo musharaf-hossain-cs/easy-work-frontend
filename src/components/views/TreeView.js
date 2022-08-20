@@ -59,7 +59,6 @@ export default function MultiSelectTreeView() {
     defaultExpandIcon={<ChevronRightIcon />}
     multiSelect
     sx={{ flexGrow: 1, overflowY: 'auto' }}
-    onClick={() => console.log('Tree clicked')}
    >
     <TreeItem nodeId="root" label="All Tasks">
      {tasks.map((task, idx) => (

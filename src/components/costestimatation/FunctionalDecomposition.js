@@ -2,7 +2,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useRef, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 // eslint-disable-next-line no-unused-vars
-import Button from 'react-bootstrap/esm/Button';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import styles from '../../styles/FunctionalDecomposition.module.css';
@@ -254,24 +255,26 @@ export default function FunctionalDecomposition() {
         <>
          <hr />
          <div className={[styles.footer, 'row'].join(' ')}>
-          <Button
-           className={[styles.btn, 'col-5'].join(' ')}
-           variant="info"
-           onClick={() =>
-            navigate(`/estimate-cost/${spaceid}/allocate/${groups[grpI].id}/details`, {
-             replace: false,
-            })
-           }
-          >
-           Details
-          </Button>
-          <Button
-           className={[styles.btn, 'col-5'].join(' ')}
-           variant="danger"
-           onClick={() => deleteCategory(grpI)}
-          >
-           Delete
-          </Button>
+          <ButtonGroup>
+           <Button
+            // className={[styles.btn, 'col-5'].join(' ')}
+            variant="info"
+            onClick={() =>
+             navigate(`/estimate-cost/${spaceid}/allocate/${groups[grpI].id}/details`, {
+              replace: false,
+             })
+            }
+           >
+            Details
+           </Button>
+           <Button
+            // className={[styles.btn, 'col-5'].join(' ')}
+            variant="danger"
+            onClick={() => deleteCategory(grpI)}
+           >
+            Delete
+           </Button>
+          </ButtonGroup>
          </div>
         </>
        )}
