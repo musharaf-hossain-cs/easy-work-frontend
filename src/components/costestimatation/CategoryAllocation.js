@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -10,6 +11,7 @@ export default function CategoryAllocation() {
  const [category, setCategory] = useState({ id: 0 });
  const [budget, setBudget] = useState(0);
  const [expectedTime, setExpectedTime] = useState(0);
+ const [estimatedEffort, setEstimatedEffort] = useState(0);
  const [manHourPerWeek, setManHourPerWeek] = useState(0);
  const [totalWage, setTotalWage] = useState(0);
 
@@ -121,7 +123,13 @@ export default function CategoryAllocation() {
       <Form.Control type="text" value={category.category_name} disabled />
      </Form.Group>
 
-     <Form.Group className="mb-3 col-6" controlId="allocateBudgetField">
+     <Form.Group className="mb-3 col-3" controlId="PredictedBudgetField">
+      <Form.Label>Budget Prediction </Form.Label>
+      <Form.Control type="text" value={10000} disabled />
+      {/* <Form.Control type="text" value={category.predicted_budget} disabled /> */}
+     </Form.Group>
+
+     <Form.Group className="mb-3 col-3" controlId="allocateBudgetField">
       <Form.Label>Allocate Budget</Form.Label>
       <Form.Control
        type="text"
@@ -134,13 +142,28 @@ export default function CategoryAllocation() {
       />
      </Form.Group>
 
-     <Form.Group className="mb-3 col-6" controlId="expectedTimeField">
+     <Form.Group className="mb-3 col-3" controlId="expectedTimeField">
       <Form.Label>Expected Time</Form.Label>
       <Form.Control
        type="text"
        placeholder="Expected Time (in week)"
+       disabled
        value={expectedTime}
-       onChange={(e) => setExpectedTime(e.target.value)}
+       // onChange={(e) => setExpectedTime(e.target.value)}
+       onKeyPress={(e) => {
+        if (e.key === 'Enter') e.preventDefault();
+       }}
+      />
+     </Form.Group>
+
+     <Form.Group className="mb-3 col-3" controlId="estimatedEffortField">
+      <Form.Label>EstimatedEffort</Form.Label>
+      <Form.Control
+       type="text"
+       placeholder="Estimated Effort (man hour)"
+       disabled
+       value={estimatedEffort}
+       // onChange={(e) => setExpectedTime(e.target.value)}
        onKeyPress={(e) => {
         if (e.key === 'Enter') e.preventDefault();
        }}
