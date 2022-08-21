@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/esm/Button';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import styles from '../../styles/NewCategoryPopup.module.css';
+import Modal from 'react-bootstrap/Modal';
 
 function NewCategoryPopup(props) {
- // eslint-disable-next-line no-unused-vars
  const { showPopup, saveCategory, value } = props;
  const [title, setTitle] = useState(value);
  const handleTitleChange = (e) => {
@@ -12,42 +11,40 @@ function NewCategoryPopup(props) {
  };
 
  return (
-  <div className={styles.modalBackground}>
-   <div className={styles.modalContainer}>
-    <div className={styles.title}>
-     <h2>New Category</h2>
-    </div>
-    <div className={[styles.body, 'container'].join(' ')}>
-     <Form className="row">
-      <Form.Group className="mb-3 col-12" controlId="spaceName">
-       <Form.Control
-        type="text"
-        value={title}
-        size="lg"
-        placeholder="Category Title"
-        onChange={handleTitleChange}
-        onKeyPress={(e) => {
-         if (e.key === 'Enter') e.preventDefault();
-        }}
-       />
-      </Form.Group>
-     </Form>
-    </div>
-    <div className={styles.footer}>
-     <Button
-      onClick={() => {
-       saveCategory(title);
-       showPopup(false);
-      }}
-     >
-      Save
-     </Button>
-     <Button onClick={() => showPopup(false)} id={styles.cancelBtn}>
-      Cancel
-     </Button>
-    </div>
-   </div>
-  </div>
+  <Modal show onHide={() => showPopup(false)} centered>
+   <Modal.Header closeButton>
+    <Modal.Title> New Category </Modal.Title>
+   </Modal.Header>
+   <Modal.Body>
+    <Form>
+     <Form.Group className="mb-3" controlId="spaceName">
+      <Form.Control
+       type="text"
+       value={title}
+       size="lg"
+       placeholder="Category Title"
+       onChange={handleTitleChange}
+       onKeyPress={(e) => {
+        if (e.key === 'Enter') e.preventDefault();
+       }}
+      />
+     </Form.Group>
+    </Form>
+   </Modal.Body>
+   <Modal.Footer>
+    <Button variant="secondary" onClick={() => showPopup(false)}>
+     Cancel
+    </Button>
+    <Button
+     onClick={() => {
+      saveCategory(title);
+      showPopup(false);
+     }}
+    >
+     Save Category
+    </Button>
+   </Modal.Footer>
+  </Modal>
  );
 }
 

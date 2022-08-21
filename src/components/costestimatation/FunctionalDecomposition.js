@@ -1,8 +1,9 @@
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useRef, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
-import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/esm/Button';
+// eslint-disable-next-line no-unused-vars
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import styles from '../../styles/FunctionalDecomposition.module.css';
@@ -219,58 +220,79 @@ export default function FunctionalDecomposition() {
          : null
        }
       >
-       <Alert className={styles.alert}>
+       <Alert className={styles.alert} variant="dark">
         <div className={styles.alertTitle}>{grp.title}</div>{' '}
         <div className={styles.alertEdit}>
          {grp.title !== 'Unlisted' && <EditIcon onClick={(e) => editCategoryTitle(e, grpI)} />}
         </div>
        </Alert>
-       {grp.tasks.map((task, taskI) => (
-        <div
-         draggable
-         key={taskI}
-         className={styles.dndItem}
-         onDragStart={(e) => handleDragStart(e, { grpI, taskI })}
-         onDragEnter={
-          dragging
-           ? (e) => {
-              handleDragEnter(e, { grpI, taskI });
-             }
-           : null
-         }
-        >
-         <Badge bg="secondary">{task.title}</Badge>
-        </div>
-       ))}
-       <hr />
-       {grp.title !== 'Unlisted' && (
-        <div className={[styles.footer, 'row'].join(' ')}>
-         <Button
-          className={[styles.btn, 'col-5'].join(' ')}
-          variant="light"
-          onClick={() =>
-           navigate(`/estimate-cost/${spaceid}/allocate/${groups[grpI].id}/details`, {
-            replace: false,
-           })
+       <div className={styles.dndItemContainer}>
+        {grp.tasks.map((task, taskI) => (
+         <div
+          draggable
+          key={taskI}
+          className={styles.dndItem}
+          onDragStart={(e) => handleDragStart(e, { grpI, taskI })}
+          onDragEnter={
+           dragging
+            ? (e) => {
+               handleDragEnter(e, { grpI, taskI });
+              }
+            : null
           }
          >
-          Details
-         </Button>
-         <Button
-          className={[styles.btn, 'col-5'].join(' ')}
-          variant="light"
-          onClick={() => deleteCategory(grpI)}
-         >
-          Delete
-         </Button>
-        </div>
+          {/* <Badge bg="success" text="dark">
+          {task.title}
+         </Badge> */}
+          <Alert className={styles.alertTask} variant="success">
+           {task.title}
+          </Alert>
+         </div>
+        ))}
+       </div>
+
+       {grp.title !== 'Unlisted' && (
+        <>
+         <hr />
+         <div className={[styles.footer, 'row'].join(' ')}>
+          <ButtonGroup>
+           <Button
+            // className={[styles.btn, 'col-5'].join(' ')}
+            variant="info"
+            onClick={() =>
+             navigate(`/estimate-cost/${spaceid}/allocate/${groups[grpI].id}/details`, {
+              replace: false,
+             })
+            }
+           >
+            Details
+           </Button>
+           <Button
+            // className={[styles.btn, 'col-5'].join(' ')}
+            variant="danger"
+            onClick={() => deleteCategory(grpI)}
+           >
+            Delete
+           </Button>
+          </ButtonGroup>
+         </div>
+        </>
        )}
       </div>
      ))}
     </div>
    </div>
-   <Button onClick={() => setPopup(true)}>New Category</Button>
-   <Button onClick={saveDecomposition}>Save Decomposition</Button>
+   <hr />
+   <div className="decomposeBtn">
+    <Button variant="success" onClick={() => setPopup(true)}>
+     New Category
+    </Button>
+    <span color="white">...</span>
+    <Button variant="success" onClick={saveDecomposition}>
+     Save Decomposition
+    </Button>
+   </div>
+
    {popup && <NewCategoryPopup value="" showPopup={setPopup} saveCategory={newCategory} />}
    {popupEdit && (
     <NewCategoryPopup

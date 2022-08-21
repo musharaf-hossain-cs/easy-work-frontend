@@ -17,7 +17,7 @@ import Gantt, {
     Validation
 } from 'devextreme-react/gantt';
 
-import fetchBackendJSON from '../actions/Fetch';
+import fetchBackendJSON from '../../actions/Fetch';
 
 export default function GanttChart() {
     const { spaceid } = useParams();

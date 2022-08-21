@@ -24,6 +24,7 @@
   },
   "plugins": ["prettier", "react", "react-hooks"],
   "rules": {
+    "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "react/no-array-index-key": 0,
     "react/react-in-jsx-scope": 0,
@@ -40,8 +41,7 @@
         "extensions": [".js", ".jsx"]
       }
     ],
-    "prettier/prettier": 
-    [
+    "prettier/prettier": [
       "error",
       {
         "trailingComma": "es5",

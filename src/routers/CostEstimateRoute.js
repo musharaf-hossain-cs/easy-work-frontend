@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import CategoryAllocation from '../components/costestimatation/CategoryAllocation';
 import EstimationSummary from '../components/costestimatation/EstimationSummary';
@@ -12,15 +13,26 @@ function AuthRoute() {
 
  return (
   <div>
-   <Button onClick={() => navigate(`/estimate-cost/${spaceid}/summary`, { replace: false })}>
-    Summary
-   </Button>
-   <Button onClick={() => navigate(`/estimate-cost/${spaceid}/allocate`, { replace: false })}>
-    Allocate
-   </Button>
-   <Button onClick={() => navigate(`/estimate-cost/${spaceid}/decompose`, { replace: false })}>
-    Decompose
-   </Button>
+   <ButtonGroup>
+    <Button
+     variant="success"
+     onClick={() => navigate(`/estimate-cost/${spaceid}/summary`, { replace: false })}
+    >
+     Summary
+    </Button>
+    <Button
+     variant="success"
+     onClick={() => navigate(`/estimate-cost/${spaceid}/allocate`, { replace: false })}
+    >
+     Allocate
+    </Button>
+    <Button
+     variant="success"
+     onClick={() => navigate(`/estimate-cost/${spaceid}/decompose`, { replace: false })}
+    >
+     Decompose
+    </Button>
+   </ButtonGroup>
    <Routes>
     <Route path=":spaceid/summary/" element={<EstimationSummary />} />
     <Route path=":spaceid/allocate/" element={<CategoryAllocation />} />

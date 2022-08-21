@@ -14,14 +14,6 @@ function Space() {
  // eslint-disable-next-line prefer-const
  let tempTasks = [];
 
- const newTask = () => {
-  navigate(`/spaces/${spaceid}/new-task`, { replace: false });
- };
-
- const goToGanttView = () => {
-  navigate(`/spaces/${spaceid}/ganttview`, { replace: false });
- };
-
  useEffect(() => {
   let fetchedData;
   async function fetchData() {
@@ -82,14 +74,29 @@ function Space() {
   <div className="scrollable2">
    <h1 align="center">SpaceID: {spaceid}</h1>
    <hr />
-   <Button variant="light" margin-right="10px" onClick={newTask}>
+   <Button
+    variant="light"
+    margin-right="10px"
+    onClick={() => navigate(`/spaces/${spaceid}/new-task`, { replace: false })}
+   >
     Add Task
    </Button>
    <Button variant="light" margin-right="10px" onClick={assignUser}>
     Assign User
    </Button>
-   <Button variant="light" margin-right="10px" onClick={goToGanttView}>
+   <Button
+    variant="light"
+    margin-right="10px"
+    onClick={() => navigate(`/spaces/${spaceid}/ganttview`, { replace: false })}
+   >
     View Gantt Chart
+   </Button>
+   <Button
+    variant="light"
+    margin-right="10px"
+    onClick={() => navigate(`/spaces/${spaceid}/treeview`, { replace: false })}
+   >
+    Tree View
    </Button>
    <hr />
    <h3>All Tasks</h3>
