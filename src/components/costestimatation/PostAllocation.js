@@ -48,7 +48,7 @@ export default function PostAllocation(props) {
     <Form.Group className="mb-3 col-3" controlId="wageField">
      <Form.Control
       type="text"
-      placeholder="Wages per week"
+      placeholder="Wage per hour"
       value={wage}
       onChange={(e) => wageChange(e.target.value)}
       onKeyPress={(e) => {

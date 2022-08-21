@@ -40,3 +40,20 @@
   display: flex;
   justify-content: center;
 }
+
+.whitetext {
+  color: white;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.CostCardAlert {
+  margin: 0;
+}
+
+.CostCartHeader {
+  padding: 0;
+  margin: 0;
+}

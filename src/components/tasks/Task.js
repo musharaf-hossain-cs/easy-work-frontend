@@ -104,8 +104,9 @@ function Task() {
  }, []);
 
  return (
-  <div className="mycontainer container scrollable2">
+  <div className="mycontainer container">
    <TaskDetailList spaceid={spaceid} taskid={taskid} taskDetailList={taskDetails} />
+   {/* <TaskDetail spaceid={spaceid} taskid={taskid} taskDetails={taskDetails} /> */}
    <hr />
    <h3>All SubTasks</h3>
    <TasksInTable tasks={tasks} rowPerPage={3} toTaskSet={setToTask} />
