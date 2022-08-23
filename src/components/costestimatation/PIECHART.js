@@ -18,7 +18,7 @@ function customizeText(arg) {
 
 export default function PIECHART() {
  return (
-  <PieChart id="pie" palette="Bright" dataSource={dataSource} title="Olympic Medals in 2008" className='col-6'>
+  <PieChart id="pie" palette="Bright" dataSource={dataSource} title="Olympic Medals in 2008">
    <Legend
     orientation="horizontal"
     itemTextPosition="right"
