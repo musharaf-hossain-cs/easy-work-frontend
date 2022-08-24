@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Chart, Series } from 'devextreme-react/chart';
-import { dataSource } from './data';
+import { dataSource } from './dashboard/data';
 
 export default function BarChart() {
  return (

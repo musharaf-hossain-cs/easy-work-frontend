@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import BarChart from './dashboard/BarChart';
+import BarChart from './BarChart';
 import Budget from './dashboard/Budget';
 import PIECHART from './dashboard/PIECHART';
 import CollapsibleTable from './dashboard/TaskTable';
