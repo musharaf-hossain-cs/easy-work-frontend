@@ -10,6 +10,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
+import PIECHART from './PIECHART';
 
 const columns = [
  'Category',
@@ -52,6 +53,7 @@ export default function Home() {
 
  return (
   <div className="mycontainer">
+   <PIECHART />
    <Paper className="estimationSummaryTable">
     <TableContainer sx={{ maxHeight: 440 }}>
      <Table stickyHeader aria-label="sticky table">

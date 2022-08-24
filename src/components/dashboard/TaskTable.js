@@ -13,14 +13,13 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import * as React from 'react';
+import { useState } from 'react';
 
-function createData(name, calories, fat, carbs, protein, price) {
+function createData(name, calories, fat, price) {
  return {
   name,
   calories,
   fat,
-  carbs,
-  protein,
   price,
   history: [
    {
@@ -40,6 +39,8 @@ function createData(name, calories, fat, carbs, protein, price) {
 function Row(props) {
  const { row } = props;
  const [open, setOpen] = React.useState(false);
+ // eslint-disable-next-line no-unused-vars
+ const [allocatedBudget, setAllocatedBudget] = useState('960');
 
  return (
   <>
@@ -52,42 +53,21 @@ function Row(props) {
     <TableCell component="th" scope="row">
      {row.name}
     </TableCell>
-    <TableCell align="right">{row.calories}</TableCell>
-    <TableCell align="right">{row.fat}</TableCell>
-    <TableCell align="right">{row.carbs}</TableCell>
-    <TableCell align="right">{row.protein}</TableCell>
+    <TableCell align="left">{row.calories}</TableCell>
+    <TableCell align="left">{row.fat}</TableCell>
+    {/* <TableCell align="right">{row.carbs}</TableCell>
+    <TableCell align="right">{row.protein}</TableCell> */}
    </TableRow>
    <TableRow>
     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
      <Collapse in={open} timeout="auto" unmountOnExit>
       <Box sx={{ margin: 1 }}>
        <Typography variant="h6" gutterBottom component="div">
-        History
+        Description of the Project:
        </Typography>
-       <Table size="small" aria-label="purchases">
-        <TableHead>
-         <TableRow>
-          <TableCell>Date</TableCell>
-          <TableCell>Customer</TableCell>
-          <TableCell align="right">Amount</TableCell>
-          <TableCell align="right">Total price ($)</TableCell>
-         </TableRow>
-        </TableHead>
-        <TableBody>
-         {row.history.map((historyRow) => (
-          <TableRow key={historyRow.date}>
-           <TableCell component="th" scope="row">
-            {historyRow.date}
-           </TableCell>
-           <TableCell>{historyRow.customerId}</TableCell>
-           <TableCell align="right">{historyRow.amount}</TableCell>
-           <TableCell align="right">
-            {Math.round(historyRow.amount * row.price * 100) / 100}
-           </TableCell>
-          </TableRow>
-         ))}
-        </TableBody>
-       </Table>
+       <Typography variant="h6" gutterBottom component="div">
+        Total Allocated Cost on the Project: ${allocatedBudget}
+       </Typography>
       </Box>
      </Collapse>
     </TableCell>
@@ -99,7 +79,7 @@ function Row(props) {
 Row.propTypes = {
  row: PropTypes.shape({
   calories: PropTypes.number.isRequired,
-  carbs: PropTypes.number.isRequired,
+  // carbs: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,
   history: PropTypes.arrayOf(
    PropTypes.shape({
@@ -110,16 +90,16 @@ Row.propTypes = {
   ).isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  protein: PropTypes.number.isRequired,
+  //  protein: PropTypes.number.isRequired,
  }).isRequired,
 };
 
 const rows = [
- createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
- createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
- createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
- createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
- createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
+ createData('Frozen yoghurt', 159, 6.0),
+ createData('Ice cream sandwich', 237, 9.0),
+ createData('Eclair', 262, 16.0),
+ createData('Cupcake', 305, 3.7),
+ createData('Gingerbread', 356, 16.0),
 ];
 
 export default function CollapsibleTable() {
@@ -129,11 +109,15 @@ export default function CollapsibleTable() {
     <TableHead>
      <TableRow>
       <TableCell />
-      <TableCell>Dessert (100g serving)</TableCell>
-      <TableCell align="right">Calories</TableCell>
-      <TableCell align="right">Fat&nbsp;(g)</TableCell>
-      <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-      <TableCell align="right">Protein&nbsp;(g)</TableCell>
+      <TableCell className="col-4">Project Name</TableCell>
+      <TableCell align="left" className="col-4">
+       Start Date
+      </TableCell>
+      <TableCell align="left" className="col-4">
+       End Date&nbsp;
+      </TableCell>
+      {/* <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+      <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
      </TableRow>
     </TableHead>
     <TableBody>
