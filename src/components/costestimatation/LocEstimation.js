@@ -5,7 +5,7 @@ import LocCard from './LocCard';
 
 // const formData = [];
 
-function LocEstimation({ groups }) {
+function LocEstimation({ groups, setStep }) {
  // useEffect(() => {
  //  groups.forEach((group) => {
  //   formData.push({
@@ -19,6 +19,7 @@ function LocEstimation({ groups }) {
 
  const nextPage = () => {
   console.log('Continue button clicked');
+  setStep(3);
   // console.log(formData);
  };
 

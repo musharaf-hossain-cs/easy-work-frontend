@@ -11,7 +11,7 @@ const deletedCat = [];
 const modifiedCat = [];
 const createdCat = [];
 
-export default function FunctionalDecomposition({ ExistingGroups, setDecomposed }) {
+export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
  const [groups, setGroups] = useState(ExistingGroups);
  const [dragging, setDragging] = useState(false);
  const [popup, setPopup] = useState(false);
@@ -120,8 +120,8 @@ export default function FunctionalDecomposition({ ExistingGroups, setDecomposed 
    // console.log(fetchedData);
    if (fetchedData2.success) {
     console.log('Successfully send decomposition');
+    setStep(1);
     // navigate(`/estimate-cost/${spaceid}/loc`, { replace: false });
-    setDecomposed(true);
    } else {
     console.log('failed in sending decomposition');
    }
@@ -279,7 +279,7 @@ export default function FunctionalDecomposition({ ExistingGroups, setDecomposed 
     </Button>
     <span color="white">...</span>
     <Button variant="success" onClick={saveDecomposition}>
-     Save Decomposition
+     Continue
     </Button>
    </div>
 

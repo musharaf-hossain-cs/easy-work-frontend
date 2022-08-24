@@ -1,14 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
+import ChooseEstimationModel from './ChooseEstimationModel';
+import EmployeeWage from './EmployeeWage';
+import EstimationSummary from './EstimationSummary';
 import FunctionalDecomposition from './FunctionalDecomposition';
 import LocEstimation from './LocEstimation';
+import MakeAllocation from './MakeAllocation';
+import MakeEstimation from './MakeEstimation';
+import VisualizeEstimation from './VisualizeEstimation';
 
 function CostEstimation() {
  const [groups, setGroups] = useState([{ title: 'Unlisted', tasks: [] }]);
  // eslint-disable-next-line no-unused-vars
- const [locEstimated, setLocEstimated] = useState(false);
- const [decomposed, setDecomposed] = useState(false);
+ const [step, setStep] = useState(0);
 
  const { spaceid } = useParams();
 
@@ -32,10 +38,14 @@ function CostEstimation() {
 
  return (
   <div>
-   {!decomposed && (
-    <FunctionalDecomposition ExistingGroups={groups} setDecomposed={setDecomposed} />
-   )}
-   {decomposed && !locEstimated && <LocEstimation groups={groups} />}
+   {step === 0 && <FunctionalDecomposition ExistingGroups={groups} setStep={setStep} />}
+   {step === 1 && <ChooseEstimationModel setStep={setStep} />}
+   {step === 2 && <LocEstimation groups={groups} setStep={setStep} />}
+   {step === 3 && <EmployeeWage setStep={setStep} categories={groups} />}
+   {step === 4 && <MakeEstimation setStep={setStep} />}
+   {step === 5 && <VisualizeEstimation setStep={setStep} />}
+   {step === 6 && <MakeAllocation setStep={setStep} />}
+   {step === 7 && <EstimationSummary setStep={setStep} />}
   </div>
  );
 }

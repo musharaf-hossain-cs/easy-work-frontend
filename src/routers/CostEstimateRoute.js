@@ -16,6 +16,15 @@ function AuthRoute() {
    <ButtonGroup>
     <Button
      variant="success"
+     onClick={() => {
+      window.location.reload(true);
+      // navigate(`/estimate-cost/${spaceid}/estimate`, { replace: false });
+     }}
+    >
+     Reload
+    </Button>
+    <Button
+     variant="success"
      onClick={() => navigate(`/estimate-cost/${spaceid}/estimate`, { replace: false })}
     >
      Estimate
