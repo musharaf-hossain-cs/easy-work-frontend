@@ -5,7 +5,7 @@ import LocCard from './LocCard';
 
 // const formData = [];
 
-function LocEstimation({ groups, setStep }) {
+function LocEstimation({ categories, setStep }) {
  // useEffect(() => {
  //  groups.forEach((group) => {
  //   formData.push({
@@ -16,12 +16,6 @@ function LocEstimation({ groups, setStep }) {
  //   });
  //  });
  // }, []);
-
- const nextPage = () => {
-  console.log('Continue button clicked');
-  setStep(3);
-  // console.log(formData);
- };
 
  // const locSet = (idx, value) => {
  //  console.log('locset: ', value);
@@ -40,13 +34,13 @@ function LocEstimation({ groups, setStep }) {
  return (
   <div className="container">
    <h2 className="alignCenter">LOC Estimate</h2>
-   {groups.map(
-    (group, grpI) =>
-     group.title !== 'Unlisted' && (
+   {categories.map(
+    (category, grpI) =>
+     category.title !== 'Unlisted' && (
       <>
        <LocCard
         key={grpI}
-        group={group}
+        category={category}
         // grpI={grpI}
         // locSet={locSet}
         // costSet={costSet}
@@ -64,7 +58,7 @@ function LocEstimation({ groups, setStep }) {
     </div>
 
     <div className="col-6">
-     <Button variant="success" onClick={nextPage} className="m-1 w-100">
+     <Button variant="success" onClick={() => setStep(3)} className="m-1 w-100">
       Continue
      </Button>
     </div>
