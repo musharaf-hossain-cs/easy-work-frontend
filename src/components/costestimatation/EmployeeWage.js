@@ -95,6 +95,18 @@ function EmployeeWage({ setStep, categories }) {
    console.log(fetchedData);
    setCategory(() => {
     const newCat = JSON.parse(JSON.stringify(fetchedData.data));
+    setEffort(newCat.man_hour_per_week);
+    // let newWage = 0;
+    let newEffort = 0;
+    // let newTotalWage = 0;
+    newCat.allocated_members.forEach((mem, key) => {
+     // newWage = mem.wage;
+     newEffort = mem.count * mem.weekly_effort;
+     setAllWages([...allWages, { id: key, wage: mem.wage }]);
+     setAllEfforts([...allEfforts, { id: key, effort: newEffort }]);
+     // newTotalWage += newWage;
+    });
+    // setTotalWage(newWage);
     return newCat;
    });
   }
@@ -108,26 +120,50 @@ function EmployeeWage({ setStep, categories }) {
  };
 
  const saveData = () => {
-  const users = [];
-
-  category.allocated_members.forEach((job, idx) => {
-   job.users.forEach((id) => {
-    const user = {
-     user_id: id,
-     effort: allEfforts[idx].effort / job.count,
-     wage: allWages[idx].wage,
-    };
-    users.push(user);
-   });
-  });
-
-  const data = {
-   category_id: categoryid,
-   total_wage_per_week: totalWage,
-   total_effort_per_week: effort,
-   users,
+  let fetchedData;
+  let data = {
+   man_hour_per_week: effort,
   };
-  console.log('Data to save: ', data);
+
+  async function updateUserTaskMap(sendData) {
+   console.log('Data to update UserTaskMap: ', sendData);
+   fetchedData = await fetchBackendJSON(`costEstm/updateUserTaskMap`, 'POST', data);
+   console.log('updateCategory: ', fetchedData);
+   if (fetchedData.success) {
+    console.log('Successfully updated UserTaskMap');
+   } else {
+    console.log('UserTaskMap Update failed!');
+   }
+  }
+
+  async function updateCategory() {
+   console.log('Data to update Category: ', data);
+   fetchedData = await fetchBackendJSON(`costEstm/updateFuncCat/${categoryid}`, 'PATCH', data);
+   console.log('updateCategory: ', fetchedData);
+   if (fetchedData.man_hour_per_week === data.man_hour_per_week) {
+    const users = [];
+    console.log('allocated_members: ', category.allocated_members, allEfforts, allWages);
+    category.allocated_members.forEach((job, idx) => {
+     job.users.forEach((id) => {
+      const user = {
+       user_id: id,
+       effort: allEfforts[idx].effort / job.count,
+       wage: allWages[idx].wage,
+      };
+      users.push(user);
+     });
+    });
+
+    data = {
+     category_id: categoryid,
+     users,
+    };
+    updateUserTaskMap(data);
+   } else {
+    console.log('Category Update Failed');
+   }
+  }
+  updateCategory();
  };
 
  return (
@@ -151,6 +187,7 @@ function EmployeeWage({ setStep, categories }) {
      </Form.Select>
     </Form.Group>
    </Form>
+
    <Form className="row">
     <Form.Group className="mb-3 w-50" controlId="PredictedBudgetField">
      <Form.Label>
@@ -159,6 +196,7 @@ function EmployeeWage({ setStep, categories }) {
      <Form.Control type="text" value={effort} disabled />
      {/* <Form.Control type="text" value={category.predicted_budget} disabled /> */}
     </Form.Group>
+
     <Form.Group className="mb-3 w-50" controlId="PredictedBudgetField">
      <Form.Label>
       <strong> Total Wage ($/week)</strong>
@@ -171,6 +209,8 @@ function EmployeeWage({ setStep, categories }) {
     <PostAllocation
      id={memberIdx}
      empCount={member.count}
+     prevWage={member.wage}
+     prevEffort={member.weekly_effort}
      editEffort={editEffort}
      editWage={editWage}
     >

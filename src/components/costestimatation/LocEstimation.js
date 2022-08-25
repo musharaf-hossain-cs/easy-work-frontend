@@ -57,9 +57,17 @@ function LocEstimation({ groups, setStep }) {
      )
    )}
    <div className="row">
-    <Button variant="success" onClick={nextPage} className="col-12">
-     Continue
-    </Button>
+    <div className="col-6">
+     <Button variant="success" onClick={() => setStep(1)} className="m-1 w-100">
+      Back
+     </Button>
+    </div>
+
+    <div className="col-6">
+     <Button variant="success" onClick={nextPage} className="m-1 w-100">
+      Continue
+     </Button>
+    </div>
    </div>
    <hr />
   </div>

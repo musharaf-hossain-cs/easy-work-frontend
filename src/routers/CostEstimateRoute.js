@@ -9,7 +9,7 @@ import EstimationSummary from '../components/costestimatation/EstimationSummary'
 function AuthRoute() {
  // eslint-disable-next-line no-unused-vars
  const navigate = useNavigate();
- const spaceid = 4;
+ const spaceid = 1;
 
  return (
   <div>
