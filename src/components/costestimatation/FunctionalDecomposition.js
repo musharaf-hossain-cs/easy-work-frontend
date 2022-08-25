@@ -274,11 +274,10 @@ export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
    </div>
    <hr />
    <div className="decomposeBtn">
-    <Button variant="success" onClick={() => setPopup(true)}>
+    <Button variant="success" onClick={() => setPopup(true)} style={{ margin: '5px' }}>
      New Category
     </Button>
-    <span color="white">...</span>
-    <Button variant="success" onClick={saveDecomposition}>
+    <Button variant="success" onClick={saveDecomposition} style={{ margin: '5px' }}>
      Continue
     </Button>
    </div>

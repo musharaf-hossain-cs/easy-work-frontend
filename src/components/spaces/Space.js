@@ -98,6 +98,13 @@ function Space() {
    >
     Tree View
    </Button>
+   <Button
+    variant="light"
+    margin-right="10px"
+    onClick={() => navigate(`/spaces/${spaceid}/dependency-graph`, { replace: false })}
+   >
+    Dependency Graph
+   </Button>
    <hr />
    <h3>All Tasks</h3>
    <TasksInTable tasks={tasks} rowPerPage={5} toTaskSet={tempFunction} />

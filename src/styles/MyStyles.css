@@ -47,6 +47,9 @@
 
 .alignCenter {
   text-align: center;
+  align-self: center;
+  align-items: center;
+  align-content: center;
 }
 
 .CostCardAlert {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import NewSpace from '../components/spaces/NewSpace';
+import ShowDependencyGraph from '../components/spaces/ShowDependencyGraph';
 import Space from '../components/spaces/Space';
 import Spaces from '../components/spaces/Spaces';
 import NewTask from '../components/tasks/NewTask';
@@ -13,7 +13,6 @@ function SpaceRoute() {
  return (
   <Routes>
    <Route path="*" element={<Spaces />} />
-   <Route path="new-space/*" element={<NewSpace />} />
    <Route path=":spaceid/*" element={<Space />} />
    <Route path=":spaceid/tasks/*" element={<Space />} />
    <Route path=":spaceid/tasks/:taskid/*" element={<Task />} />
@@ -23,6 +22,7 @@ function SpaceRoute() {
    <Route path=":spaceid/ganttview/*" element={<GanttChart />} />
    <Route path=":spaceid/treeview/*" element={<TreeView />} />
    <Route path=":spaceid/assign-member/*" element={<AddUser />} />
+   <Route path=":spaceid/dependency-graph/*" element={<ShowDependencyGraph />} />
   </Routes>
  );
 }

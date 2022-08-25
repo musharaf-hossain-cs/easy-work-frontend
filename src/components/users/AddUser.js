@@ -143,11 +143,10 @@ function AddUser() {
    )}
 
    <div className="addUserBtn">
-    <Button variant="success" onClick={assignMembers}>
+    <Button className="m-2" variant="success" onClick={assignMembers}>
      Assign Members
     </Button>
-    <span color="white">..</span>
-    <Button variant="danger" onClick={clearSelection}>
+    <Button className="m-2" variant="danger" onClick={clearSelection}>
      Clear Members
     </Button>
    </div>

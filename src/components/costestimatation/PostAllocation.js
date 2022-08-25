@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 export default function PostAllocation(props) {
  // eslint-disable-next-line no-unused-vars
  const { children, empCount, editEffort, editWage, id } = props;
- const [effort, setEffort] = useState(0);
+ const [effort, setEffort] = useState();
  const [wage, setWage] = useState();
 
  const effortChange = (value) => {
@@ -15,7 +15,7 @@ export default function PostAllocation(props) {
 
  const wageChange = (value) => {
   setWage(value);
-  editWage(id, value, effort, empCount);
+  editWage(id, value);
  };
 
  return (

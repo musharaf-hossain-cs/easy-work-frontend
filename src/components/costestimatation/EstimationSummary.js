@@ -8,6 +8,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import PIECHART from './PIECHART';
@@ -21,7 +22,7 @@ const columns = [
  'Expected Time',
 ];
 
-export default function Home() {
+export default function EstimationSummary({ setStep }) {
  // eslint-disable-next-line no-unused-vars
  const navigate = useNavigate();
  const rowPerPage = 10;
@@ -93,6 +94,11 @@ export default function Home() {
      onRowsPerPageChange={handleChangeRowsPerPage}
     />
    </Paper>
+   <div className="alignCenter">
+    <Button className="m-1" onClick={() => setStep(6)}>
+     Back
+    </Button>
+   </div>
   </div>
  );
 }
