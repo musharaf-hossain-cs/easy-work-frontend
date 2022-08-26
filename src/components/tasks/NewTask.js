@@ -12,16 +12,24 @@ import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 
 const formatDate = (date) =>
- [date.getFullYear(), date.getMonth() + 1, date.getDate() + 1].join('-');
+ [date.getFullYear(), date.getMonth() + 1, date.getDate() - 1].join('-');
 
 function Task() {
- const [startDate, setStartDate] = useState(null);
- const [endDate, setEndDate] = useState(null);
  const [attachments, setAttachments] = useState([]);
  const [title, setTitle] = useState('');
  const [priority, setPriority] = useState(0);
  // const [parent, setParent] = useState(null);
  const [description, setDescription] = useState('');
+
+ let today = new Date();
+ const dd = String(today.getDate()).padStart(2, '0');
+ const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+ const yyyy = today.getFullYear();
+
+ today = `${mm}/${dd}/${yyyy}`;
+
+ const [startDate, setStartDate] = useState(today);
+ const [endDate, setEndDate] = useState(today);
 
  const navigate = useNavigate();
 
@@ -38,8 +46,8 @@ function Task() {
    project_id: spaceid,
    title,
    description,
-   start_time: formatDate(startDate),
-   end_time: formatDate(endDate),
+   start_time: formatDate(new Date(startDate)),
+   end_time: formatDate(new Date(endDate)),
    status: 'Not Started',
    slack_time: 0,
   };
@@ -174,7 +182,7 @@ function Task() {
     </Form.Group>
 
     <Form.Group className="mb-3 col-6" controlId="formPriority">
-     <Form.Label>Priority </Form.Label>
+     <Form.Label>Complexity </Form.Label>
      <Form.Select
       aria-label="Default select example"
       value={priority}

@@ -8,18 +8,6 @@ import UserList from '../users/UserList';
 import TaskDetailList from './TaskDetailList';
 import TasksInTable from './TasksInTable';
 
-// const taskDets = {
-//  title: 'Design home page',
-//  description: 'Home page design using react.js',
-//  priority: 'low',
-//  startDate: new Date('June 19, 2022'),
-//  endDate: new Date('July 15, 2022'),
-//  createDate: new Date('June 9, 2022'),
-//  status: 'active',
-//  attachments: ['requirements.pdf', 'resources.zip'],
-//  comments: ['comment-id1', 'comment-id2', 'comment-id3'],
-// };
-
 function Task() {
  const { taskid, spaceid } = useParams();
  const navigate = useNavigate();
@@ -103,26 +91,46 @@ function Task() {
   fetchData();
  }, []);
 
+ const deleteTask = () => {
+  async function sendData() {
+   const res = await fetchBackendJSON(`project/deleteTask/${taskid}`, 'GET');
+   console.log(res);
+   navigate(`/spaces/${spaceid}/tasks`);
+  }
+  sendData();
+ };
+
  return (
   <div className="mycontainer container">
    <TaskDetailList spaceid={spaceid} taskid={taskid} taskDetailList={taskDetails} />
    {/* <TaskDetail spaceid={spaceid} taskid={taskid} taskDetails={taskDetails} /> */}
-   <hr />
-   <h3>All SubTasks</h3>
-   <TasksInTable tasks={tasks} rowPerPage={3} toTaskSet={setToTask} />
-   <hr />
    <Button
-    variant="light"
+    variant="primary"
+    style={{ margin: '5px' }}
+    onClick={() => navigate(`/spaces/${spaceid}/tasks/${taskid}/edit-task`, { replace: false })}
+   >
+    Edit Task
+   </Button>
+   <Button
+    variant="primary"
+    style={{ margin: '5px' }}
     onClick={() => navigate(`/spaces/${spaceid}/tasks/${taskid}/new-task`, { replace: false })}
    >
     Add Subtask
    </Button>
    <Button
-    variant="light"
+    variant="primary"
+    style={{ margin: '5px' }}
     onClick={() => navigate(`/spaces/${spaceid}/tasks/${taskid}/assign-member`, { replace: false })}
    >
     Assign Members
    </Button>
+   <Button variant="danger" style={{ marginLeft: '800px' }} onClick={deleteTask}>
+    Delete Task
+   </Button>
+   <hr />
+   <h3>All SubTasks</h3>
+   <TasksInTable tasks={tasks} rowPerPage={3} toTaskSet={setToTask} />
    <hr />
    <h3>User List</h3>
    <UserList users={users} rowPerPage={5} />
