@@ -11,8 +11,8 @@ const deletedCat = [];
 const modifiedCat = [];
 const createdCat = [];
 
-export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
- const [groups, setGroups] = useState(ExistingGroups);
+export default function FunctionalDecomposition({ setReload, setStep }) {
+ const [groups, setGroups] = useState([{ title: 'Unlisted', tasks: [] }]);
  const [dragging, setDragging] = useState(false);
  const [popup, setPopup] = useState(false);
  const [popupEdit, setPopupEdit] = useState(false);
@@ -120,6 +120,7 @@ export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
    // console.log(fetchedData);
    if (fetchedData2.success) {
     console.log('Successfully send decomposition');
+    setReload(true);
     // navigate(`/estimate-cost/${spaceid}/loc`, { replace: false });
    } else {
     console.log('failed in sending decomposition');
@@ -172,14 +173,14 @@ export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
  };
 
  const deleteCategory = (grpI) => {
-  if (groups[grpI].tasks.length) {
+  if (groups[grpI].tasks.length > 0) {
    if (
     // eslint-disable-next-line no-alert, no-restricted-globals
     confirm('Category is not empty. All tasks will be moved in unlisted category. Are you sure?')
    ) {
     if (groups[grpI].id !== 'new') {
      deletedCat.push(groups[grpI].id);
-     console.log(deletedCat);
+     console.log('deleted cat: ', deletedCat);
     }
     let unlistedId = 0;
     groups.forEach((g, idx) => {
@@ -195,6 +196,14 @@ export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
      return newGroups;
     });
    }
+  } else {
+   deletedCat.push(groups[grpI].id);
+   console.log('deleted cat: ', deletedCat);
+   setGroups((oldGroups) => {
+    const newGroups = JSON.parse(JSON.stringify(oldGroups));
+    newGroups.splice(grpI, 1);
+    return newGroups;
+   });
   }
  };
 
