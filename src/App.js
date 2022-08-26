@@ -10,6 +10,7 @@ import CostEstimationRoute from './routers/CostEstimateRoute';
 import DashBoardRoute from './routers/DashBoardRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
+import NormalUserRoute from './routers/NormalUserRoute';
 import NotificationRoute from './routers/NotificationRoute';
 import SpaceRoute from './routers/SpaceRoute';
 import UserRoute from './routers/UserRoute';
@@ -44,6 +45,7 @@ function App() {
      <div className="BodyContent">
       <Routes>
        <Route path="/*" element={<HomeRoute />} />
+       <Route path="/general-member/*" element={<NormalUserRoute />} />
        <Route path="/dashboard" element={<DashBoardRoute />} />
        <Route path="/auth/*" element={<AuthRoute />} />
        <Route path="/messages/*" element={<MessageRoute />} />

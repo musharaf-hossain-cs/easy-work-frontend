@@ -46,7 +46,7 @@ function CostEstimation() {
    {step === 2 && <LocEstimation setStep={setStep} categories={groups} />}
    {step === 3 && <EmployeeWage setStep={setStep} categories={groups} />}
    {step === 4 && <MakeEstimation setStep={setStep} categories={groups} />}
-   {step === 5 && <VisualizeEstimation setStep={setStep} categories={groups} />}
+   {step === 5 && <VisualizeEstimation setStep={setStep} categories={groups} spaceid={spaceid} />}
    {step === 6 && <MakeAllocation setStep={setStep} categories={groups} />}
    {step === 7 && <EstimationSummary setStep={setStep} categories={groups} />}
 

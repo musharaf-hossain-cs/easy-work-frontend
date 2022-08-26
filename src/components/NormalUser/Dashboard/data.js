@@ -28,8 +28,4 @@ export const dataSource = [
   day: 'Sunday',
   oranges: 4,
  },
- {
-  day: 'xyz',
-  oranges: 12,
- },
 ];

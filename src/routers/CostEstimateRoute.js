@@ -2,6 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import BarChart from '../components/costestimatation/BarChart';
 import CategoryAllocation from '../components/costestimatation/CategoryAllocation';
 import CostEstimation from '../components/costestimatation/CostEstimation';
 import EstimationSummary from '../components/costestimatation/EstimationSummary';
@@ -47,6 +48,7 @@ function AuthRoute() {
     </Button>
    </ButtonGroup>
    <Routes>
+    <Route path=":spaceid/estimate/visualize-estimation" element={<BarChart />} />
     <Route path=":spaceid/estimate/" element={<CostEstimation />} />
     <Route path=":spaceid/summary/" element={<EstimationSummary />} />
     <Route path=":spaceid/allocate/" element={<CategoryAllocation />} />
