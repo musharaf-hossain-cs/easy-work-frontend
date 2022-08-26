@@ -120,7 +120,6 @@ export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
    // console.log(fetchedData);
    if (fetchedData2.success) {
     console.log('Successfully send decomposition');
-    setStep(1);
     // navigate(`/estimate-cost/${spaceid}/loc`, { replace: false });
    } else {
     console.log('failed in sending decomposition');
@@ -274,11 +273,13 @@ export default function FunctionalDecomposition({ ExistingGroups, setStep }) {
    </div>
    <hr />
    <div className="decomposeBtn">
-    <Button variant="success" onClick={() => setPopup(true)}>
+    <Button variant="success" onClick={() => setPopup(true)} style={{ margin: '5px' }}>
      New Category
     </Button>
-    <span color="white">...</span>
-    <Button variant="success" onClick={saveDecomposition}>
+    <Button variant="success" onClick={saveDecomposition} style={{ margin: '5px' }}>
+     Save
+    </Button>
+    <Button variant="success" onClick={() => setStep(1)} style={{ margin: '5px' }}>
      Continue
     </Button>
    </div>

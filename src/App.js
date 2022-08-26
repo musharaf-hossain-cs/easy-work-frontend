@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ButtonAppBar from './components/AppBar';
 import SideBar from './components/SideBar';
+import NewSpace from './components/spaces/NewSpace';
 import AuthRoute from './routers/AuthRoute';
 import CostEstimationRoute from './routers/CostEstimateRoute';
 import DashBoardRoute from './routers/DashBoardRoute';
@@ -52,6 +53,7 @@ function App() {
        <Route path="/user/*" element={<UserRoute />} />
        <Route path="/spaces/*" element={<SpaceRoute />} />
        <Route path="/estimate-cost/*" element={<CostEstimationRoute />} />
+       <Route path="new-space/*" element={<NewSpace />} />
       </Routes>
      </div>
     </Router>

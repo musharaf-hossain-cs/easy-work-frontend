@@ -6,16 +6,27 @@ import TextField from '@mui/material/TextField';
 import { useEffect, useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
+import fetchBackendJSON from '../../actions/Fetch';
 
-function LocCard({ group }) {
+function LocCard({ category }) {
  const [loc, setLoc] = useState('');
  const [costPerLoc, setCostPerLoc] = useState('');
  const [locPerPm, setLocPerPm] = useState('');
+ const [categoryDetails, setCategoryDetails] = useState({ loc: 0, loc_per_pm: 0, cost_per_loc: 0 });
 
  // const { locSet, costSet, locPmSet } = props;
 
  useEffect(() => {
-  console.log('fetch information from server');
+  let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON(`costEstm/getCategoryData/${category.id}`, 'GET', {});
+   console.log(fetchedData);
+   setLoc(fetchedData.data.loc);
+   setLocPerPm(fetchedData.data.loc_per_pm);
+   setCostPerLoc(fetchedData.data.cost_per_loc);
+   setCategoryDetails(fetchedData.data);
+  }
+  fetchData();
  }, []);
 
  const handleLocChange = (e) => {
@@ -35,24 +46,37 @@ function LocCard({ group }) {
 
  const saveEstimation = () => {
   const data = {
-   id: group.id,
    loc,
    cost_per_loc: costPerLoc,
    loc_per_pm: locPerPm,
   };
-  console.log('Send data: ', data);
+
+  let fetchedData;
+  async function updateCategory() {
+   console.log('Data to update Category: ', data);
+   fetchedData = await fetchBackendJSON(`costEstm/updateFuncCat/${category.id}`, 'PATCH', data);
+   console.log('updateCategory: ', fetchedData);
+   if (fetchedData.loc === parseInt(data.loc, 10)) {
+    console.log('Category Update Successful');
+   } else {
+    console.log('Category Update Failed', fetchedData.loc, data.loc);
+   }
+  }
+  updateCategory();
  };
 
  const resetEstimation = () => {
-  console.log('Estimation reset');
+  setLoc(categoryDetails.loc);
+  setCostPerLoc(categoryDetails.cost_per_loc);
+  setLocPerPm(categoryDetails.loc_per_pm);
  };
 
  return (
   <Card>
    <Card.Header className="row">
-    <h4 className="col-4">{group.title}</h4>
+    <h4 className="col-4">{category.title}</h4>
     <div className="col-8">
-     {group.tasks.map((task) => (
+     {category.tasks.map((task) => (
       <>
        <Badge key={task.id} bg="secondary">
         {task.title}
