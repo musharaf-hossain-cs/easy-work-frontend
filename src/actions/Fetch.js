@@ -19,8 +19,12 @@ async function fetchBackendJSON(url, method, dataDict) {
   fetchParams.body = JSON.stringify(dataDict);
  }
  const response = await fetch(backend_url, fetchParams);
- const data = await response.json();
- return data;
+ let data;
+ if (method !== 'DELETE') {
+  data = await response.json();
+  return data;
+ }
+ return null;
 }
 
 export default fetchBackendJSON;

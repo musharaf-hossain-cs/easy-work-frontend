@@ -28,7 +28,7 @@ const SidebarData = [
  },
  {
   title: 'Milestones',
-  link: '/milestones',
+  link: '/milestones/1',
   icon: <FlagIcon />,
  },
  {
