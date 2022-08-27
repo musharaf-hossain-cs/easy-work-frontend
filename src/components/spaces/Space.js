@@ -11,6 +11,7 @@ function Space() {
  const navigate = useNavigate();
  const [tasks, setTasks] = useState([]);
  const [users, setUsers] = useState([]);
+ const [title, setTitle] = useState('');
  // eslint-disable-next-line prefer-const
  let tempTasks = [];
 
@@ -20,6 +21,7 @@ function Space() {
    fetchedData = await fetchBackendJSON('taskmgmt/gettaskslist', 'POST', { project_id: spaceid });
    console.log('In space');
    console.log(fetchedData);
+   setTitle(fetchedData.title);
    fetchedData.task_list.forEach((task) => {
     if (task.parent_id === 0) {
      tempTasks.push({
@@ -72,7 +74,9 @@ function Space() {
 
  return (
   <div className="scrollable2">
-   <h1 align="center">SpaceID: {spaceid}</h1>
+   <h1 align="center" style={{ color: 'green' }}>
+    <strong>{title}</strong>
+   </h1>
    <hr />
    <Button
     variant="light"

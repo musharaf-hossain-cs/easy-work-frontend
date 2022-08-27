@@ -33,7 +33,9 @@ function LocEstimation({ categories, setStep }) {
 
  return (
   <div className="container">
-   <h2 className="alignCenter">LOC Estimate</h2>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>LOC Estimation</strong>
+   </h2>
    {categories.map(
     (category, grpI) =>
      category.title !== 'Unlisted' && (

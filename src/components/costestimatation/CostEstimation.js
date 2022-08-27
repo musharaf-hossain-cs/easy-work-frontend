@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import ChooseEstimationModel from './ChooseEstimationModel';
-import Cocomo2Input from './cocomo2/Cocomo2Input';
+import AdvancedFunctionalModel from './cocomo2/AdvancedFunctionalModel';
+import AdvancedModel from './cocomo2/AdvancedModel';
 import EmployeeWage from './EmployeeWage';
 import EstimationSummary from './EstimationSummary';
 import FunctionalDecomposition from './FunctionalDecomposition';
@@ -50,7 +51,9 @@ function CostEstimation() {
    {step === 6 && <MakeAllocation setStep={setStep} categories={groups} />}
    {step === 7 && <EstimationSummary setStep={setStep} categories={groups} />}
 
-   {step === 10 && <Cocomo2Input setStep={setStep} />}
+   {step === 10 && <AdvancedModel setStep={setStep} />}
+
+   {step === 20 && <AdvancedFunctionalModel setStep={setStep} categories={groups} />}
   </div>
  );
 }

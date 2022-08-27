@@ -50,7 +50,9 @@ function VisualizeEstimation({ setStep, categories, spaceid }) {
 
  return (
   <div>
-   <h4>Visualize Estimation</h4>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>Visualize Estimation</strong>
+   </h2>
    <Form className="col-6">
     <Form.Select size="lg" value={categoryid} onChange={submitCategory}>
      {categories.map(
@@ -64,8 +66,15 @@ function VisualizeEstimation({ setStep, categories, spaceid }) {
     </Form.Select>
    </Form>
    {showBarChart ? <BarChart barChartData={barChartData} /> : null}
-   <Button onClick={() => setStep(6)}>Continue</Button>
-   <Button onClick={() => setStep(4)}>Back</Button>
+
+   <div className="alignCenter">
+    <Button className="m-1" onClick={() => setStep(4)}>
+     Back
+    </Button>
+    <Button className="m-1" onClick={() => setStep(6)}>
+     Continue
+    </Button>
+   </div>
   </div>
  );
 }
