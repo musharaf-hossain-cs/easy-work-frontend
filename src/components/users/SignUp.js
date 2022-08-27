@@ -102,15 +102,7 @@ fetchData();
     navigate(`/*`, { replace: false });
   }
 
-//    setStartDate(null);
-//    setEndDate(null);
-//    setTitle('');
-//    setDescription('');
-//    setPriority(0);
-   // eslint-disable-next-line no-unused-vars
-
   sendData();
-  // submit everything
  };
 
  return (
