@@ -27,7 +27,7 @@ function TaskDetailList({ taskid, spaceid, taskDetailList }) {
        </div>
       </div>
       <div className="col-6">
-       <b>Dates</b>
+       <b>All Dates:</b>
        <div className={[styles.paddingLeft20px, styles.margin10px].join(' ')}>
         Create Date: {formatDate(taskDetails.createDate)} <br />
         Start Date: {formatDate(taskDetails.startDate)} <br />
@@ -46,7 +46,7 @@ function TaskDetailList({ taskid, spaceid, taskDetailList }) {
        </div>
       </div>
 
-      <div className="col-6">
+      {/* <div className="col-6">
        <b>All Comments:</b> <br />
        <div className={[styles.paddingLeft20px, styles.margin10px].join(' ')}>
         {taskDetails.comments.map((val, key) => (
@@ -55,7 +55,7 @@ function TaskDetailList({ taskid, spaceid, taskDetailList }) {
          </>
         ))}
        </div>
-      </div>
+      </div> */}
      </div>
     </div>
    ))}

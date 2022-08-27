@@ -1,3 +1,22 @@
 .paddingLeft20px {
   padding-left: 20px;
 }
+
+.left {
+  width: 70%;
+}
+
+.right {
+  height: 1500px;
+  position: relative;
+  left: 71%;
+  top: -2192px;
+}
+
+.vertical {
+  border-left: 0.5px solid black;
+  height: 1500px;
+  position: relative;
+  left: 70%;
+  top: -1000px;
+}
