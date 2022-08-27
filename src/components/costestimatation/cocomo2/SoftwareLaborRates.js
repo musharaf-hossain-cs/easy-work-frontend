@@ -1,7 +1,11 @@
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 
-function SoftwareLaborRates() {
+function SoftwareLaborRates({ setLaborRate }) {
+ const [rate, setRate] = useState('');
+
  return (
   <div className="row">
    <strong style={{ color: 'green' }}>Software Labor Rates</strong>
@@ -13,11 +17,16 @@ function SoftwareLaborRates() {
         <strong>Cost per Person-Month ($)</strong>
        </td>
        <td>
-        <Form.Control />
+        <Form.Control type="text" value={rate} onChange={(e) => setRate(e.target.value)} />
        </td>
       </tr>
      </tbody>
     </Table>
+   </div>
+   <div className="col-4">
+    <Button className="m-1" variant="outline-success" onClick={() => setLaborRate(rate)}>
+     Save
+    </Button>
    </div>
   </div>
  );
