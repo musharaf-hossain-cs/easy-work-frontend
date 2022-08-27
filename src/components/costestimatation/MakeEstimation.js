@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-// import fetchBackendJSON from '../../actions/Fetch';
+import fetchBackendJSON from '../../actions/Fetch';
 
 function MakeEstimationUtil({ category }) {
  const [miscellaneousCost, setMiscellaneousCost] = useState([]);
- const [totalWage, setTotalWage] = useState(0);
+ const [weeklyWage, setWeeklyWage] = useState(0);
  const [totalMiscell, setTotalMiscell] = useState(0);
 
  const addMiscellaneousClicked = () => {
@@ -22,13 +22,13 @@ function MakeEstimationUtil({ category }) {
 
  useEffect(() => {
   if (category === null) {
-   setTotalWage(0);
+   setWeeklyWage(0);
   } else {
-   let value = category.wage_per_week * category.estimated_time;
-   if (Number.isNaN(value) || value === undefined || value === '') {
-    value = 0;
-   }
-   setTotalWage(value);
+   let value = 0;
+   category.allocated_members.forEach((post) => {
+    value += post.count * post.weekly_effort * post.wage;
+   });
+   setWeeklyWage(category.allocated_members.length ? value : 0);
   }
  }, []);
 
@@ -74,12 +74,7 @@ function MakeEstimationUtil({ category }) {
        <Form.Label>
         <strong>Wage per Week</strong>
        </Form.Label>
-       <Form.Control
-        type="text"
-        value={category.wage_per_week}
-        placeholder="Wage per Week"
-        disabled
-       />
+       <Form.Control type="text" value={weeklyWage} placeholder="Wage per Week" disabled />
       </Form.Group>
 
       <Form.Group className="mb-3 col-lg-4 col-md-6">
@@ -88,7 +83,7 @@ function MakeEstimationUtil({ category }) {
        </Form.Label>
        <Form.Control
         type="text"
-        value={category.estimated_time}
+        value={category.expected_time}
         placeholder="Expected Time (in week)"
         disabled
        />
@@ -100,7 +95,7 @@ function MakeEstimationUtil({ category }) {
        </Form.Label>
        <Form.Control
         type="text"
-        value={category.predicted_budget}
+        value={category.estimated_cost}
         placeholder="Predicted Budget"
         disabled
        />
@@ -110,7 +105,12 @@ function MakeEstimationUtil({ category }) {
        <Form.Label>
         <strong>Total Wage</strong>
        </Form.Label>
-       <Form.Control type="text" value={totalWage} placeholder="Total Wage" disabled />
+       <Form.Control
+        type="text"
+        value={weeklyWage * category.expected_time}
+        placeholder="Total Wage"
+        disabled
+       />
       </Form.Group>
 
       <Form.Group className="mb-3 col-lg-4 col-md-6">
@@ -131,7 +131,7 @@ function MakeEstimationUtil({ category }) {
        </Form.Label>
        <Form.Control
         type="text"
-        value={totalWage + totalMiscell}
+        value={weeklyWage * category.expected_time + totalMiscell}
         placeholder="Final Budget"
         disabled
        />
@@ -184,14 +184,14 @@ function MakeEstimation({ setStep, categories }) {
  const [category, setCategory] = useState(null);
 
  useEffect(() => {
-  // let fetchedData;
+  let fetchedData;
   async function fetchData() {
-   // fetchedData = await fetchBackendJSON(`costEstm/getCategoryData/${categoryid}`, 'GET', {});
-   // console.log(fetchedData);
-   // setCategory(() => {
-   //  const newCat = JSON.parse(JSON.stringify(fetchedData.data));
-   //  return newCat;
-   // });
+   fetchedData = await fetchBackendJSON(`costEstm/getCategoryData/${categoryid}`, 'GET', {});
+   console.log(fetchedData);
+   setCategory(() => {
+    const newCat = JSON.parse(JSON.stringify(fetchedData.data));
+    return newCat;
+   });
   }
   if (categoryid !== 'NoCat') fetchData();
  }, [categoryid]);
