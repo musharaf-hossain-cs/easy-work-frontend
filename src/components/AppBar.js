@@ -13,6 +13,7 @@ import { Search, SearchIconWrapper, StyledInputBase } from '../styled_components
 // style={{ background: '#2E3B55' }}
 
 export default function ButtonAppBar() {
+ const userid = 1;
  const nav = useNavigate();
  return (
   <Box sx={{ flexGrow: 1 }}>
@@ -46,7 +47,10 @@ export default function ButtonAppBar() {
      <Button color="inherit" onClick={() => nav('/auth/signup', { replace: false })}>
       SignUp
      </Button>
-     <Button color="inherit" onClick={() => nav('/user', { replace: false })}>
+     <Button
+      color="inherit"
+      onClick={() => nav(`/user/${userid}/view-profile`, { replace: false })}
+     >
       User
      </Button>
      <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ marginLeft: 2 }}>

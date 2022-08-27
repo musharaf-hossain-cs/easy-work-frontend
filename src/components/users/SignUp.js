@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import fetchBackendJSON from '../actions/Fetch';
+import fetchBackendJSON from '../../actions/Fetch';
 
 function SignUp() {
     const [firstName, setFirstName] = useState('');

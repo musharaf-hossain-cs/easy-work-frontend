@@ -14,23 +14,16 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import fetchBackendJSON from '../../actions/Fetch';
 
 // const tasks = fetchBackendJSON('user/gettaskslist');
 
-const columns = ['Title', 'Start Date', 'Allocated Time (days)', 'Remaining Time (days)'];
-
-function Row(props) {
- const { row } = props;
+function Row({ row, handleRowClick }) {
  const [open, setOpen] = React.useState(false);
- // eslint-disable-next-line no-unused-vars
- const [allocatedBudget, setAllocatedBudget] = useState('960');
-
  return (
   <>
-   <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+   <TableRow hover onClick={() => handleRowClick(row.id)} tabIndex={-1}>
     <TableCell>
      <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
       {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -41,7 +34,7 @@ function Row(props) {
     <TableCell align="left">{row.allocatedTime}</TableCell>
     <TableCell align="left">{row.remainingTime}</TableCell>
     {/* <TableCell align="right">{row.carbs}</TableCell>
-         <TableCell align="right">{row.protein}</TableCell> */}
+              <TableCell align="right">{row.protein}</TableCell> */}
    </TableRow>
    <TableRow>
     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -62,13 +55,13 @@ function Row(props) {
 }
 
 function ProjectsInTable({ tasks, rowPerPage }) {
- //  const { spaceid } = useParams();
- const navigate = useNavigate();
  // console.log('In tasks in table');
 
  console.log('In Table');
  console.log(tasks);
  console.log(rowPerPage);
+
+ const userid = 1;
 
  const [open, setOpen] = React.useState(false);
 
@@ -87,8 +80,10 @@ function ProjectsInTable({ tasks, rowPerPage }) {
   setPage(0);
  };
 
+ const navigate = useNavigate();
+
  const handleRowClick = (id) => {
-  //   navigate(`/spaces/${spaceid}/tasks/${id}`, { replace: false });
+  navigate(`/spaces/general-member/${userid}/${id}/tasks/`, { replace: false });
  };
 
  return (
@@ -117,7 +112,7 @@ function ProjectsInTable({ tasks, rowPerPage }) {
       </TableHead>
       <TableBody>
        {tasks.map((row) => (
-        <Row row={row} />
+        <Row row={row} handleRowClick={handleRowClick} />
        ))}
       </TableBody>
      </Table>

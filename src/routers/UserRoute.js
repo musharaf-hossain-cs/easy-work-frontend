@@ -1,16 +1,15 @@
 import React from 'react';
-import { Routes } from 'react-router-dom';
-import User from '../components/User';
+import { Route, Routes } from 'react-router-dom';
+import EditProfile from '../components/users/EditProfile';
+import UserProfile from '../components/users/UserProfile';
 
 function UserRoute() {
  return (
-  <>
-   <User />
-   <Routes>
-    {/* <Route path="/*" element={} />
-    <Route path="/*" element={} /> */}
-   </Routes>
-  </>
+  <Routes>
+   <Route path="*" element={<UserProfile />} />
+   <Route path=":userid/view-profile/*" element={<UserProfile />} />
+   <Route path="edit-profile/:userid/*" element={<EditProfile />} />
+  </Routes>
  );
 }
 
