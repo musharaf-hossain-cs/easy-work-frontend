@@ -25,6 +25,7 @@ export default function Dashboard() {
    fetchedData.project_list.forEach((project) => {
     console.log(project);
     temp.push({
+     id: project.id,
      description: project.description,
      title: project.title,
      startDate: project.start_date,
@@ -51,7 +52,9 @@ export default function Dashboard() {
    <br />
    <ProjectsInTable tasks={projects} rowPerPage={5} />
    <hr />
-   <Typography variant="h3">Your Milestones: </Typography>
+   <Typography variant="h3" sx={{ textDecoration: 'underline' }}>
+    Your Milestones:{' '}
+   </Typography>
   </>
  );
 }

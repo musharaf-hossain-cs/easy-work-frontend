@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ShowDependencyGraph from '../components/spaces/ShowDependencyGraph';
 import Space from '../components/spaces/Space';
+import SpaceForGeneralMember from '../components/spaces/SpaceForGeneralMember';
 import Spaces from '../components/spaces/Spaces';
 import EditTask from '../components/tasks/EditTask';
 import NewTask from '../components/tasks/NewTask';
@@ -25,6 +26,7 @@ function SpaceRoute() {
    <Route path=":spaceid/treeview/*" element={<TreeView />} />
    <Route path=":spaceid/assign-member/*" element={<AddUser />} />
    <Route path=":spaceid/dependency-graph/*" element={<ShowDependencyGraph />} />
+   <Route path="/general-member/:userid/:spaceid/tasks/*" element={<SpaceForGeneralMember />} />
   </Routes>
  );
 }

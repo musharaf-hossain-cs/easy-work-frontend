@@ -9,7 +9,7 @@ import TaskDetailList from './TaskDetailList';
 import TasksInTable from './TasksInTable';
 
 function Task() {
- const { taskid, spaceid } = useParams();
+ const { spaceid, taskid } = useParams();
  const navigate = useNavigate();
  const [taskDetails, setTaskDetails] = useState([]);
  const [tasks, setTasks] = useState([]);
