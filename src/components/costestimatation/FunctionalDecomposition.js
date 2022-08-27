@@ -209,6 +209,9 @@ export default function FunctionalDecomposition({ setReload, setStep }) {
 
  return (
   <>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>Functional Decomposition</strong>
+   </h2>
    <div className={styles.container}>
     <div className={styles.dragNDrop}>
      {groups.map((grp, grpI) => (

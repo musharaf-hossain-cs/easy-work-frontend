@@ -3,185 +3,12 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import fetchBackendJSON from '../../actions/Fetch';
-
-function MakeEstimationUtil({ category }) {
- const [miscellaneousCost, setMiscellaneousCost] = useState([]);
- const [weeklyWage, setWeeklyWage] = useState(0);
- const [totalMiscell, setTotalMiscell] = useState(0);
-
- const addMiscellaneousClicked = () => {
-  setMiscellaneousCost((old) => {
-   const newList = JSON.parse(JSON.stringify(old));
-   newList.push({
-    type: '',
-    cost: '',
-   });
-   return newList;
-  });
- };
-
- useEffect(() => {
-  if (category === null) {
-   setWeeklyWage(0);
-  } else {
-   let value = 0;
-   category.allocated_members.forEach((post) => {
-    value += post.count * post.weekly_effort * post.wage;
-   });
-   setWeeklyWage(category.allocated_members.length ? value : 0);
-  }
- }, []);
-
- const calculateTotalMiscell = (newCosts) => {
-  let value;
-  let total = 0;
-  newCosts.forEach((mis) => {
-   value = 0;
-   if (!(Number.isNaN(mis.cost) || mis.cost === undefined || mis.cost === '')) {
-    value = parseInt(mis.cost, 10);
-   } else {
-    console.log('undefined or NaN');
-   }
-   total += value;
-   console.log('total: ', total);
-  });
-  setTotalMiscell(() => total);
- };
-
- const editCost = (idx, value) => {
-  setMiscellaneousCost((old) => {
-   const newCosts = JSON.parse(JSON.stringify(old));
-   newCosts[idx].cost = value;
-   calculateTotalMiscell(newCosts);
-   return newCosts;
-  });
- };
-
- const editType = (idx, value) => {
-  setMiscellaneousCost((old) => {
-   const newCosts = JSON.parse(JSON.stringify(old));
-   newCosts[idx].type = value;
-   return newCosts;
-  });
- };
-
- return (
-  <div>
-   {category !== null && (
-    <>
-     <Form className="row">
-      <Form.Group className="mb-3 col-lg-4 col-md-6">
-       <Form.Label>
-        <strong>Wage per Week</strong>
-       </Form.Label>
-       <Form.Control type="text" value={weeklyWage} placeholder="Wage per Week" disabled />
-      </Form.Group>
-
-      <Form.Group className="mb-3 col-lg-4 col-md-6">
-       <Form.Label>
-        <strong>Estimated Time</strong>
-       </Form.Label>
-       <Form.Control
-        type="text"
-        value={category.expected_time}
-        placeholder="Expected Time (in week)"
-        disabled
-       />
-      </Form.Group>
-
-      <Form.Group className="mb-3 col-lg-4 col-md-6">
-       <Form.Label>
-        <strong>Predicted Budget</strong>
-       </Form.Label>
-       <Form.Control
-        type="text"
-        value={category.estimated_cost}
-        placeholder="Predicted Budget"
-        disabled
-       />
-      </Form.Group>
-
-      <Form.Group className="mb-3 col-lg-4 col-md-6">
-       <Form.Label>
-        <strong>Total Wage</strong>
-       </Form.Label>
-       <Form.Control
-        type="text"
-        value={weeklyWage * category.expected_time}
-        placeholder="Total Wage"
-        disabled
-       />
-      </Form.Group>
-
-      <Form.Group className="mb-3 col-lg-4 col-md-6">
-       <Form.Label>
-        <strong>Total Miscellaneous Costs</strong>
-       </Form.Label>
-       <Form.Control
-        type="text"
-        value={totalMiscell}
-        placeholder="Total Miscellaneous Costs"
-        disabled
-       />
-      </Form.Group>
-
-      <Form.Group className="mb-3 col-lg-4 col-md-6">
-       <Form.Label>
-        <strong>Final Budget</strong>
-       </Form.Label>
-       <Form.Control
-        type="text"
-        value={weeklyWage * category.expected_time + totalMiscell}
-        placeholder="Final Budget"
-        disabled
-       />
-      </Form.Group>
-
-      <strong>Miscellaneous Costs:</strong>
-      {miscellaneousCost.length > 0 && (
-       <div className="col-12 row">
-        <strong className="col-6 alignCenter">Cost Field</strong>
-        <strong className="col-6 alignCenter">Cost</strong>
-       </div>
-      )}
-
-      {miscellaneousCost.map((mis, idx) => (
-       <>
-        <Form.Group className="mb-3 col-md-6">
-         <Form.Control
-          type="text"
-          value={mis.type}
-          placeholder="Enter Cost Field"
-          onChange={(e) => editType(idx, e.target.value)}
-         />
-        </Form.Group>
-
-        <Form.Group className="mb-3 col-md-6">
-         <Form.Control
-          type="text"
-          value={mis.cost}
-          placeholder="Enter Cost"
-          onChange={(e) => editCost(idx, e.target.value)}
-         />
-        </Form.Group>
-       </>
-      ))}
-     </Form>
-
-     <div className="move-right cursor-pointer">
-      <Button variant="light" size="sm" onClick={addMiscellaneousClicked}>
-       Add Miscellaneous Cost
-      </Button>
-     </div>
-    </>
-   )}
-  </div>
- );
-}
+import MakeEstimationUtil from './MakeEstimationUtil';
 
 function MakeEstimation({ setStep, categories }) {
  const [categoryid, setCategoryid] = useState('NoCat');
  const [category, setCategory] = useState(null);
+ const [miscell, setMiscell] = useState(0);
 
  useEffect(() => {
   let fetchedData;
@@ -196,9 +23,36 @@ function MakeEstimation({ setStep, categories }) {
   if (categoryid !== 'NoCat') fetchData();
  }, [categoryid]);
 
+ const saveEstimation = () => {
+  let weeklyWage = 0;
+  category.allocated_members.forEach((post) => {
+   weeklyWage += post.count * post.weekly_effort * post.wage;
+  });
+  const totalWage = Math.round(((weeklyWage * category.expected_time) / 7) * 1000) / 1000;
+  const finalCost = totalWage + miscell;
+  const data = {
+   estimated_cost: finalCost,
+   misc_cost: miscell,
+  };
+  let fetchedData;
+  async function updateCategory() {
+   console.log('Data to update Category: ', data);
+   fetchedData = await fetchBackendJSON(`costEstm/updateFuncCat/${category.id}`, 'PATCH', data);
+   console.log('updateCategory: ', fetchedData);
+   if (fetchedData.estimated_cost === finalCost) {
+    console.log('Category Update Successful');
+   } else {
+    console.log('Category Update Failed', fetchedData.loc, data.loc);
+   }
+  }
+  updateCategory();
+ };
+
  return (
   <div>
-   <h4 className="alignCenter">Make Estimation</h4>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>Make Estimation</strong>
+   </h2>
    <Form>
     <Form.Group className="mb-3">
      <Form.Label>
@@ -218,13 +72,17 @@ function MakeEstimation({ setStep, categories }) {
     </Form.Group>
    </Form>
 
-   {categories.length > 0 && <MakeEstimationUtil category={category} />}
+   {categories.length > 0 && category !== null && (
+    <MakeEstimationUtil category={category} setMiscell={setMiscell} />
+   )}
 
    <div className="alignCenter">
     <Button className="m-1" onClick={() => setStep(3)}>
      Back
     </Button>
-    <Button className="m-1">Save</Button>
+    <Button className="m-1" onClick={saveEstimation}>
+     Save
+    </Button>
     <Button className="m-1" onClick={() => setStep(5)}>
      Continue
     </Button>

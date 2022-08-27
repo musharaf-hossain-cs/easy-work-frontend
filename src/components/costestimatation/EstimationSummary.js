@@ -54,6 +54,9 @@ export default function EstimationSummary({ setStep }) {
 
  return (
   <div className="mycontainer">
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>Estimation Summary</strong>
+   </h2>
    <PIECHART />
    <Paper className="estimationSummaryTable">
     <TableContainer sx={{ maxHeight: 440 }}>

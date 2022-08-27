@@ -52,12 +52,21 @@ function LocCard({ category }) {
   };
 
   let fetchedData;
+
+  async function commandEstimate() {
+   fetchedData = await fetchBackendJSON(`costEstm/calculateCost`, 'POST', {
+    category_id: category.id,
+   });
+   console.log(fetchedData);
+  }
+
   async function updateCategory() {
    console.log('Data to update Category: ', data);
    fetchedData = await fetchBackendJSON(`costEstm/updateFuncCat/${category.id}`, 'PATCH', data);
    console.log('updateCategory: ', fetchedData);
    if (fetchedData.loc === parseInt(data.loc, 10)) {
     console.log('Category Update Successful');
+    commandEstimate();
    } else {
     console.log('Category Update Failed', fetchedData.loc, data.loc);
    }

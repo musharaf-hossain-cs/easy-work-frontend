@@ -168,7 +168,9 @@ function EmployeeWage({ setStep, categories }) {
 
  return (
   <div>
-   <h4 className="alignCenter">Employee Wage</h4>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>Employee Wage Setup</strong>
+   </h2>
    <Form>
     <Form.Group className="mb-3">
      <Form.Label>
@@ -191,17 +193,17 @@ function EmployeeWage({ setStep, categories }) {
    <Form className="row">
     <Form.Group className="mb-3 w-50" controlId="PredictedBudgetField">
      <Form.Label>
-      <strong> Total Effort (mh/week)</strong>
+      <strong> Total Effort (mh / per month)</strong>
      </Form.Label>
-     <Form.Control type="text" value={effort} disabled />
+     <Form.Control type="text" value={effort * 4} disabled />
      {/* <Form.Control type="text" value={category.predicted_budget} disabled /> */}
     </Form.Group>
 
     <Form.Group className="mb-3 w-50" controlId="PredictedBudgetField">
      <Form.Label>
-      <strong> Total Wage ($/week)</strong>
+      <strong> Total Wage ($/month)</strong>
      </Form.Label>
-     <Form.Control type="text" value={totalWage} disabled />
+     <Form.Control type="text" value={totalWage * 4} disabled />
     </Form.Group>
    </Form>
    <h3>All Posts</h3>
@@ -213,6 +215,7 @@ function EmployeeWage({ setStep, categories }) {
      prevEffort={member.weekly_effort}
      editEffort={editEffort}
      editWage={editWage}
+     onlyWage={false}
     >
      {member.post}
     </PostAllocation>

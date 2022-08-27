@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { alpha, styled } from '@mui/material/styles';
 import * as React from 'react';
 import { useState } from 'react';
+import Form from 'react-bootstrap/Form';
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
  'label + &': {
@@ -57,11 +58,21 @@ export default function PostAllocation(props) {
  return (
   <div>
    <div className={['mycontainer', 'container', 'row'].join(' ')}>
-    <div className="col-3 pt-4">
-     <strong className="align-middle">{children}</strong>
-    </div>
+    <b className="mb-3 col-3">{children}</b>
+    <Form.Group className="mb-3 col-3" controlId="countField">
+     <Form.Control
+      type="number"
+      placeholder="Numbers"
+      value={empCount}
+      disabled
+      // onChange={(e) => setCount(e.target.value)}
+      // onKeyPress={(e) => {
+      //  if (e.key === 'Enter') e.preventDefault();
+      // }}
+     />
+    </Form.Group>
 
-    <FormControl variant="standard" className="col-3">
+    <FormControl variant="standard" className="mb-3 col-3">
      <InputLabel shrink htmlFor="bootstrap-input">
       Employee Count
      </InputLabel>
@@ -69,27 +80,29 @@ export default function PostAllocation(props) {
     </FormControl>
 
     {!onlyWage && (
-     <FormControl variant="standard" className="col-3">
-      <InputLabel shrink htmlFor="bootstrap-input">
-       Effort per Week
-      </InputLabel>
-      <BootstrapInput
+     <Form.Group className="mb-3 col-3" controlId="effortField">
+      <Form.Control
+       type="text"
+       placeholder="Weekly Effort"
        value={effort}
-       id="bootstrap-input"
        onChange={(e) => effortChange(e.target.value)}
+       onKeyPress={(e) => {
+        if (e.key === 'Enter') e.preventDefault();
+       }}
       />
-     </FormControl>
+     </Form.Group>
     )}
-    <FormControl variant="standard" className="col-3">
-     <InputLabel shrink htmlFor="bootstrap-input">
-      Wage per Hour
-     </InputLabel>
-     <BootstrapInput
+    <Form.Group className="mb-3 col-3" controlId="wageField">
+     <Form.Control
+      type="text"
+      placeholder="Wage per hour"
       value={wage}
-      id="bootstrap-input"
       onChange={(e) => wageChange(e.target.value)}
+      onKeyPress={(e) => {
+       if (e.key === 'Enter') e.preventDefault();
+      }}
      />
-    </FormControl>
+    </Form.Group>
    </div>
   </div>
  );

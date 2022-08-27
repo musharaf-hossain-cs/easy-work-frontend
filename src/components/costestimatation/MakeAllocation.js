@@ -28,7 +28,9 @@ function MakeAllocation({ setStep, categories }) {
 
  return (
   <div>
-   <h4 className="alignCenter">Make Allocation</h4>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>Make Allocation</strong>
+   </h2>
    <Form>
     <Form.Group className="mb-3">
      <Form.Label>
