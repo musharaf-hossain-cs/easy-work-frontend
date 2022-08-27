@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import PostAllocation from './PostAllocation';
 
-function EmployeeWage({ setStep, categories }) {
+function EmployeeWage({ setStep, categories, setBackFromEstimation }) {
  const { spaceid } = useParams();
  const [categoryid, setCategoryid] = useState('NoCat');
  const [category, setCategory] = useState({ id: 0, allocated_members: [] });
@@ -127,7 +127,7 @@ function EmployeeWage({ setStep, categories }) {
 
   async function updateUserTaskMap(sendData) {
    console.log('Data to update UserTaskMap: ', sendData);
-   fetchedData = await fetchBackendJSON(`costEstm/updateUserTaskMap`, 'POST', data);
+   fetchedData = await fetchBackendJSON(`costEstm/updateUserTaskMap`, 'POST', sendData);
    console.log('updateCategory: ', fetchedData);
    if (fetchedData.success) {
     console.log('Successfully updated UserTaskMap');
@@ -227,7 +227,13 @@ function EmployeeWage({ setStep, categories }) {
     <Button className="m-2" onClick={saveData}>
      Save
     </Button>
-    <Button className="m-2" onClick={() => setStep(4)}>
+    <Button
+     className="m-2"
+     onClick={() => {
+      setBackFromEstimation(3);
+      setStep(4);
+     }}
+    >
      Continue
     </Button>
    </div>

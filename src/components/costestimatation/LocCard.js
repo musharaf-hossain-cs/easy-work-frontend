@@ -14,6 +14,7 @@ function LocCard({ category }) {
  const [locPerPm, setLocPerPm] = useState('');
  const [categoryDetails, setCategoryDetails] = useState({ loc: 0, loc_per_pm: 0, cost_per_loc: 0 });
 
+ console.log('category in loc: ', category);
  // const { locSet, costSet, locPmSet } = props;
 
  useEffect(() => {
@@ -85,14 +86,16 @@ function LocCard({ category }) {
    <Card.Header className="row">
     <h4 className="col-4">{category.title}</h4>
     <div className="col-8">
-     {category.tasks.map((task) => (
-      <>
-       <Badge key={task.id} bg="secondary">
-        {task.title}
-       </Badge>
-       <span className="whitetext">.</span>
-      </>
-     ))}
+     {category.tasks !== undefined &&
+      category.tasks !== null &&
+      category.tasks.map((task) => (
+       <>
+        <Badge key={task.id} bg="secondary">
+         {task.title}
+        </Badge>
+        <span className="whitetext">.</span>
+       </>
+      ))}
     </div>
    </Card.Header>
    <Card.Body>
