@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
 import TasksInTable from '../tasks/TasksInTable';
@@ -78,37 +79,43 @@ function Space() {
     <strong>{title}</strong>
    </h1>
    <hr />
-   <Button
-    variant="light"
-    margin-right="10px"
-    onClick={() => navigate(`/spaces/${spaceid}/new-task`, { replace: false })}
-   >
-    Add Task
-   </Button>
-   <Button variant="light" margin-right="10px" onClick={assignUser}>
-    Assign User
-   </Button>
-   <Button
-    variant="light"
-    margin-right="10px"
-    onClick={() => navigate(`/spaces/${spaceid}/ganttview`, { replace: false })}
-   >
-    View Gantt Chart
-   </Button>
-   <Button
-    variant="light"
-    margin-right="10px"
-    onClick={() => navigate(`/spaces/${spaceid}/treeview`, { replace: false })}
-   >
-    Tree View
-   </Button>
-   <Button
-    variant="light"
-    margin-right="10px"
-    onClick={() => navigate(`/spaces/${spaceid}/dependency-graph`, { replace: false })}
-   >
-    Dependency Graph
-   </Button>
+   <ButtonGroup>
+    <Button
+     variant="success"
+     className="m-1"
+     margin-right="10px"
+     onClick={() => navigate(`/spaces/${spaceid}/new-task`, { replace: false })}
+    >
+     Add Task
+    </Button>
+    <Button variant="success" className="m-1" margin-right="10px" onClick={assignUser}>
+     Assign User
+    </Button>
+    <Button
+     variant="success"
+     className="m-1"
+     margin-right="10px"
+     onClick={() => navigate(`/spaces/${spaceid}/ganttview`, { replace: false })}
+    >
+     View Gantt Chart
+    </Button>
+    <Button
+     variant="success"
+     className="m-1"
+     margin-right="10px"
+     onClick={() => navigate(`/spaces/${spaceid}/treeview`, { replace: false })}
+    >
+     Tree View
+    </Button>
+    <Button
+     variant="success"
+     className="m-1"
+     margin-right="10px"
+     onClick={() => navigate(`/spaces/${spaceid}/dependency-graph`, { replace: false })}
+    >
+     Dependency Graph
+    </Button>
+   </ButtonGroup>
    <hr />
    <h3>All Tasks</h3>
    <TasksInTable tasks={tasks} rowPerPage={5} toTaskSet={tempFunction} />

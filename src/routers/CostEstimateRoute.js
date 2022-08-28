@@ -1,20 +1,20 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+// import Button from 'react-bootstrap/Button';
+// import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import BarChart from '../components/costestimatation/BarChart';
-import CategoryAllocation from '../components/costestimatation/CategoryAllocation';
 import CostEstimation from '../components/costestimatation/CostEstimation';
 import EstimationSummary from '../components/costestimatation/EstimationSummary';
+import ProjectChoiceForCostEstimation from '../components/costestimatation/ProjectChoiceForCostEstimation';
 
 function AuthRoute() {
  // eslint-disable-next-line no-unused-vars
  const navigate = useNavigate();
- const spaceid = 1;
+ // const spaceid = 1;
 
  return (
   <div>
-   <ButtonGroup>
+   {/* <ButtonGroup>
     <Button
      variant="success"
      style={{ margin: '5px' }}
@@ -46,13 +46,15 @@ function AuthRoute() {
     >
      Allocate
     </Button>
-   </ButtonGroup>
+   </ButtonGroup> */}
    <Routes>
-    <Route path=":spaceid/estimate/visualize-estimation" element={<BarChart />} />
-    <Route path=":spaceid/estimate/" element={<CostEstimation />} />
-    <Route path=":spaceid/summary/" element={<EstimationSummary />} />
-    <Route path=":spaceid/allocate/" element={<CategoryAllocation />} />
-    <Route path=":spaceid/allocate/:categoryid/details/" element={<CategoryAllocation />} />
+    <Route path="*" element={<ProjectChoiceForCostEstimation />} />
+    <Route path=":spaceid/estimate/visualize-estimation/*" element={<BarChart />} />
+    <Route path=":spaceid/estimate/*" element={<CostEstimation />} />
+    <Route path=":spaceid/*" element={<CostEstimation />} />
+    <Route path=":spaceid/summary/*" element={<EstimationSummary />} />
+    {/* <Route path=":spaceid/allocate/" element={<CategoryAllocation />} /> */}
+    {/* <Route path=":spaceid/allocate/:categoryid/details/" element={<CategoryAllocation />} /> */}
    </Routes>
   </div>
  );
