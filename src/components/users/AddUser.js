@@ -15,6 +15,8 @@ function AddUser() {
  const [designations, setDesignations] = useState([]);
  const [addMore, setAddMore] = useState(false);
  const [fields, setFields] = useState([count]);
+ const [title, setTitle] = useState('');
+ const [taskTitle, setTaskTitle] = useState('');
 
  const navigate = useNavigate();
  const location = useLocation();
@@ -24,6 +26,29 @@ function AddUser() {
  if (taskid === undefined) {
   taskid = -1;
  }
+
+ useEffect(() => {
+  let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON(`project/getproject/${spaceid}`, 'GET', {});
+   console.log('In Assign User: ', fetchedData);
+   setTitle(fetchedData[0].title);
+  }
+  fetchData();
+ }, []);
+
+ useEffect(() => {
+  let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON(`taskmgmt/gettaskdetails`, 'POST', { task_id: taskid });
+   console.log('In Assign User: ', fetchedData);
+   // setTitle(fetchedData[0].title);
+   setTaskTitle(` (${fetchedData.task_info.title})`);
+  }
+  if (taskid !== -1) fetchData();
+ }, []);
+
+ // gettaskdetails
 
  useEffect(() => {
   const jobs = [];
@@ -121,7 +146,12 @@ function AddUser() {
 
  return (
   <div className="container">
-   <h2>Add user</h2>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>
+     {title}
+     {taskTitle} - Add User
+    </strong>
+   </h2>
    <hr />
    {fields.map((item, idx) => (
     <AddUserForm

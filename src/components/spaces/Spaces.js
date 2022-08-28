@@ -36,10 +36,10 @@ function Spaces() {
     tempCards.push(
      <Card sx={{ minWidth: 275 }} key={project.id}>
       <CardContent>
-       <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+       <Typography variant="h2" sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
         {project.title}
        </Typography>
-       <Typography variant="h5" component="div">
+       <Typography variant="h6" component="div">
         {project.description}
        </Typography>
        <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -64,9 +64,12 @@ function Spaces() {
 
  return (
   <div className="container">
-   <Typography variant="h2" component="div" gutterBottom>
+   {/* <Typography variant="h2" component="div" gutterBottom>
     Spaces
-   </Typography>
+   </Typography> */}
+   <h2 style={{ color: 'green' }}>
+    <strong>All Spaces</strong>
+   </h2>
    <div className="scrollable">
     <div
      style={{
@@ -78,7 +81,7 @@ function Spaces() {
      className="row"
     >
      {cards.map((proj) => (
-      <div className="cardDiv col-6">{proj}</div>
+      <div className="cardDiv col-md-6">{proj}</div>
      ))}
     </div>
    </div>
