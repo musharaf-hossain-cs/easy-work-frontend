@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable prefer-const */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-unused-vars */
@@ -15,13 +16,14 @@ import styles from '../../styles/TaskDetail.module.css';
 function Task() {
  const { spaceid, taskid } = useParams();
  const navigate = useNavigate();
- const userid = 2;
+ const userid = 1;
  const [taskDetails, setTaskDetails] = useState([]);
  const [tasks, setTasks] = useState([]);
  const [users, setUsers] = useState([]);
  const [toTask, setToTask] = useState(0);
  const [comment, setComment] = useState('');
  const [comments, setComments] = useState([]);
+ const [notification, setNotification] = useState('');
  const [name, setName] = useState('');
  // eslint-disable-next-line prefer-const
  let tempTasks = [];
@@ -149,6 +151,27 @@ function Task() {
   sendData();
  };
 
+ const handleNotify = (e) => {
+  e.preventDefault();
+  console.log('Notification Posted');
+  const data = {
+   task: taskid,
+   sender: userid,
+   receiver: 2,
+   text: notification,
+  };
+  console.log(data);
+  async function sendData() {
+   const res = await fetchBackendJSON('project/addNotification', 'POST', data);
+   console.log(res);
+   setNotification('');
+   alert('Successfully Sent Notification to the Manager!!');
+   // window.location.reload(true);
+   // navigate(`/spaces/${spaceid}/tasks/${taskid}/`);
+  }
+  sendData();
+ };
+
  return (
   <div>
    <div className={styles.left}>
@@ -179,6 +202,25 @@ function Task() {
     </Button>
     <Button variant="danger" style={{ marginLeft: '500px' }} onClick={deleteTask}>
      Delete Task
+    </Button>
+    <hr />
+    <Form.Group className="mb-3 col-10" controlId="formTaskDescription">
+     <Form.Label>
+      <h3>Notify the Manager</h3>
+     </Form.Label>
+     <Form.Control
+      as="textarea"
+      rows={4}
+      value={notification}
+      placeholder="Say Something to the manager ..."
+      onChange={(e) => setNotification(e.target.value)}
+      onKeyPress={(e) => {
+       if (e.key === 'Enter') e.preventDefault();
+      }}
+     />
+    </Form.Group>
+    <Button variant="success" style={{ margin: '5px' }} onClick={handleNotify}>
+     Notify
     </Button>
     <hr />
     <h3>All SubTasks</h3>
