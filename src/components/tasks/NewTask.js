@@ -5,11 +5,13 @@ import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
+import { storage } from '../../firebase';
 
 const formatDate = (date) =>
  [date.getFullYear(), date.getMonth() + 1, date.getDate() - 1].join('-');
@@ -20,6 +22,8 @@ function Task() {
  const [priority, setPriority] = useState(0);
  // const [parent, setParent] = useState(null);
  const [description, setDescription] = useState('');
+ // eslint-disable-next-line no-unused-vars
+ const [progresspercent, setProgresspercent] = useState(0);
 
  let today = new Date();
  const dd = String(today.getDate()).padStart(2, '0');
@@ -39,6 +43,38 @@ function Task() {
  console.log(`taskid: ${taskid}`);
  console.log(`spaceid: ${spaceid}`);
  const parentid = taskid === undefined ? 0 : taskid;
+
+ const addDownloadURL = (url, name) => {
+  console.log(url);
+  setAttachments([...attachments, { url, name }]);
+ };
+ // eslint-disable-next-line no-unused-vars
+ const handleFileSelection = (e) => {
+  e.preventDefault();
+  const file = e.target.files[0];
+  console.log('file: ', file);
+
+  if (!file) return;
+  const storageRef = ref(storage, `files/${file.name}`);
+  const uploadTask = uploadBytesResumable(storageRef, file);
+
+  uploadTask.on(
+   'state_changed',
+   (snapshot) => {
+    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+    setProgresspercent(progress);
+   },
+   (error) => {
+    // eslint-disable-next-line no-alert
+    alert(error);
+   },
+   () => {
+    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+     addDownloadURL(downloadURL, file.name);
+    });
+   }
+  );
+ };
 
  const submitForm = (e) => {
   e.preventDefault();
@@ -60,6 +96,19 @@ function Task() {
      parent_task_id: parentid,
      sub_task_id: res.id,
     });
+
+    if (attachments.length > 0) {
+     const res3 = await fetchBackendJSON('project/setAttachments', 'POST', {
+      task_id: res.id,
+      attachments,
+     });
+     if (res3.success) {
+      console.log('Successfully send files');
+     } else {
+      console.log('file send failed');
+     }
+    }
+
     console.log(res2);
     navigate(`/spaces/${spaceid}/tasks/${taskid}/`, { replace: false });
    }
@@ -196,7 +245,7 @@ function Task() {
     </Form.Group>
 
     <Form.Group className="mb-3 col-6" controlId="formAttachFile">
-     <Form.Label>Attachments</Form.Label>
+     <Form.Label>Attachments {progresspercent === 100 ? '' : progresspercent}</Form.Label>
      {/* files list */}
      <ul className="mb-3 col-6">
       {attachments.map((val, key) => (
@@ -213,7 +262,8 @@ function Task() {
       onChange={(e) => {
        // eslint-disable-next-line prefer-destructuring
        selectedFile = e.target.files[0];
-       setAttachments([...attachments, e.target.files[0]]);
+       handleFileSelection(e);
+       // setAttachments([...attachments, e.target.files[0]]);
       }}
      />
     </Form.Group>
