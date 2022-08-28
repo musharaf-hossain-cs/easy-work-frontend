@@ -14,6 +14,17 @@ export default function MultiSelectTreeView() {
  const { spaceid } = useParams();
  // eslint-disable-next-line no-unused-vars
  const [flags, setFlags] = useState([]);
+ const [title, setTitle] = useState('');
+
+ useEffect(() => {
+  let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON(`project/getproject/${spaceid}`, 'GET', {});
+   console.log('In tree view: ', fetchedData);
+   setTitle(fetchedData[0].title);
+  }
+  fetchData();
+ }, []);
 
  useEffect(() => {
   let fetchedData;
@@ -53,6 +64,9 @@ export default function MultiSelectTreeView() {
 
  return (
   <div>
+   <h2 align="center" style={{ color: 'green' }}>
+    <strong>{title} - Tree View</strong>
+   </h2>
    <TreeView
     aria-label="multi-select"
     defaultCollapseIcon={<ExpandMoreIcon />}

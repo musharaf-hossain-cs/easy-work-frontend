@@ -46,7 +46,10 @@ function ShowDependencyGraph() {
 
  return (
   <div>
-   <h3 className="alignCenter">Dependency Graph: {imgData.title}</h3>
+   {/* <h3 className="alignCenter">Dependency Graph: {imgData.title}</h3> */}
+   <h1 align="center" style={{ color: 'green' }}>
+    <strong>{imgData.title} - Dependency Graph</strong>
+   </h1>
    <DependencyGraph spaceid={spaceid} taskid={taskid} rows={rows} imgData={imgData} />
    <hr />
   </div>

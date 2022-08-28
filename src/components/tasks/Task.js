@@ -80,7 +80,7 @@ function Task() {
   async function fetchData() {
    fetchedData = await fetchBackendJSON('taskmgmt/gettaskdetails', 'POST', { task_id: taskid });
    const task = fetchedData.task_info;
-   console.log(task);
+   console.log('fetched_task', task);
    const detailedTask = [
     {
      taskid: task.id,
@@ -91,7 +91,7 @@ function Task() {
      createDate: new Date(task.creation_date),
      status: task.status,
      slackTime: task.slack_time,
-     attachments: ['requirements.pdf', 'resources.zip'],
+     attachments: task.attachments,
      comments: ['comment-id1', 'comment-id2', 'comment-id3'],
     },
    ];
@@ -175,7 +175,10 @@ function Task() {
  return (
   <div>
    <div className={styles.left}>
-    <TaskDetailList spaceid={spaceid} taskid={taskid} taskDetailList={taskDetails} />
+    {taskDetails.length > 0 && (
+     <TaskDetailList spaceid={spaceid} taskid={taskid} taskDetailList={taskDetails} />
+    )}
+
     {/* <TaskDetail spaceid={spaceid} taskid={taskid} taskDetails={taskDetails} /> */}
     <Button
      variant="primary"
@@ -200,7 +203,7 @@ function Task() {
     >
      Assign Members
     </Button>
-    <Button variant="danger" style={{ marginLeft: '500px' }} onClick={deleteTask}>
+    <Button variant="danger" style={{ margin: '5px' }} onClick={deleteTask}>
      Delete Task
     </Button>
     <hr />
@@ -234,22 +237,23 @@ function Task() {
     <h2>Comments</h2>
     <hr />
     <div>
-     {comments.map((val, key) => (
-      <>
-       <span key={key}>
-        {' '}
-        <b>{val.commenterName}</b>
-       </span>{' '}
-       <br />
-       <span key={key}> {val.comment}</span> <br />
-       <span key={key}>
-        {' '}
-        <i> {val.commentTime}</i>
-       </span>{' '}
-       <br />
-       <hr />
-      </>
-     ))}
+     {comments !== undefined &&
+      comments.map((val, key) => (
+       <>
+        <span key={key}>
+         {' '}
+         <b>{val.commenterName}</b>
+        </span>{' '}
+        <br />
+        <span key={key}> {val.comment}</span> <br />
+        <span key={key}>
+         {' '}
+         <i> {val.commentTime}</i>
+        </span>{' '}
+        <br />
+        <hr />
+       </>
+      ))}
     </div>
     <h3>Add Comment</h3>
     <Form.Group className="mb-3 col-3" controlId="formTaskDescription">
