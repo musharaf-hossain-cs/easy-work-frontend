@@ -9,7 +9,7 @@ import SoftwareLaborRates from './SoftwareLaborRates';
 import SoftwareScaleDriver from './SoftwareScaleDriver';
 import SoftwareSize from './SoftwareSize';
 
-function AdvancedFunctionalModel({ setStep, categories }) {
+function AdvancedFunctionalModel({ setStep, categories, setBackFromEstimation }) {
  const [laborRate, setLaborRate] = useState(null);
  const [softwareSize, setSoftwareSize] = useState(null);
  const [softwareCostDrivers, setSoftwareCostDrivers] = useState(null);
@@ -79,7 +79,23 @@ function AdvancedFunctionalModel({ setStep, categories }) {
  };
 
  const saveEstimation = () => {
-  console.log('Saving the result', result);
+  let fetchedData;
+  const data = {
+   man_hour_per_week: Math.round((result.effort * 7 * 5) / (4 * result.time)),
+   estimated_cost: Math.round(result.devCost),
+   expected_time: Math.round(result.time) * 30,
+  };
+  async function updateCategory() {
+   console.log('Data to update Category: ', data);
+   fetchedData = await fetchBackendJSON(`costEstm/updateFuncCat/${categoryid}`, 'PATCH', data);
+   console.log('updateCategory: ', fetchedData);
+   if (fetchedData.estimated_cost === data.estimated_cost) {
+    console.log('Category Update successful');
+   } else {
+    console.log('Category Update Failed');
+   }
+  }
+  updateCategory();
  };
 
  return (
@@ -134,7 +150,13 @@ function AdvancedFunctionalModel({ setStep, categories }) {
     <Button className="m-2" onClick={() => setStep(1)}>
      Back
     </Button>
-    <Button className="m-2" onClick={() => setStep(21)}>
+    <Button
+     className="m-2"
+     onClick={() => {
+      setBackFromEstimation(20);
+      setStep(4);
+     }}
+    >
      Continue
     </Button>
    </div>

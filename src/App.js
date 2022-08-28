@@ -10,6 +10,7 @@ import CostEstimationRoute from './routers/CostEstimateRoute';
 import DashBoardRoute from './routers/DashBoardRoute';
 import HomeRoute from './routers/HomeRoute';
 import MessageRoute from './routers/MessageRoute';
+import MilestoneRoute from './routers/MilestoneRoute';
 import NormalUserRoute from './routers/NormalUserRoute';
 import NotificationRoute from './routers/NotificationRoute';
 import SpaceRoute from './routers/SpaceRoute';
@@ -54,6 +55,7 @@ function App() {
        <Route path="/spaces/*" element={<SpaceRoute />} />
        <Route path="/estimate-cost/*" element={<CostEstimationRoute />} />
        <Route path="new-space/*" element={<NewSpace />} />
+       <Route path="milestones/*" element={<MilestoneRoute />} />
       </Routes>
      </div>
     </Router>

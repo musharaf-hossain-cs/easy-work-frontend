@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import fetchBackendJSON from '../../actions/Fetch';
 import MakeEstimationUtil from './MakeEstimationUtil';
 
-function MakeEstimation({ setStep, categories }) {
+function MakeEstimation({ setStep, categories, backFromEstimation }) {
  const [categoryid, setCategoryid] = useState('NoCat');
  const [category, setCategory] = useState(null);
  const [miscell, setMiscell] = useState(0);
@@ -77,7 +77,7 @@ function MakeEstimation({ setStep, categories }) {
    )}
 
    <div className="alignCenter">
-    <Button className="m-1" onClick={() => setStep(3)}>
+    <Button className="m-1" onClick={() => setStep(backFromEstimation)}>
      Back
     </Button>
     <Button className="m-1" onClick={saveEstimation}>

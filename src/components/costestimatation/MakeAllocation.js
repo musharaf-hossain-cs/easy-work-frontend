@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-// import fetchBackendJSON from '../../actions/Fetch';
+import fetchBackendJSON from '../../actions/Fetch';
 
 // need budget, already_allocated,
 // new field : new allocation
@@ -11,20 +11,42 @@ function MakeAllocation({ setStep, categories }) {
  const [categoryid, setCategoryid] = useState('NoCat');
  const [category, setCategory] = useState({ id: 1, budget: 50000, allocated: 10000 });
  const [allocation, setAllocation] = useState('');
+ const [reload, setReload] = useState(0);
 
  useEffect(() => {
-  // let fetchedData;
+  let fetchedData;
   console.log(category);
   async function fetchData() {
-   // fetchedData = await fetchBackendJSON(`costEstm/getCategoryData/${categoryid}`, 'GET', {});
-   // console.log(fetchedData);
-   // setCategory(() => {
-   //  const newCat = JSON.parse(JSON.stringify(fetchedData.data));
-   //  return newCat;
-   // });
+   fetchedData = await fetchBackendJSON(`costEstm/getCategoryData/${categoryid}`, 'GET', {});
+   console.log(fetchedData);
+   setCategory(() => {
+    const newCat = JSON.parse(JSON.stringify(fetchedData.data));
+    return newCat;
+   });
   }
   if (categoryid !== 'NoCat') fetchData();
- }, [categoryid]);
+ }, [categoryid, reload]);
+
+ const saveClicked = () => {
+  let fetchedData;
+  console.log('hello');
+  const data = {
+   allocated_budget: category.allocated_budget + parseInt(allocation, 10),
+  };
+  async function updateCategory() {
+   console.log('Data to update Category: ', data);
+   fetchedData = await fetchBackendJSON(`costEstm/updateFuncCat/${categoryid}`, 'PATCH', data);
+   console.log('updateCategory: ', fetchedData);
+   if (fetchedData.allocated_budget === data.allocated_budget) {
+    console.log('Category Update successful');
+    setReload((old) => old + 1);
+    setAllocation('');
+   } else {
+    console.log('Category Update Failed');
+   }
+  }
+  updateCategory();
+ };
 
  return (
   <div>
@@ -54,16 +76,16 @@ function MakeAllocation({ setStep, categories }) {
     <Form className="row">
      <Form.Group className="mb-3 col-md-6">
       <Form.Label>
-       <strong>Budget</strong>
+       <strong>Estimated Cost ($)</strong>
       </Form.Label>
-      <Form.Control type="text" value={category.budget} placeholder="Budget" disabled />
+      <Form.Control type="text" value={category.estimated_cost} placeholder="Budget" disabled />
      </Form.Group>
 
      <Form.Group className="mb-3 col-md-6">
       <Form.Label>
        <strong>Already Allocated</strong>
       </Form.Label>
-      <Form.Control type="text" value={category.allocated} placeholder="Budget" disabled />
+      <Form.Control type="text" value={category.allocated_budget} placeholder="Budget" disabled />
      </Form.Group>
 
      <Form.Group className="mb-3">
@@ -84,7 +106,9 @@ function MakeAllocation({ setStep, categories }) {
     <Button className="m-1" onClick={() => setStep(5)}>
      Back
     </Button>
-    <Button className="m-1">Save</Button>
+    <Button className="m-1" onClick={saveClicked}>
+     Save
+    </Button>
     <Button className="m-1" onClick={() => setStep(7)}>
      Continue
     </Button>
