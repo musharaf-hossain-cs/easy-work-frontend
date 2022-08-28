@@ -1,15 +1,14 @@
 import React from 'react';
 
 import { Chart, Series } from 'devextreme-react/chart';
-import { dataSource } from './dashboard/data';
 
-export default function BarChart() {
+export default function BarChart({ dataSource }) {
  return (
   <Chart id="chart" dataSource={dataSource} className="col-6">
    <Series
-    valueField="oranges"
-    argumentField="day"
-    name="My Oranges"
+    valueField="taskCount"
+    argumentField="projectTitle"
+    name="Task Count per Project"
     type="bar"
     color="#ffaa66"
     barWidth={65}

@@ -10,15 +10,14 @@ import PieChart, {
     Series
 } from 'devextreme-react/pie-chart';
 import React from 'react';
-import { dataSource } from './data1';
 
 function customizeText(arg) {
  return `${arg.valueText} (${arg.percentText})`;
 }
 
-export default function PIECHART() {
+export default function PIECHART({ pieChartData }) {
  return (
-  <PieChart id="pie" palette="Bright" dataSource={dataSource} title="All Tasks' Status Summary" className='col-6'>
+  <PieChart id="pie" palette="Bright" dataSource={pieChartData} title="All Tasks' Status Summary" className='col-6'>
    <Legend
     orientation="horizontal"
     itemTextPosition="right"
@@ -27,7 +26,7 @@ export default function PIECHART() {
     columnCount={4}
    />
    <Export enabled />
-   <Series argumentField="country" valueField="medals">
+   <Series argumentField="status" valueField="count">
     <Label visible position="columns" customizeText={customizeText}>
      <Font size={16} />
      <Connector visible width={0.5} />

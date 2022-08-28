@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-unused-vars */
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,7 +13,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import fetchBackendJSON from '../../actions/Fetch';
-import PIECHART from './PIECHART';
+import BarChart1 from './BarChart1';
 
 const columns = [
  'Category',
@@ -30,6 +32,7 @@ export default function EstimationSummary({ setStep }) {
  const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
  const [categories, setCategories] = useState([]);
  const { spaceid } = useParams();
+ const [budgetInfo, setBudgetInfo] = useState([]);
 
  useEffect(() => {
   let fetchedData;
@@ -39,6 +42,31 @@ export default function EstimationSummary({ setStep }) {
    const allCat = [];
    fetchedData.data.forEach((cat) => allCat.push(cat));
    setCategories(allCat);
+  }
+  fetchData();
+ }, []);
+
+ useEffect(() => {
+  // eslint-disable-next-line prettier/prettier
+    let fetchedData;
+  async function fetchData() {
+   fetchedData = await fetchBackendJSON(`costEstm/getBudgetAndAllocation/${spaceid}`, 'GET', {
+    space_id: spaceid,
+   });
+
+   console.log('In Cost estimation summary');
+   console.log(fetchedData);
+   let temp = [];
+
+   for (const [key, value] of Object.entries(fetchedData)) {
+    temp.push({
+     name: key,
+     Budget: value,
+    });
+   }
+   setBudgetInfo(temp);
+   console.log(temp);
+   temp = [];
   }
   fetchData();
  }, []);
@@ -57,7 +85,8 @@ export default function EstimationSummary({ setStep }) {
    <h2 align="center" style={{ color: 'green' }}>
     <strong>Estimation Summary</strong>
    </h2>
-   <PIECHART />
+   <BarChart1 dataSource={budgetInfo} />
+   <hr />
    <Paper className="estimationSummaryTable">
     <TableContainer sx={{ maxHeight: 440 }}>
      <Table stickyHeader aria-label="sticky table">
