@@ -35,7 +35,7 @@ function TaskDetailList({ taskid, spaceid, taskDetailList }) {
        </div>
       </div>
 
-      <div className="col-6">
+      {/* <div className="col-6">
        <b>All Attachments:</b> <br />
        <div className={[styles.paddingLeft20px, styles.margin10px].join(' ')}>
         {taskDetails.attachments.map((val, key) => (
@@ -44,7 +44,7 @@ function TaskDetailList({ taskid, spaceid, taskDetailList }) {
          </>
         ))}
        </div>
-      </div>
+      </div> */}
 
       {/* <div className="col-6">
        <b>All Comments:</b> <br />
