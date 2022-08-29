@@ -1,5 +1,12 @@
 # Getting Started with Create React App
 
+## All Repository and Video Link
+Frontend Repo: https://github.com/musharaf8071/easy-work-frontend
+Main Backend Repo: https://github.com/Jayanta47/EasyWork
+Backend Repo for ML task: https://github.com/Jayanta47/easywork-ml-backend
+
+Video Link: https://drive.google.com/file/d/1ICFrPDeuCDJltgzmSvl0EXnhJF2pEaxe/view?usp=sharing
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
